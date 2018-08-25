@@ -27,6 +27,14 @@ class Card {
 		}
 	}
 
+	getCoordsInImage(image){
+		var coords = this.getCoords();
+		return {
+			x: Math.floor(coords.x*(image.width/config.cards.grid.size) + (image.width/config.cards.grid.size)/2),
+			y: Math.floor(coords.y*(image.height/config.cards.grid.size) + (image.height/config.cards.grid.size)/2)
+		}
+	}
+
 
 	loadTexture(){
 		var versoLoad = false, rectoLoad = false;

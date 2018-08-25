@@ -7,6 +7,7 @@ import config from "./config.js";
 import datas from "./../datas/datas.json";
 import Card from "./components/Card.js";
 import CardsCloud from "./components/CardsCloud.js";
+import ImageUtil from "./helpers/ImageUtil.js";
 
 
 export default class App {
@@ -44,6 +45,7 @@ export default class App {
         // this.controls.enabled = false;
         this.mouse = new THREE.Vector2();
 
+        this.scene = new THREE.Scene();       
         this.generateCards();
 
         // Init Clock
@@ -52,30 +54,39 @@ export default class App {
         this.stats.showPanel( 1 ); // 0: fps, 1: ms, 2: mb, 3+: custom
         document.body.appendChild( this.stats.dom );
 
-    	this.scene = new THREE.Scene();       
-        this.scene.add(this.cardsCloud.mesh);
-
         this.onWindowResize();
-        this.renderer.animate( this.render.bind(this) );
-
         this.gui.add(this.config.world, "timeFactor", 0, 0.0001);
     }
 
 
     generateCards() {
         var cards = [], card;
-        datas.forEach(data => {
-            card = new Card(data);
-            if( card.isWorking ){
-                cards.push(card);
-            }
-        });
+        var recto = new THREE.TextureLoader().load( "/static/images/img_recto.jpg", ()=>{
+            var canvas = document.createElement('canvas');
+            canvas.width = recto.image.width;
+            canvas.height = recto.image.height;
+            var ctx = canvas.getContext('2d')
 
-        console.log(cards);
-        this.cardsCloud = new CardsCloud({
-            cards,
-            gui: this.gui
-        });
+            ctx.drawImage(recto.image, 0, 0, recto.image.width, recto.image.height);
+
+            datas.forEach(data => {
+                card = new Card(data);
+                var coords = card.getCoordsInImage(recto.image);
+                var color =  ImageUtil.getColorAt(ctx, coords.x, coords.y);
+                if( card.isWorking && !color.r == 0 ){
+                    cards.push(card);
+                }
+            });
+
+            console.log(cards);
+            this.cardsCloud = new CardsCloud({
+                cards,
+                gui: this.gui
+            }); 
+
+            this.scene.add(this.cardsCloud.mesh);
+            this.renderer.animate( this.render.bind(this) );
+        } );
     }
 
 

@@ -11,7 +11,6 @@ class CardsCloud {
 		const count = this.cards.length; 
 
 		this.recto = new THREE.TextureLoader().load( "/static/images/img_recto.jpg" );
-		console.log(this.recto);
 		var verso = new THREE.TextureLoader().load( "/static/images/img_verso.jpg" );
 		var noise = new THREE.TextureLoader().load( "/static/images/noise_3d.png" );
 		var bumpmap = new THREE.TextureLoader().load( "/static/images/card_bump.jpg" );
@@ -38,9 +37,9 @@ class CardsCloud {
 
 	    	ranks[ i ] = this.cards[i].rank;
 
-	    	translation[ i*3 ] = ( Math.random() - .5 ) * 100;
-        	translation[ i*3 + 1 ] = ( Math.random() - .5 ) * 100;
-        	translation[ i*3 + 2 ] = ( Math.random() - .5 ) * 100;
+	    	translation[ i*3 ] = ( Math.random() - .5 ) * 400;
+        	translation[ i*3 + 1 ] = ( Math.random() - .5 ) * 400;
+        	translation[ i*3 + 2 ] = ( Math.random() - .5 ) * 400;
 
         	q.set(  ( Math.random() - .5 ) * 2, ( Math.random() - .5 ) * 2, ( Math.random() - .5 ) * 2, Math.random() * Math.PI );
         	q.normalize();

@@ -24,9 +24,9 @@ void main() {
 	  	));
 	}
 
-  	if(color.r < 0.1 && color.g < 0.1){
-  		color.a = 0.;
-  	}
+  	// if(color.r < 0.1 && color.g < 0.1){
+  	// 	color.a = 0.;
+  	// }
 
     gl_FragColor = color;
 }
