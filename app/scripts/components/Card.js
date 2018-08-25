@@ -27,6 +27,7 @@ class Card {
 		}
 	}
 
+
 	loadTexture(){
 		var versoLoad = false, rectoLoad = false;
 

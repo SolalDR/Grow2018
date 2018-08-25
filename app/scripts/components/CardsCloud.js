@@ -3,15 +3,18 @@ import vertexShader from "./../../glsl/model.vert";
 import fragmentShader from "./../../glsl/model.frag";
 
 class CardsCloud {
+
 	constructor(args){
 		this.cards = args.cards;
 		this.gui = args.gui;
 
 		const count = this.cards.length; 
 
-		var recto = new THREE.TextureLoader().load( "/static/images/img_recto.jpg" );
+		this.recto = new THREE.TextureLoader().load( "/static/images/img_recto.jpg" );
+		console.log(this.recto);
 		var verso = new THREE.TextureLoader().load( "/static/images/img_verso.jpg" );
 		var noise = new THREE.TextureLoader().load( "/static/images/noise_3d.png" );
+		var bumpmap = new THREE.TextureLoader().load( "/static/images/card_bump.jpg" );
 
 		let geometry = new THREE.InstancedBufferGeometry().copy(new THREE.PlaneBufferGeometry( 
 			config.cards.width, 
@@ -62,12 +65,11 @@ class CardsCloud {
 	        vertexShader: vertexShader,
 	        fragmentShader: fragmentShader,
 	        side:THREE.DoubleSide,
-	        depthTest   : false,
-        	depthWrite  : true,
 	        uniforms: {
-	        	img_recto: 						{ type: "t", value: recto },
+	        	img_recto: 						{ type: "t", value: this.recto },
 	        	img_verso: 						{ type: "t", value: verso },
 	        	img_noise: 						{ type: "t", value: noise },
+	        	img_bumpmap: 					{ type: "t", value: bumpmap },
 	        	u_noise_translation_intensity: 	{ type: "f", value: config.cards.translation.intensity },
 	        	u_noise_translation_speed: 		{ type: "f", value: config.cards.translation.speed },
 	        	u_noise_translation_spread: 	{ type: "f", value: config.cards.translation.spread },
@@ -88,7 +90,7 @@ class CardsCloud {
 		var args = ["intensity", "speed", "spread"];
 		args.forEach(arg => {
 			this.gui.add(config.cards.translation, arg).name("translate_"+arg).onChange(this.refreshUniforms.bind(this));
-			this.gui.add(config.cards.rotation, arg).name("rotate_").onChange(this.refreshUniforms.bind(this));;
+			this.gui.add(config.cards.rotation, arg).name("rotate_"+arg).onChange(this.refreshUniforms.bind(this));;
 		}) 
 	}
 

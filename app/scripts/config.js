@@ -19,14 +19,14 @@ export default {
     heightSegments: 5,
 
     translation: {
-      spread: 280,
-      intensity: 230,
-      speed: 1
+      spread: 1,
+      intensity: 700,
+      speed: 3
     },
     rotation: {
-      spread: 0.04,
+      spread: 1,
       intensity: 100,
-      speed: 0.1
+      speed: 0.5
     }
   }
 }
