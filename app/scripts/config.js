@@ -18,10 +18,10 @@ export default {
     widthSegments: 7,
     heightSegments: 5,
 
-    translation: {
+  translation: {
       spread: 1,
-      intensity: 700,
-      speed: 3
+      intensity: 40,
+      speed: 1
     },
     rotation: {
       spread: 1,

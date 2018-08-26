@@ -24,7 +24,6 @@ varying vec3 vNormal;
 
 vec3 transform( inout vec3 P, vec3 T, vec4 R, vec3 S ) {
   //computes the rotation where R is a (vec4) quaternion
-  // P += 2.0 * cross( R.xyz, cross( R.xyz, P ) + R.w * P );
   P = 2.0 * cross( R.xyz, cross( R.xyz, P ) + R.w * P );
   //translates the transformed 'blueprint'
   P += T;

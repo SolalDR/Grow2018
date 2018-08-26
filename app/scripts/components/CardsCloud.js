@@ -22,7 +22,8 @@ class CardsCloud {
 			config.cards.heightSegments 
 		));
 		
-		
+		console.log(geometry)
+
     	let scale = new Float32Array( count * 3 );
     	let translation = new Float32Array( count * 3 );
 	    let rotation = new Float32Array( count * 4 );
@@ -32,14 +33,14 @@ class CardsCloud {
 	    var q = new THREE.Quaternion();
 	    for(let i=0; i<this.cards.length; i++){
 
-	    	coords[ i ] = this.cards[i].coords.x
-	    	coords[ i + 1 ] = this.cards[i].coords.y
+	    	coords[ i*2 ] = this.cards[i].coords.x
+	    	coords[ i*2 + 1 ] = 18 - this.cards[i].coords.y
 
 	    	ranks[ i ] = this.cards[i].rank;
 
-	    	translation[ i*3 ] = ( Math.random() - .5 ) * 400;
-        	translation[ i*3 + 1 ] = ( Math.random() - .5 ) * 400;
-        	translation[ i*3 + 2 ] = ( Math.random() - .5 ) * 400;
+	    	translation[ i*3 ] = ( Math.random() - .5 ) * 700;
+        	translation[ i*3 + 1 ] = ( Math.random() - .5 ) * 700;
+        	translation[ i*3 + 2 ] = ( Math.random() - .5 ) * 700;
 
         	q.set(  ( Math.random() - .5 ) * 2, ( Math.random() - .5 ) * 2, ( Math.random() - .5 ) * 2, Math.random() * Math.PI );
         	q.normalize();

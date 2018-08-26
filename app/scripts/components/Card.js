@@ -12,7 +12,7 @@ class Card {
 		this.year = datas.year;
 		this.versoUrl = datas.img_verso;
 		this.rectoUrl = datas.img_recto;
-		this.rank = datas.img_rank;
+		this.rank = datas.img_rank - 1;
 		this.isWorking = datas.img_working;
 		
 		this.onLoad = args.onLoad ? args.onLoad : false;

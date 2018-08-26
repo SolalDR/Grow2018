@@ -73,7 +73,7 @@ export default class App {
                 card = new Card(data);
                 var coords = card.getCoordsInImage(recto.image);
                 var color =  ImageUtil.getColorAt(ctx, coords.x, coords.y);
-                if( card.isWorking && !color.r == 0 ){
+                if( card.isWorking ){
                     cards.push(card);
                 }
             });
