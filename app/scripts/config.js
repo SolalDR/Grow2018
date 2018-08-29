@@ -18,7 +18,7 @@ export default {
     widthSegments: 7,
     heightSegments: 5,
 
-  translation: {
+    translation: {
       spread: 1,
       intensity: 40,
       speed: 1
@@ -27,6 +27,11 @@ export default {
       spread: 1,
       intensity: 100,
       speed: 0.5
+    },
+    bending: {
+      spread: 1,
+      intensity: 20,
+      speed: 1000
     }
   }
 }

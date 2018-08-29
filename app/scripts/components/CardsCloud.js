@@ -7,6 +7,7 @@ class CardsCloud {
 	constructor(args){
 		this.cards = args.cards;
 		this.gui = args.gui;
+		this.camera = args.camera;
 
 		const count = this.cards.length; 
 
@@ -22,8 +23,6 @@ class CardsCloud {
 			config.cards.heightSegments 
 		));
 		
-		console.log(geometry)
-
     	let scale = new Float32Array( count * 3 );
     	let translation = new Float32Array( count * 3 );
 	    let rotation = new Float32Array( count * 4 );
@@ -61,7 +60,7 @@ class CardsCloud {
 	    geometry.addAttribute( 'coords', new THREE.InstancedBufferAttribute( coords, 2, 1 ) );
 	    geometry.addAttribute( 'rank', new THREE.InstancedBufferAttribute( ranks, 1, 1 ) );
 
-	    this.material = new THREE.ShaderMaterial( {
+	    this.material = new THREE.RawShaderMaterial( {
 	        vertexShader: vertexShader,
 	        fragmentShader: fragmentShader,
 	        side:THREE.DoubleSide,
@@ -76,9 +75,16 @@ class CardsCloud {
 	        	u_noise_rotation_intensity: 	{ type: "f", value: config.cards.rotation.intensity },
 	        	u_noise_rotation_speed: 		{ type: "f", value: config.cards.rotation.speed },
 	        	u_noise_rotation_spread: 		{ type: "f", value: config.cards.rotation.spread },
-	        	u_time: 						{ type: "f", value: 0 }
+	        	u_noise_bending_intensity: 	{ type: "f", value: config.cards.bending.intensity },
+	        	u_noise_bending_speed: 			{ type: "f", value: config.cards.bending.speed },
+	        	u_noise_bending_spread: 		{ type: "f", value: config.cards.bending.spread },
+	        	u_camera_position: 					{ type: "v3", value: this.camera.position },
+	        	u_time: 										{ type: "f", value: 0 }
 	        },
-	        transparent: true
+	        transparent: true,
+	        depthWrite: true,
+	        depthTest: true,
+	        alphaTest: true
 	    } );
 
 	    this.mesh = new THREE.Mesh( geometry, this.material );
@@ -88,9 +94,13 @@ class CardsCloud {
 
 	initGui(){
 		var args = ["intensity", "speed", "spread"];
+		var positionF = this.gui.addFolder("Positions");
+		var rotationF = this.gui.addFolder("Rotations");
+		var bendingF = this.gui.addFolder("Bending");
 		args.forEach(arg => {
-			this.gui.add(config.cards.translation, arg).name("translate_"+arg).onChange(this.refreshUniforms.bind(this));
-			this.gui.add(config.cards.rotation, arg).name("rotate_"+arg).onChange(this.refreshUniforms.bind(this));;
+			positionF.add(config.cards.translation, arg).onChange(this.refreshUniforms.bind(this));
+			rotationF.add(config.cards.rotation, arg).onChange(this.refreshUniforms.bind(this));
+			bendingF.add(config.cards.bending, arg).onChange(this.refreshUniforms.bind(this));
 		}) 
 	}
 
@@ -101,13 +111,18 @@ class CardsCloud {
 		this.material.uniforms.u_noise_rotation_intensity.value = config.cards.rotation.intensity;
 		this.material.uniforms.u_noise_rotation_speed.value = config.cards.rotation.speed;
 		this.material.uniforms.u_noise_rotation_spread.value = config.cards.rotation.spread;
+		this.material.uniforms.u_noise_bending_intensity.value = config.cards.bending.intensity;
+		this.material.uniforms.u_noise_bending_speed.value = config.cards.bending.speed;
+		this.material.uniforms.u_noise_bending_spread.value = config.cards.bending.spread;
 		this.material.uniforms.needsUpdate = true;
 	}
 
 	render(elapsedTime) {
 		var time = elapsedTime*0.001*0.001;
 		this.mesh.material.uniforms.u_time.value = time;
+		this.mesh.material.uniforms.u_camera_position.value = this.camera.position;
 		this.mesh.material.uniforms.needsUpdate = true;
+		this.mesh.material.needsUpdate = true
 	}
 }
 

@@ -81,7 +81,8 @@ export default class App {
             console.log(cards);
             this.cardsCloud = new CardsCloud({
                 cards,
-                gui: this.gui
+                gui: this.gui,
+                camera: this.camera
             }); 
 
             this.scene.add(this.cardsCloud.mesh);
@@ -98,7 +99,6 @@ export default class App {
         this.clock.update();
 
         this.cardsCloud.render(this.clock.elapsed);
-
     	this.renderer.render(this.scene, this.camera);
         this.stats.end();
     }

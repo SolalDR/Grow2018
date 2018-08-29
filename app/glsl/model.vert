@@ -1,3 +1,13 @@
+precision highp float;
+uniform mat4 modelViewMatrix;
+uniform mat4 projectionMatrix;
+uniform mat3 normalMatrix;
+
+//'blueprint' attribute
+attribute vec3 position;
+attribute vec2 uv;
+attribute vec3 normal;
+
 uniform float u_time;
 uniform sampler2D img_noise;
 uniform sampler2D img_bumpmap;
@@ -8,6 +18,10 @@ uniform float u_noise_translation_spread;
 uniform float u_noise_rotation_intensity;
 uniform float u_noise_rotation_speed;
 uniform float u_noise_rotation_spread;
+uniform float u_noise_bending_intensity;
+uniform float u_noise_bending_speed;
+uniform float u_noise_bending_spread;
+uniform vec3 u_camera_position; 
 
 
 //instance attributes
@@ -21,6 +35,7 @@ varying vec3 vPos;
 varying vec2 vCoords;
 varying vec2 vUv;
 varying vec3 vNormal;
+varying float vFragDepth;
 
 vec3 transform( inout vec3 P, vec3 T, vec4 R, vec3 S ) {
   //computes the rotation where R is a (vec4) quaternion
@@ -38,7 +53,7 @@ void main() {
   vec3 trans = translation;
 
   vec4 bumpmap = texture2D(img_bumpmap, uv);
-  pos.z += bumpmap.x * cos(u_time*1000. + rank) * 20.;
+  pos.z += bumpmap.x * cos(u_time*u_noise_bending_speed + rank/340.*u_noise_bending_spread) * u_noise_bending_intensity;
 
   vec4 noiseTranslation = texture2D(img_noise, 
     vec2( rank/340.*u_noise_translation_spread, mod(u_time*u_noise_translation_speed, 1.))
@@ -58,7 +73,7 @@ void main() {
   transform( pos, trans, newRotation, scale );
 
   gl_Position = projectionMatrix * modelViewMatrix * vec4(pos , 1.0);
-
+  gl_Position.z = -1.*log2(distance(u_camera_position, translation));
   vPos = position;
   vCoords = coords;
   vUv = uv;
