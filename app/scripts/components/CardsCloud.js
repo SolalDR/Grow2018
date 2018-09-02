@@ -1,13 +1,16 @@
 import config from "./../config.js";
 import vertexShader from "./../../glsl/model.vert";
 import fragmentShader from "./../../glsl/model.frag";
+import BufferGeometryUtils from "./../helpers/BufferGeometryUtils.js";
 
+console.log();
 class CardsCloud {
 
 	constructor(args){
 		this.cards = args.cards;
 		this.gui = args.gui;
 		this.camera = args.camera;
+		var c = config.cards;
 
 		const count = this.cards.length; 
 
@@ -16,12 +19,17 @@ class CardsCloud {
 		var noise = new THREE.TextureLoader().load( "/static/images/noise_3d.png" );
 		var bumpmap = new THREE.TextureLoader().load( "/static/images/card_bump.jpg" );
 
-		let geometry = new THREE.InstancedBufferGeometry().copy(new THREE.PlaneBufferGeometry( 
-			config.cards.width, 
-			config.cards.height, 
-			config.cards.widthSegments, 
-			config.cards.heightSegments 
-		));
+		let rectoGeometry = new THREE.PlaneBufferGeometry( c.width, c.height, c.widthSegments, c.heightSegments );
+		let versoGeometry = new THREE.PlaneBufferGeometry( c.width, c.height, c.widthSegments, c.heightSegments );		
+		versoGeometry.rotateY(Math.PI);
+
+		versoGeometry.computeVertexNormals();
+
+		var geometryInstance = BufferGeometryUtils.merge([rectoGeometry, versoGeometry]);
+
+		let geometry = new THREE.InstancedBufferGeometry().copy(geometryInstance);
+
+
 		
     	let scale = new Float32Array( count * 3 );
     	let translation = new Float32Array( count * 3 );
@@ -63,7 +71,7 @@ class CardsCloud {
 	    this.material = new THREE.RawShaderMaterial( {
 	        vertexShader: vertexShader,
 	        fragmentShader: fragmentShader,
-	        side:THREE.DoubleSide,
+	        side:THREE.FrontSide,
 	        uniforms: {
 	        	img_recto: 						{ type: "t", value: this.recto },
 	        	img_verso: 						{ type: "t", value: verso },

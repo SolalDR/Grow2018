@@ -31,17 +31,17 @@ attribute vec3 scale;
 attribute vec2 coords;
 attribute float rank;
 
-varying vec3 vPos;
 varying vec2 vCoords;
 varying vec2 vUv;
 varying vec3 vNormal;
-varying float vFragDepth;
 
 vec3 transform( inout vec3 P, vec3 T, vec4 R, vec3 S ) {
   //computes the rotation where R is a (vec4) quaternion
   P = 2.0 * cross( R.xyz, cross( R.xyz, P ) + R.w * P );
+  
   //translates the transformed 'blueprint'
   P += T;
+
   //return the transformed position
   return P;
 }
@@ -65,16 +65,21 @@ void main() {
   )*u_noise_rotation_intensity - u_noise_rotation_intensity/2.;
 
   vec4 newRotation = rotation;
-  newRotation.x = cos(noiseRotation.x);
-  newRotation.y = cos(noiseRotation.y);
-  newRotation.z = cos(noiseRotation.z);
+  newRotation.x = cos(noiseRotation.x)*3.14;
+  newRotation.y = cos(noiseRotation.y)*3.14;
+  newRotation.z = cos(noiseRotation.z)*3.14;
   newRotation.xyz = normalize(newRotation.xyz);
+
+
+  // trans = vec3(0., rank*0.1, 0.);
+  // newRotation = vec4(1.0, 0.0, 0.0, .0);
+
 
   transform( pos, trans, newRotation, scale );
 
   gl_Position = projectionMatrix * modelViewMatrix * vec4(pos , 1.0);
   gl_Position.z = -1.*log2(distance(u_camera_position, translation));
-  vPos = position;
+  
   vCoords = coords;
   vUv = uv;
   vNormal = normal;

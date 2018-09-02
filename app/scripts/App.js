@@ -8,6 +8,13 @@ import datas from "./../datas/datas.json";
 import Card from "./components/Card.js";
 import CardsCloud from "./components/CardsCloud.js";
 import ImageUtil from "./helpers/ImageUtil.js";
+import EffectComposer from "./components/EffectComposer.js";
+import ShaderPass from "./components/ShaderPass.js";
+import RenderPass from "./components/RenderPass.js";
+import SepiaShader from "./components/SepiaShader.js";
+import CopyShader from "./components/CopyShader.js";
+import CornerFadeShader from "./components/CornerFadeShader.js";
+import FxaaShader from "./components/FxaaShader.js";
 
 
 export default class App {
@@ -17,7 +24,8 @@ export default class App {
 
         // Events
         window.addEventListener('resize', this.onWindowResize.bind(this), false);
-        document.body.addEventListener("click", this.updateMousePosition.bind(this), false);
+        // document.body.addEventListener("click", this.updateMousePosition.bind(this), false);
+        document.body.addEventListener("mousemove", this.updateMousePosition.bind(this), false);
         
         this.config = config;
         this.gui = new Dat.GUI();
@@ -44,8 +52,11 @@ export default class App {
         this.controls.minZoom = 50; 
         // this.controls.enabled = false;
         this.mouse = new THREE.Vector2();
+        this.raycaster = new THREE.Raycaster();
 
-        this.scene = new THREE.Scene();       
+        this.scene = new THREE.Scene();   
+
+        this.initComposer();    
         this.generateCards();
 
         // Init Clock
@@ -56,6 +67,31 @@ export default class App {
 
         this.onWindowResize();
         this.gui.add(this.config.world, "timeFactor", 0, 0.0001);
+    }
+
+    initComposer(){
+        this.composer = new THREE.EffectComposer(this.renderer);
+        this.composer.setSize(window.innerWidth, window.innerHeight);
+
+        this.sepiaPass = new THREE.ShaderPass( THREE.SepiaShader );
+        this.fadePass = new THREE.ShaderPass( THREE.CornerFadeShader );
+        this.fxaaPass = new THREE.ShaderPass( THREE.FxaaShader );
+
+        this.composer.addPass(new THREE.RenderPass(this.scene, this.camera));
+
+        this.sepiaPass.uniforms[ "amount" ].value = 0.9;
+        this.fadePass.uniforms[ "amount" ].value = 0.9;
+        // this.sepiaPass.renderToScreen = true;
+        // this.fadePass.renderToScreen = true;
+        this.fxaaPass.renderToScreen = true; 
+
+        this.fxaaPass.material.uniforms.resolution.value = new THREE.Vector2(window.innerWidth, window.innerHeight);
+        // this.composer.addPass(this.sepiaPass);
+        // this.composer.addPass(this.fadePass);
+        this.composer.addPass(this.fxaaPass);
+
+
+        this.gui.add(this.sepiaPass.uniforms[ "amount" ], "value", 0, 1).name("Sepia");
     }
 
 
@@ -99,7 +135,20 @@ export default class App {
         this.clock.update();
 
         this.cardsCloud.render(this.clock.elapsed);
-    	this.renderer.render(this.scene, this.camera);
+    	this.composer.render();
+
+
+        // update the picking ray with the camera and mouse position
+        this.raycaster.setFromCamera( this.mouse, this.camera );
+
+        // calculate objects intersecting the picking ray
+        var intersects = this.raycaster.intersectObjects( this.scene.children );
+        // console.log(this.mouse);
+        for ( var i = 0; i < intersects.length; i++ ) {
+            // console.log(intersects) ;
+            // this.cardsCloud
+        }
+
         this.stats.end();
     }
 
@@ -117,6 +166,7 @@ export default class App {
     	this.camera.aspect = window.innerWidth / window.innerHeight;
     	this.camera.updateProjectionMatrix();
     	this.renderer.setSize( window.innerWidth, window.innerHeight );
+        this.composer.setSize( window.innerWidth, window.innerHeight );
     }
 
 
