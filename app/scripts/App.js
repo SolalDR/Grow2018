@@ -7,6 +7,7 @@ import config from "./config.js";
 import datas from "./../datas/datas.json";
 import Card from "./components/Card.js";
 import CardsCloud from "./components/CardsCloud.js";
+import CardDetail from "./components/CardDetail.js";
 import ImageUtil from "./helpers/ImageUtil.js";
 import EffectComposer from "./components/EffectComposer.js";
 import ShaderPass from "./components/ShaderPass.js";
@@ -29,11 +30,12 @@ export default class App {
         
         this.config = config;
         this.gui = new Dat.GUI();
+        this.cardDetail = null;
 
         // Init
         this.container = document.querySelector( '#main' );
     	document.body.appendChild( this.container );
-        this.renderer = new THREE.WebGLRenderer( { antialias: true } );
+        this.renderer = new THREE.WebGLRenderer();
         this.renderer.setPixelRatio( window.devicePixelRatio );
         this.renderer.setSize( window.innerWidth, window.innerHeight );
         this.renderer.setClearColor ( 0xEEEEEE, 1 )
@@ -56,8 +58,15 @@ export default class App {
 
         this.scene = new THREE.Scene();   
 
-        this.initComposer();    
+
+        this.initComposer(); 
+
+
+        // render
         this.generateCards();
+        //this.generateCardDetail();
+
+        //this.renderer.animate( this.render.bind(this) );  
 
         // Init Clock
         this.clock = new Clock();
@@ -97,6 +106,7 @@ export default class App {
 
     generateCards() {
         var cards = [], card;
+
         var recto = new THREE.TextureLoader().load( "/static/images/img_recto.jpg", ()=>{
             var canvas = document.createElement('canvas');
             canvas.width = recto.image.width;
@@ -114,16 +124,27 @@ export default class App {
                 }
             });
 
-            console.log(cards);
+            this.generateCardDetail(cards[0]);
+
+            //console.log(cards);
             this.cardsCloud = new CardsCloud({
                 cards,
                 gui: this.gui,
                 camera: this.camera
             }); 
 
-            this.scene.add(this.cardsCloud.mesh);
+            //this.scene.add(this.cardsCloud.mesh);
             this.renderer.animate( this.render.bind(this) );
         } );
+    }
+
+    generateCardDetail(card) {
+       this.cardDetail = new CardDetail({
+           card,
+           gui: this.gui,
+           camera: this.camera
+       })
+       this.scene.add(this.cardDetail.object3D);
     }
 
 
@@ -134,20 +155,22 @@ export default class App {
         this.stats.begin();
         this.clock.update();
 
-        this.cardsCloud.render(this.clock.elapsed);
+        //this.cardsCloud.render(this.clock.elapsed);
+        this.cardDetail.render(this.clock.elapsed);
+
     	this.composer.render();
 
 
         // update the picking ray with the camera and mouse position
-        this.raycaster.setFromCamera( this.mouse, this.camera );
+        //this.raycaster.setFromCamera( this.mouse, this.camera );
 
         // calculate objects intersecting the picking ray
-        var intersects = this.raycaster.intersectObjects( this.scene.children );
+        //var intersects = this.raycaster.intersectObjects( this.scene.children );
         // console.log(this.mouse);
-        for ( var i = 0; i < intersects.length; i++ ) {
+        //for ( var i = 0; i < intersects.length; i++ ) {
             // console.log(intersects) ;
             // this.cardsCloud
-        }
+        //}
 
         this.stats.end();
     }
