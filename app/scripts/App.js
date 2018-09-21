@@ -35,14 +35,14 @@ export default class App {
         // Init
         this.container = document.querySelector( '#main' );
     	document.body.appendChild( this.container );
-        this.renderer = new THREE.WebGLRenderer();
+        this.renderer = new THREE.WebGLRenderer({antialiasing: true});
         this.renderer.setPixelRatio( window.devicePixelRatio );
         this.renderer.setSize( window.innerWidth, window.innerHeight );
         this.renderer.setClearColor ( 0xEEEEEE, 1 )
         this.container.appendChild( this.renderer.domElement );
 
         // Camera and control
-        this.camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.00001, 1000 );
+        this.camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 0.00001, 1000 );
         this.camera.position.set(
             config.camera.position.x, 
             config.camera.position.y, 
@@ -67,6 +67,10 @@ export default class App {
         //this.generateCardDetail();
 
         //this.renderer.animate( this.render.bind(this) );  
+
+        // Add helpers
+        var axes = new THREE.AxisHelper( 100 );
+        this.scene.add( axes );
 
         // Init Clock
         this.clock = new Clock();

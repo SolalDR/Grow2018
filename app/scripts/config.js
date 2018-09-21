@@ -33,6 +33,9 @@ export default {
       intensity: 20,
       speed: 1000
     }
+  },
+  cardDetail: {
+    scaleFactor: 10
   }
 }
 

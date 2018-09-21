@@ -3,7 +3,7 @@ import vertexShader from "./../../glsl/model.vert";
 import fragmentShader from "./../../glsl/model.frag";
 import BufferGeometryUtils from "./../helpers/BufferGeometryUtils.js";
 
-console.log();
+
 class CardsCloud {
 
 	constructor(args){
