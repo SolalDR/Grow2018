@@ -68,10 +68,6 @@ export default class App {
 
         //this.renderer.animate( this.render.bind(this) );  
 
-        // Add helpers
-        var axes = new THREE.AxisHelper( 100 );
-        this.scene.add( axes );
-
         // Init Clock
         this.clock = new Clock();
         this.stats = new Stats();

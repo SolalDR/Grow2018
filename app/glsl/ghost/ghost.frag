@@ -4,9 +4,7 @@ varying vec3 vUv;
 
 void main() {
 
-    //float c = cos(vUv.x * delta);
-
-    // grey
+    // greyscale
     float color = cos(vUv.x * delta);
 
     // rgb 

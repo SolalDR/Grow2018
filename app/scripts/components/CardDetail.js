@@ -1,5 +1,5 @@
 import config from "./../config.js";
-import labels from "./../../datas/sampleRecoLabel.json";
+import datas from "./../../datas/samplesRecoLabel.json";
 import Figure from "./Figure.js";
 
 
@@ -16,18 +16,22 @@ class CardDetail {
 		this.object3D = new THREE.Object3D();
 		this.cvRectoTexture; 
 		this.texturesLoaded = false;
-		this.imagesSrc = ['/static/cardRecoSample/images/M0196_94-26-023_1.jpg', '/static/cardRecoSample/images/M0196_94-26-023_2.jpg'];
+		this.imagePath = 'static/cardRecoSample/images/';
+		this.imagesSrc = [];
 		this.imagesPr = [];
 		this.textures = [];
+		this.labels = [];
 		this.figures = [];
-		
-		// create figures from labels data
-		this.createFigures();
+
+		// For demo 
+		this.getRandomCard();
 
 		// load textures
 		this.loadTextures(this.imagesSrc, () => {
 			// create card mesh
 			this.createMesh();
+			// create figures from labels data
+			this.createFigures();
 			// add figures to group
 			this.addFigures();
 		});
@@ -36,6 +40,16 @@ class CardDetail {
 		//console.log(this.card);
 	  this.initGui();
 	  //this.createMesh();
+	}
+
+	getRandomCard() {
+		var key = Math.floor(Math.random() * datas.length);
+		var cardData = datas[key]; //datas[key];
+		this.imagesSrc = [
+			this.imagePath + cardData.img_recto,
+			this.imagePath + cardData.img_verso
+		];
+		this.labels = cardData.labels;
 	}
 
 	initGui(){
@@ -49,18 +63,20 @@ class CardDetail {
 	loadTextures(imagesSrc, callback) {
 
 		// Load textures	
-		imagesSrc.forEach((src) => {
-				this.imagesPr.push(new Promise((resolve, reject) => {
-					var loader = new THREE.TextureLoader();
-					loader.setCrossOrigin( 'Anonymous');
-					var texture = loader.load( src, () => {
-						this.textures.push(texture);
-						this.cardSize.width = texture.image.width/config.cardDetail.scaleFactor;
-						this.cardSize.height = texture.image.height/config.cardDetail.scaleFactor;
-						resolve();			
-					});
-				}));
-		});
+		for (var i = 0; i < imagesSrc.length; i++) {
+			var src = imagesSrc[i];
+			this.imagesPr.push(new Promise((resolve, reject) => {
+				var loader = new THREE.TextureLoader();
+				loader.setCrossOrigin( 'Anonymous');
+				var key = i;
+				var texture = loader.load( src, () => {
+					this.textures[key] = texture;
+					this.cardSize.width = texture.image.width/config.cardDetail.scaleFactor;
+					this.cardSize.height = texture.image.height/config.cardDetail.scaleFactor;
+					resolve();			
+				});
+			}));
+		}
 
 		// On textures loaded
 		Promise.all(this.imagesPr).then(() => {
@@ -71,19 +87,27 @@ class CardDetail {
 		});	
 	}
 
+
 	createFigures() {
-		for (var i = 0; i < labels.length; i++) {
-			this.figures.push(new Figure({
-				cardSize:this.cardSize, 
-				label:labels[i],
-				rank:i
-			}));
+		// create figures for labels in card
+		for (var i = 0; i < this.labels.length; i++) {
+			var labelData = this.labels[i];
+			// if label is person or horse (oui des fois les gens sont des cheveaux)
+			if(labelData.label === 'person' || labelData.label === 'horse') {
+				console.log('labelData.label', labelData.label);
+				this.figures.push(new Figure({
+					cardSize:this.cardSize, 
+					label:labelData,
+					rank:i
+				}));
+			}
 		}
 	}
 
 	addFigures() {
 		this.figures.forEach((figure) => {
 			this.object3D.add(figure.group);
+					console.log('figure.group', figure.group);
 		});
 	}
 
@@ -94,12 +118,13 @@ class CardDetail {
     geometry2.applyMatrix( new THREE.Matrix4().makeRotationY( Math.PI ) );
         
     // textures
-    //this.textureFront = new THREE.Texture(this.textures[0]);
-    //this.textureBack = new THREE.Texture(this.textures[1]);
+    // this.textureFront = new THREE.Texture(this.textures[0]);
+    // this.textureBack = new THREE.Texture(this.textures[1]);
 
     // material
     var material1 = new THREE.MeshBasicMaterial( { color: 0xffffff, map: this.textures[0] } );
     var material2 = new THREE.MeshBasicMaterial( { color: 0xffffff, map: this.textures[1] } );
+
     // Debug material
     //var material1 = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
     //var material2 = new THREE.MeshBasicMaterial( { color: 0x0000ff } );
