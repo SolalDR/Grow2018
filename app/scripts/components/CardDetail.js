@@ -1,5 +1,5 @@
 import config from "./../config.js";
-import labels from "./../../datas/sampleRecoLabels.json";
+import labels from "./../../datas/sampleRecoLabel.json";
 import Figure from "./Figure.js";
 
 
@@ -16,7 +16,7 @@ class CardDetail {
 		this.object3D = new THREE.Object3D();
 		this.cvRectoTexture; 
 		this.texturesLoaded = false;
-		this.imagesSrc = ['/static/cardRecoSample/images/M0196_94-26-023_1-labels.jpg', '/static/cardRecoSample/images/M0196_94-26-023_2.jpg'];
+		this.imagesSrc = ['/static/cardRecoSample/images/M0196_94-26-023_1.jpg', '/static/cardRecoSample/images/M0196_94-26-023_2.jpg'];
 		this.imagesPr = [];
 		this.textures = [];
 		this.figures = [];
@@ -72,18 +72,18 @@ class CardDetail {
 	}
 
 	createFigures() {
-			labels.forEach(label => {
-				console.table(label);
-				this.figures.push(new Figure({
-					cardSize:this.cardSize, 
-					label:label
-				}));
-			});
+		for (var i = 0; i < labels.length; i++) {
+			this.figures.push(new Figure({
+				cardSize:this.cardSize, 
+				label:labels[i],
+				rank:i
+			}));
+		}
 	}
 
 	addFigures() {
 		this.figures.forEach((figure) => {
-			this.object3D.add(figure.mesh);
+			this.object3D.add(figure.group);
 		});
 	}
 
@@ -91,7 +91,7 @@ class CardDetail {
 		 // geometry
     var geometry1 = new THREE.PlaneGeometry( this.cardSize.width, this.cardSize.height, 1, 1 );            
     var geometry2 = new THREE.PlaneGeometry( this.cardSize.width, this.cardSize.height, 1, 1 );            
-    geometry1.applyMatrix( new THREE.Matrix4().makeRotationY( Math.PI ) );
+    geometry2.applyMatrix( new THREE.Matrix4().makeRotationY( Math.PI ) );
         
     // textures
     //this.textureFront = new THREE.Texture(this.textures[0]);
@@ -116,10 +116,15 @@ class CardDetail {
 
 	render(elapsedTime) {
 		//this.object3D.rotation.y += 0.001;
+
 		if(this.texturesLoaded) {
 			this.textures.forEach((texture) => {
 				//texture.needsUpdate = true;
 			})
+			this.figures.forEach((figure) => {
+				// render figures
+				figure.render(elapsedTime);
+			});
 		}
 	}
 

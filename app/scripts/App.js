@@ -1,4 +1,3 @@
-
 import OrbitControls from "./helpers/OrbitControls.js";
 import Dat from "dat-gui";
 import { Stats } from "three-stats";
@@ -38,11 +37,11 @@ export default class App {
         this.renderer = new THREE.WebGLRenderer({antialiasing: true});
         this.renderer.setPixelRatio( window.devicePixelRatio );
         this.renderer.setSize( window.innerWidth, window.innerHeight );
-        this.renderer.setClearColor ( 0xEEEEEE, 1 )
+        this.renderer.setClearColor ( 0xE6E6E6, 1 );
         this.container.appendChild( this.renderer.domElement );
 
         // Camera and control
-        this.camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 0.00001, 1000 );
+        this.camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.00001, 1000 );
         this.camera.position.set(
             config.camera.position.x, 
             config.camera.position.y, 
@@ -59,6 +58,7 @@ export default class App {
         this.scene = new THREE.Scene();   
 
 
+        //this.initLights();   
         this.initComposer(); 
 
 
@@ -105,6 +105,14 @@ export default class App {
 
 
         this.gui.add(this.sepiaPass.uniforms[ "amount" ], "value", 0, 1).name("Sepia");
+    }
+
+    initLights() {
+        var light = new THREE.AmbientLight(0xffffff, 0.5);
+        this.scene.add(light);
+
+        var light2 = new THREE.PointLight(0xffffff, 0.5);
+        this.scene.add(light2);
     }
 
 

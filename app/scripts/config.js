@@ -36,6 +36,14 @@ export default {
   },
   cardDetail: {
     scaleFactor: 10
+  }, 
+  figure: {
+    maxDistance: 110,
+    modelPaths: [
+      'static/cardRecoSample/models/silhouette-1.obj',
+      'static/cardRecoSample/models/silhouette-2.obj',
+      'static/cardRecoSample/models/silhouette-3.obj',
+    ]
   }
 }
 
