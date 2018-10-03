@@ -48,7 +48,7 @@ class Raycaster {
     this.scene.add(this.mesh);
 
     window.addEventListener('resize', this.onWindowResize.bind(this), false);
-    window.addEventListener('mousemove', this.update.bind(this))
+    window.addEventListener('mousemove', this.updateMouse.bind(this))
   }
 
   refreshUniforms() {
@@ -69,16 +69,13 @@ class Raycaster {
     this.mesh.material.uniforms.u_camera_position.value = this.cardsCloud.material.uniforms.u_camera_position.value;
     this.mesh.material.uniforms.needsUpdate = true;
     this.mesh.material.needsUpdate = true
-    this.renderer.render( this.scene, this.cardsCloud.camera, this.renderTarget);
-  }
 
-  update( event ) {
     var color = new Uint8Array( 4 );
 
     this.renderer.readRenderTargetPixels(
       this.renderTarget,
-      event.clientX,
-      this.renderTarget.height - event.clientY,
+      this.mouse.x,
+      this.renderTarget.height - this.mouse.y,
       1,
       1,
       color
@@ -91,6 +88,13 @@ class Raycaster {
     else {
       this.selectedCardRank = Math.round(x/255*19) + Math.round(y/255*19)*config.cards.grid.size;
     }
+
+    this.renderer.render( this.scene, this.cardsCloud.camera, this.renderTarget);
+  }
+
+  updateMouse( event ) {
+    this.mouse.x = event.clientX
+    this.mouse.y = event.clientY
   }
 
   onWindowResize() {

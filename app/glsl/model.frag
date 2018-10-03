@@ -12,7 +12,7 @@ varying vec3 vNormal;
 void main() {
 	vec4 color;
 
-  if(vCoords.x + (18. - vCoords.y)*19. == selected_card_rank) {
+  if(vCoords.x + (18. - vCoords.y)*19. == selected_card_rank && (vUv.x < 0.05 || vUv.x > 0.95 || vUv.y < 0.05 || vUv.y > 0.95)) {
     color = vec4(1., 0., 0., 1.);
   } else if( vNormal.z < 0. ){
 		color = texture2D(img_verso, vec2(
