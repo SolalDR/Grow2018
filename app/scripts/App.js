@@ -26,7 +26,7 @@ export default class App {
         window.addEventListener('resize', this.onWindowResize.bind(this), false);
         // document.body.addEventListener("click", this.updateMousePosition.bind(this), false);
         document.body.addEventListener("mousemove", this.updateMousePosition.bind(this), false);
-        
+
         this.config = config;
         this.gui = new Dat.GUI();
 
@@ -42,21 +42,21 @@ export default class App {
         // Camera and control
         this.camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.00001, 1000 );
         this.camera.position.set(
-            config.camera.position.x, 
-            config.camera.position.y, 
+            config.camera.position.x,
+            config.camera.position.y,
             config.camera.position.z
         );
 
         this.controls = new OrbitControls( this.camera );
-        this.controls.maxZoom = 50; 
-        this.controls.minZoom = 50; 
+        this.controls.maxZoom = 50;
+        this.controls.minZoom = 50;
         // this.controls.enabled = false;
         this.mouse = new THREE.Vector2();
         this.raycaster = new THREE.Raycaster();
 
-        this.scene = new THREE.Scene();   
+        this.scene = new THREE.Scene();
 
-        this.initComposer();    
+        // this.initComposer();
         this.generateCards();
 
         // Init Clock
@@ -69,30 +69,30 @@ export default class App {
         this.gui.add(this.config.world, "timeFactor", 0, 0.0001);
     }
 
-    initComposer(){
-        this.composer = new THREE.EffectComposer(this.renderer);
-        this.composer.setSize(window.innerWidth, window.innerHeight);
+    // initComposer(){
+    //     this.composer = new THREE.EffectComposer(this.renderer);
+    //     this.composer.setSize(window.innerWidth, window.innerHeight);
 
-        this.sepiaPass = new THREE.ShaderPass( THREE.SepiaShader );
-        this.fadePass = new THREE.ShaderPass( THREE.CornerFadeShader );
-        this.fxaaPass = new THREE.ShaderPass( THREE.FxaaShader );
+    //     this.sepiaPass = new THREE.ShaderPass( THREE.SepiaShader );
+    //     this.fadePass = new THREE.ShaderPass( THREE.CornerFadeShader );
+    //     this.fxaaPass = new THREE.ShaderPass( THREE.FxaaShader );
 
-        this.composer.addPass(new THREE.RenderPass(this.scene, this.camera));
+    //     this.composer.addPass(new THREE.RenderPass(this.scene, this.camera));
 
-        this.sepiaPass.uniforms[ "amount" ].value = 0.9;
-        this.fadePass.uniforms[ "amount" ].value = 0.9;
-        // this.sepiaPass.renderToScreen = true;
-        // this.fadePass.renderToScreen = true;
-        this.fxaaPass.renderToScreen = true; 
+    //     this.sepiaPass.uniforms[ "amount" ].value = 0.9;
+    //     this.fadePass.uniforms[ "amount" ].value = 0.9;
+    //     // this.sepiaPass.renderToScreen = true;
+    //     // this.fadePass.renderToScreen = true;
+    //     this.fxaaPass.renderToScreen = true;
 
-        this.fxaaPass.material.uniforms.resolution.value = new THREE.Vector2(window.innerWidth, window.innerHeight);
-        // this.composer.addPass(this.sepiaPass);
-        // this.composer.addPass(this.fadePass);
-        this.composer.addPass(this.fxaaPass);
+    //     this.fxaaPass.material.uniforms.resolution.value = new THREE.Vector2(window.innerWidth, window.innerHeight);
+    //     // this.composer.addPass(this.sepiaPass);
+    //     // this.composer.addPass(this.fadePass);
+    //     this.composer.addPass(this.fxaaPass);
 
 
-        this.gui.add(this.sepiaPass.uniforms[ "amount" ], "value", 0, 1).name("Sepia");
-    }
+    //     this.gui.add(this.sepiaPass.uniforms[ "amount" ], "value", 0, 1).name("Sepia");
+    // }
 
 
     generateCards() {
@@ -119,7 +119,7 @@ export default class App {
                 cards,
                 gui: this.gui,
                 camera: this.camera
-            }); 
+            });
 
             this.scene.add(this.cardsCloud.mesh);
             this.renderer.animate( this.render.bind(this) );
@@ -131,11 +131,12 @@ export default class App {
 
 
     render() {
-        this.stats.begin();
-        this.clock.update();
+      this.stats.begin();
+      this.clock.update();
 
-        this.cardsCloud.render(this.clock.elapsed);
-    	this.composer.render();
+      this.cardsCloud.render(this.clock.elapsed);
+    	// this.composer.render();
+      this.renderer.render(this.scene, this.camera);
 
 
         // update the picking ray with the camera and mouse position
@@ -156,7 +157,7 @@ export default class App {
     // -----------------------------------------
 
 
-    updateMousePosition( event ) { 
+    updateMousePosition( event ) {
         this.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
         this.mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
     }
@@ -166,7 +167,6 @@ export default class App {
     	this.camera.aspect = window.innerWidth / window.innerHeight;
     	this.camera.updateProjectionMatrix();
     	this.renderer.setSize( window.innerWidth, window.innerHeight );
-        this.composer.setSize( window.innerWidth, window.innerHeight );
     }
 
 
