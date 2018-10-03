@@ -2,7 +2,7 @@ import config from "./../config.js";
 import vertexShader from "./../../glsl/model.vert";
 import fragmentShader from "./../../glsl/raycaster.frag";
 
-class Raycaster {
+class PixelPicking {
   constructor(cardsCloud) {
     this.cardsCloud = cardsCloud
 
@@ -107,4 +107,4 @@ class Raycaster {
   }
 }
 
-export default Raycaster
+export default PixelPicking

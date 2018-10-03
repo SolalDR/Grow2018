@@ -123,7 +123,7 @@ export default class App {
     this.clock.update();
 
     this.cardsCloud.render(this.clock.elapsed);
-    document.body.style.cursor = this.cardsCloud.raycaster.cardSelected ? 'pointer' : null;
+    document.body.style.cursor = this.cardsCloud.pixelPicking.cardSelected ? 'pointer' : null;
 
     this.renderer.render( this.scene, this.camera );
     this.stats.end();

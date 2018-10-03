@@ -25,23 +25,9 @@ class Map {
     this.generateFloor();
   }
 
-  loadTileJSON(tile){
-    var loader = new JSONLoader();
-    loader.load(
-      tile.url,
-      ( geometry ) => {
-        var material = new THREE.MeshPhongMaterial();
-        var material = new THREE.MeshNormalMaterial();
-        var object = new THREE.Mesh(geometry, material);
-        this.scene.add( object );
-      }
-    );
-  }
-
 
   /**
    * Load a tile and add it to mesh
-   * @param  {Object} tile
    */
   loadTileOBJ(tile){
     var loader = new OBJLoader();
@@ -65,6 +51,9 @@ class Map {
   }
 
 
+  /**
+   * Generate floor plane
+   */
   generateFloor(){
     var geometry = new THREE.PlaneGeometry(2000, 1000, 2, 2);
     var material = new THREE.MeshStandardMaterial({
@@ -78,7 +67,6 @@ class Map {
     this.floor.position.y = -20;
     this.scene.add(this.floor);
   }
-
 }
 
 export default Map;
