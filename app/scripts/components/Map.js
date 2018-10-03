@@ -1,4 +1,5 @@
 import OBJLoader from "./../helpers/OBJLoader.js";
+import JSONLoader from "./../helpers/JSONLoader.js";
 
 /**
  * The city map
@@ -11,17 +12,30 @@ class Map {
    */
   constructor(scene){
     this.datas = [
-      {coords: {x: 0, y: 0}, url: "/static/meshes/Haut_Gauche.obj" },
-      {coords: {x: 1, y: 0}, url: "/static/meshes/Haut_Droit.obj" },
-      {coords: {x: 0, y: 1}, url: "/static/meshes/Bas_Gauche.obj" },
-      {coords: {x: 1, y: 1}, url: "/static/meshes/Bas_Droit.obj" }
+      {coords: {x: 0, y: 0}, url: "/static/meshes/export_32.obj" }
     ];
 
     this.tiles = [];
     this.scene = scene;
     this.datas.forEach(data => {
-      this.loadTile(data);
+      this.loadTileOBJ(data);
+      // this.loadTileJSON(data);
     })
+
+    this.generateFloor();
+  }
+
+  loadTileJSON(tile){
+    var loader = new JSONLoader();
+    loader.load(
+      tile.url,
+      ( geometry ) => {
+        var material = new THREE.MeshPhongMaterial();
+        var material = new THREE.MeshNormalMaterial();
+        var object = new THREE.Mesh(geometry, material);
+        this.scene.add( object );
+      }
+    );
   }
 
 
@@ -29,25 +43,40 @@ class Map {
    * Load a tile and add it to mesh
    * @param  {Object} tile
    */
-  loadTile(tile){
+  loadTileOBJ(tile){
     var loader = new OBJLoader();
     loader.load(
       tile.url,
       ( object ) => {
-        object.children.forEach(child=>{
-          child.geometry.computeFaceNormals();
-          child.geometry.computeVertexNormals();
-          // child.material.wireframe = true
-          child.a
-        })
-        this.tiles.push({mesh: object, coords: tile.coords})
-        object.position.x = tile.coords.x * 1100
-        object.position.z = tile.coords.y * 1000
-        object.scale.y = 2
-        console.log(object)
-        this.scene.add( object );
+        var material = new THREE.MeshStandardMaterial({
+          roughness: 0,
+          metalness: 0,
+          emissive: 0xAAAAAA,
+          color: 0xFFFFFF
+        });
+        var geometry = object.children[0].geometry;
+        var mesh = new THREE.Mesh(geometry, material);
+        this.tiles.push({mesh: mesh, coords: tile.coords})
+
+        console.log(mesh);
+        this.scene.add( mesh );
       }
     );
+  }
+
+
+  generateFloor(){
+    var geometry = new THREE.PlaneGeometry(2000, 1000, 2, 2);
+    var material = new THREE.MeshStandardMaterial({
+      roughness: 0,
+      metalness: 0,
+      emissive: 0xAAAAAA,
+      color: 0xFFFFFF
+    });
+    this.floor = new THREE.Mesh(geometry, material);
+    this.floor.rotation.x = -Math.PI/2;
+    this.floor.position.y = -20;
+    this.scene.add(this.floor);
   }
 
 }

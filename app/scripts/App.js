@@ -31,7 +31,7 @@ export default class App {
 
         // Init
         this.container = document.querySelector( '#main' );
-    	document.body.appendChild( this.container );
+    	 document.body.appendChild( this.container );
         this.renderer = new THREE.WebGLRenderer( { antialias: true } );
         this.renderer.setPixelRatio( window.devicePixelRatio );
         this.renderer.setSize( window.innerWidth, window.innerHeight );
@@ -39,7 +39,7 @@ export default class App {
         this.container.appendChild( this.renderer.domElement );
 
         // Camera and control
-        this.camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.00001, 20000 );
+        this.camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 50000 );
         this.camera.position.set(
             config.camera.position.x,
             config.camera.position.y,
@@ -54,11 +54,17 @@ export default class App {
         this.raycaster = new THREE.Raycaster();
 
         this.scene = new THREE.Scene();
-        var light = new THREE.DirectionalLight( 0xffffff, 0.5 );
-        this.scene.add(light)
+
+        var light = new THREE.DirectionalLight( 0xffffff, 0.18 );
+        light.position.y = 100;
+        this.scene.add(light);
+
+        var pointLight = new THREE.PointLight( 0xFFFFFF, 0.4 );
+        pointLight.position.y = 50;
+        this.scene.add(pointLight);
+
+
         this.map = new Map(this.scene);
-        // this.initComposer();
-        this.generateMap();
 
         // Init Clock
         this.clock = new Clock();
@@ -69,7 +75,7 @@ export default class App {
         this.onWindowResize();
         this.gui.add(this.config.world, "timeFactor", 0, 0.0001);
 
-        this.renderer.animate( this.render.bind(this) );
+        this.generateCards();
     }
 
 
@@ -116,23 +122,20 @@ export default class App {
 
       document.body.style.cursor = this.cardsCloud.raycaster.cardSelected ? 'pointer' : null;
 
+      // update the picking ray with the camera and mouse position
+      this.raycaster.setFromCamera( this.mouse, this.camera );
 
-      this.renderer.render(this.scene, this.camera);
+      // calculate objects intersecting the picking ray
+      var intersects = this.raycaster.intersectObjects( this.scene.children );
+      // console.log(this.mouse);
+      for ( var i = 0; i < intersects.length; i++ ) {
+          // console.log(intersects) ;
+          // this.cardsCloud
+      }
 
-        // update the picking ray with the camera and mouse position
-        this.raycaster.setFromCamera( this.mouse, this.camera );
+      this.renderer.render( this.scene, this.camera );
 
-        // calculate objects intersecting the picking ray
-        var intersects = this.raycaster.intersectObjects( this.scene.children );
-        // console.log(this.mouse);
-        for ( var i = 0; i < intersects.length; i++ ) {
-            // console.log(intersects) ;
-            // this.cardsCloud
-        }
-
-        this.renderer.render( this.scene, this.camera );
-
-        this.stats.end();
+      this.stats.end();
     }
 
 

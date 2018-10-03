@@ -78,7 +78,6 @@ void main() {
   transform( pos, trans, newRotation, scale );
 
   gl_Position = projectionMatrix * modelViewMatrix * vec4(pos , 1.0);
-  gl_Position.z = -1.*log2(distance(u_camera_position, translation));
 
   vCoords = coords;
   vUv = uv;
