@@ -1,19 +1,20 @@
 export default {
   world: {
-    timeFactor: 0.00001 
+    timeFactor: 0.00001
   },
   camera: {
     position: {
-      x: 100, 
+      x: 100,
       y: 100,
       z: 100
-    }
+    },
+    control: true
   },
   cards: {
     grid: {
       size: 19
     },
-    width: 14, 
+    width: 14,
     height: 9,
     widthSegments: 7,
     heightSegments: 5,

@@ -70,11 +70,6 @@ void main() {
   newRotation.z = cos(noiseRotation.z)*3.14;
   newRotation.xyz = normalize(newRotation.xyz);
 
-
-  // trans = vec3(0., rank*0.1, 0.);
-  // newRotation = vec4(1.0, 0.0, 0.0, .0);
-
-
   transform( pos, trans, newRotation, scale );
 
   gl_Position = projectionMatrix * modelViewMatrix * vec4(pos , 1.0);
