@@ -9,7 +9,7 @@ class Raycaster {
     this.mouse = { x: 0, y: 0 }
 
     this.scene = new THREE.Scene();
-    this.selectedCardRank = null;
+    this.selectedCardRank = -1;
 
     this.material = new THREE.RawShaderMaterial( {
       vertexShader: vertexShader,
@@ -51,6 +51,10 @@ class Raycaster {
     window.addEventListener('mousemove', this.updateMouse.bind(this))
   }
 
+  get cardSelected() {
+    return this.selectedCardRank !== -1
+  }
+
   refreshUniforms() {
     this.material.uniforms.u_noise_translation_intensity.value = this.cardsCloud.material.uniforms.u_noise_translation_intensity.value;
     this.material.uniforms.u_noise_translation_speed.value = this.cardsCloud.material.uniforms.u_noise_translation_speed.value;
@@ -64,12 +68,7 @@ class Raycaster {
     this.material.uniforms.needsUpdate = true;
   }
 
-  render() {
-    this.mesh.material.uniforms.u_time.value = this.cardsCloud.material.uniforms.u_time.value;
-    this.mesh.material.uniforms.u_camera_position.value = this.cardsCloud.material.uniforms.u_camera_position.value;
-    this.mesh.material.uniforms.needsUpdate = true;
-    this.mesh.material.needsUpdate = true
-
+  updateSelectedRank() {
     var color = new Uint8Array( 4 );
 
     this.renderer.readRenderTargetPixels(
@@ -84,10 +83,15 @@ class Raycaster {
     var x = color[0]
     var y = color[1]
 
-    if(x === 255 && y === 255) this.selectedCardRank = null;
-    else {
-      this.selectedCardRank = Math.round(x/255*19) + Math.round(y/255*19)*config.cards.grid.size;
-    }
+    if(x === 255 && y === 255) this.selectedCardRank = -1;
+    else this.selectedCardRank = Math.round(x/255*config.cards.grid.size) + Math.round(y/255*config.cards.grid.size)*config.cards.grid.size;
+  }
+
+  render() {
+    this.mesh.material.uniforms.u_time.value = this.cardsCloud.material.uniforms.u_time.value;
+    this.mesh.material.uniforms.u_camera_position.value = this.cardsCloud.material.uniforms.u_camera_position.value;
+    this.mesh.material.uniforms.needsUpdate = true;
+    this.mesh.material.needsUpdate = true
 
     this.renderer.render( this.scene, this.cardsCloud.camera, this.renderTarget);
   }

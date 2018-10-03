@@ -124,7 +124,8 @@ class CardsCloud {
 
 	render(elapsedTime) {
 		var time = elapsedTime*0.001*0.001;
-    this.mesh.material.uniforms.selected_card_rank.value = this.raycaster.selectedCardRank === null ? -1 : this.raycaster.selectedCardRank
+    this.raycaster.updateSelectedRank()
+    this.mesh.material.uniforms.selected_card_rank.value = this.raycaster.selectedCardRank
 		this.mesh.material.uniforms.u_time.value = time;
 		this.mesh.material.uniforms.u_camera_position.value = this.camera.position;
 		this.mesh.material.uniforms.needsUpdate = true;

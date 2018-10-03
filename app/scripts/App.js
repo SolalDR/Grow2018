@@ -135,6 +135,9 @@ export default class App {
       this.clock.update();
 
       this.cardsCloud.render(this.clock.elapsed);
+
+      document.body.style.cursor = this.cardsCloud.raycaster.cardSelected ? 'pointer' : null;
+
     	// this.composer.render();
       this.renderer.render(this.scene, this.camera);
 
