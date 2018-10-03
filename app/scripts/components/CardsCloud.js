@@ -72,6 +72,7 @@ class CardsCloud {
         img_verso:   { type: "t", value: verso },
         img_noise:   { type: "t", value: noise },
         img_bumpmap: { type: "t", value: bumpmap },
+        selected_card_rank: { type: "f", value: -1 },
         u_noise_translation_intensity: { type: "f",  value: config.cards.translation.intensity },
         u_noise_translation_speed: 		 { type: "f",  value: config.cards.translation.speed },
         u_noise_translation_spread: 	 { type: "f",  value: config.cards.translation.spread },
@@ -123,6 +124,7 @@ class CardsCloud {
 
 	render(elapsedTime) {
 		var time = elapsedTime*0.001*0.001;
+    this.mesh.material.uniforms.selected_card_rank.value = this.raycaster.selectedCardRank === null ? -1 : this.raycaster.selectedCardRank
 		this.mesh.material.uniforms.u_time.value = time;
 		this.mesh.material.uniforms.u_camera_position.value = this.camera.position;
 		this.mesh.material.uniforms.needsUpdate = true;

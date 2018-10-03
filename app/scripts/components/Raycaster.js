@@ -87,8 +87,10 @@ class Raycaster {
     var x = color[0]
     var y = color[1]
 
-    if(x === 255 && y === 255) this.selectedCardRank = null
-    else this.selectedCardRank = x%19 + y
+    if(x === 255 && y === 255) this.selectedCardRank = null;
+    else {
+      this.selectedCardRank = Math.round(x/255*19) + Math.round(y/255*19)*config.cards.grid.size;
+    }
   }
 
   onWindowResize() {
