@@ -72,33 +72,36 @@ export default class App {
         this.renderer.animate( this.render.bind(this) );
     }
 
-    initComposer(){
-        this.composer = new THREE.EffectComposer(this.renderer);
-        this.composer.setSize(window.innerWidth, window.innerHeight);
 
-        this.sepiaPass = new THREE.ShaderPass( THREE.SepiaShader );
-        this.fadePass = new THREE.ShaderPass( THREE.CornerFadeShader );
-        this.fxaaPass = new THREE.ShaderPass( THREE.FxaaShader );
+    generateCards() {
+        var cards = [], card;
+        var recto = new THREE.TextureLoader().load( "/static/images/img_recto.jpg", ()=>{
+            var canvas = document.createElement('canvas');
+            canvas.width = recto.image.width;
+            canvas.height = recto.image.height;
+            var ctx = canvas.getContext('2d')
 
-        this.composer.addPass(new THREE.RenderPass(this.scene, this.camera));
+            ctx.drawImage(recto.image, 0, 0, recto.image.width, recto.image.height);
 
-        this.sepiaPass.uniforms[ "amount" ].value = 0.9;
-        this.fadePass.uniforms[ "amount" ].value = 0.9;
-        // this.sepiaPass.renderToScreen = true;
-        // this.fadePass.renderToScreen = true;
-        this.fxaaPass.renderToScreen = true;
+            datas.forEach(data => {
+                card = new Card(data);
+                var coords = card.getCoordsInImage(recto.image);
+                var color =  ImageUtil.getColorAt(ctx, coords.x, coords.y);
+                if( card.isWorking ){
+                    cards.push(card);
+                }
+            });
 
-        this.fxaaPass.material.uniforms.resolution.value = new THREE.Vector2(window.innerWidth, window.innerHeight);
-        // this.composer.addPass(this.sepiaPass);
-        // this.composer.addPass(this.fadePass);
-        this.composer.addPass(this.fxaaPass);
+            console.log(cards);
+            this.cardsCloud = new CardsCloud({
+                cards,
+                gui: this.gui,
+                camera: this.camera
+            });
 
-
-        this.gui.add(this.sepiaPass.uniforms[ "amount" ], "value", 0, 1).name("Sepia");
-    }
-
-
-    generateMap() {
+            this.scene.add(this.cardsCloud.mesh);
+            this.renderer.animate( this.render.bind(this) );
+        } );
     }
 
 
@@ -106,10 +109,15 @@ export default class App {
 
 
     render() {
-        this.stats.begin();
-        this.clock.update();
+      this.stats.begin();
+      this.clock.update();
 
-        // this.cardsCloud.render(this.clock.elapsed);
+      this.cardsCloud.render(this.clock.elapsed);
+
+      document.body.style.cursor = this.cardsCloud.raycaster.cardSelected ? 'pointer' : null;
+
+
+      this.renderer.render(this.scene, this.camera);
 
         // update the picking ray with the camera and mouse position
         this.raycaster.setFromCamera( this.mouse, this.camera );
