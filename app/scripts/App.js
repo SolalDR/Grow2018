@@ -1,4 +1,5 @@
 import OrbitControls from "./helpers/OrbitControls.js";
+import FirstPersonControls from "./helpers/FirstPersonControls.js";
 import Dat from "dat-gui";
 import { Stats } from "three-stats";
 import Clock from "./helpers/Clock.js";
@@ -30,12 +31,20 @@ export default class App {
     document.body.appendChild( this.stats.dom );
 
     // Camera and control
-    this.camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 50000 );
+    this.camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, config.camera.near, config.camera.far );
     this.camera.position.set( config.camera.position.x, config.camera.position.y, config.camera.position.z);
-    this.controls = new OrbitControls( this.camera );
-    this.controls.maxZoom = 50;
-    this.controls.minZoom = 50;
-    this.controls.enabled = config.camera.control;
+
+    if( config.control.type == config.control.ORBIT ){
+      this.controls = new OrbitControls( this.camera );
+      this.controls.target.copy(config.cards.position);
+      this.controls.maxZoom = 50;
+      this.controls.minZoom = 50;
+    } else {
+      this.controls = new THREE.FirstPersonControls( this.camera );
+      this.controls.movementSpeed = config.control.speed;
+      this.controls.lookSpeed = 0.1;
+    }
+
 
     // Renderer & Scene
     this.container = document.querySelector( '#main' );
@@ -43,9 +52,11 @@ export default class App {
     this.renderer = new THREE.WebGLRenderer( { antialias: true } );
     this.renderer.setPixelRatio( window.devicePixelRatio );
     this.renderer.setSize( window.innerWidth, window.innerHeight );
-    this.renderer.setClearColor ( 0xEEEEEE, 1 )
+    // this.renderer.setClearColor ( 0xEEEEEE, 1 )
     this.container.appendChild( this.renderer.domElement );
     this.scene = new THREE.Scene();
+    this.scene.background = new THREE.Color( config.scene.background );
+    if(config.fog.active) this.scene.fog = new THREE.FogExp2( config.scene.background, config.fog.density );
     this.onWindowResize();
 
 
@@ -125,6 +136,7 @@ export default class App {
     this.cardsCloud.render(this.clock.elapsed);
     document.body.style.cursor = this.cardsCloud.pixelPicking.cardSelected ? 'pointer' : null;
 
+    this.controls.update( this.clock.delta/1000 );
     this.renderer.render( this.scene, this.camera );
     this.stats.end();
   }

@@ -22,6 +22,7 @@ uniform float u_noise_bending_intensity;
 uniform float u_noise_bending_speed;
 uniform float u_noise_bending_spread;
 uniform vec3 u_camera_position;
+uniform vec3 u_based_position;
 
 
 //instance attributes
@@ -69,7 +70,7 @@ void main() {
   newRotation.z = cos(noiseRotation.z)*3.14;
   newRotation.xyz = normalize(newRotation.xyz);
 
-  transform( pos, trans, newRotation );
+  transform( pos, trans + u_based_position, newRotation );
 
   gl_Position = projectionMatrix * modelViewMatrix * vec4(pos , 1.0);
 

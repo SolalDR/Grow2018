@@ -25,6 +25,7 @@ class CardsCloud {
     this.generateMaterial();
 
     this.mesh = new THREE.Mesh( this.geometry, this.material );
+    this.mesh.frustumCulled = false;
     this.pixelPicking = new PixelPicking(this)
     this.initGui();
 	}
@@ -61,10 +62,9 @@ class CardsCloud {
       coords[ i*2 + 1 ] = 18 - this.cards[i].coords.y
 
       ranks[ i ] = this.cards[i].rank;
-
-      translation[ i*3 ] = ( Math.random() - .5 ) * 700;
-      translation[ i*3 + 1 ] = ( Math.random() - .5 ) * 700;
-      translation[ i*3 + 2 ] = ( Math.random() - .5 ) * 700;
+      translation[ i*3 ] = ( Math.random() - .5 ) * c.translation.bounding;
+      translation[ i*3 + 1 ] = ( Math.random() - .5 ) * c.translation.bounding;
+      translation[ i*3 + 2 ] = ( Math.random() - .5 ) * c.translation.bounding;
 
       q.set(  ( Math.random() - .5 ) * 2, ( Math.random() - .5 ) * 2, ( Math.random() - .5 ) * 2, Math.random() * Math.PI );
       q.normalize();
@@ -103,6 +103,7 @@ class CardsCloud {
         img_noise:   { type: "t", value: noise },
         img_bumpmap: { type: "t", value: bumpmap },
         selected_card_rank: { type: "f", value: -1 },
+        u_based_position:              { type: "v3", value: c.position },
         u_noise_translation_intensity: { type: "f",  value: c.translation.intensity },
         u_noise_translation_speed:     { type: "f",  value: c.translation.speed },
         u_noise_translation_spread:    { type: "f",  value: c.translation.spread },

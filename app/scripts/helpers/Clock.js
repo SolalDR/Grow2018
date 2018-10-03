@@ -17,6 +17,7 @@ export default class Clock {
 		this.old = 0;
 		this.running = false;
 		this.elapsed = 0;
+    this.delta = 0;
 
 		if ( this.autoStart ) this.start();
 	}
@@ -47,7 +48,8 @@ export default class Clock {
 	update () {
 		if( this.running ){
 			var now = Date.now();
-			this.elapsed += now - this.old;
+      this.delta = now - this.old;
+			this.elapsed += this.delta;
 			this.old = now;
 		}
 	}
