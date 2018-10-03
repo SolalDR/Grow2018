@@ -116,8 +116,6 @@ class CardsCloud {
         u_time:                        { type: "f",  value: 0 }
       },
       transparent: true,
-      depthWrite: true,
-      depthTest: true,
       alphaTest: true
     });
   }
@@ -169,7 +167,7 @@ class CardsCloud {
     this.material.uniforms.u_noise_bending_speed.value = config.cards.bending.speed;
     this.material.uniforms.u_noise_bending_spread.value = config.cards.bending.spread;
     this.material.uniforms.needsUpdate = true;
-    this.pixelPicking.refreshUniforms();
+    this.pixelPicking.onRefreshUniforms();
   }
 }
 
