@@ -9,12 +9,11 @@ import Card from "./components/Card.js";
 import CardsCloud from "./components/CardsCloud.js";
 import ImageUtil from "./helpers/ImageUtil.js";
 import EffectComposer from "./components/EffectComposer.js";
-import ShaderPass from "./components/ShaderPass.js";
-import RenderPass from "./components/RenderPass.js";
-import SepiaShader from "./components/SepiaShader.js";
-import CopyShader from "./components/CopyShader.js";
-import CornerFadeShader from "./components/CornerFadeShader.js";
-import FxaaShader from "./components/FxaaShader.js";
+import Map from "./components/Map.js";
+import countries from "./../datas/countries.json"
+
+import * as maptalks from 'maptalks';
+import { ThreeLayer } from 'maptalks.three';
 
 
 export default class App {
@@ -26,7 +25,7 @@ export default class App {
         window.addEventListener('resize', this.onWindowResize.bind(this), false);
         // document.body.addEventListener("click", this.updateMousePosition.bind(this), false);
         document.body.addEventListener("mousemove", this.updateMousePosition.bind(this), false);
-        
+
         this.config = config;
         this.gui = new Dat.GUI();
 
@@ -40,24 +39,26 @@ export default class App {
         this.container.appendChild( this.renderer.domElement );
 
         // Camera and control
-        this.camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.00001, 1000 );
+        this.camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.00001, 20000 );
         this.camera.position.set(
-            config.camera.position.x, 
-            config.camera.position.y, 
+            config.camera.position.x,
+            config.camera.position.y,
             config.camera.position.z
         );
 
         this.controls = new OrbitControls( this.camera );
-        this.controls.maxZoom = 50; 
-        this.controls.minZoom = 50; 
+        this.controls.maxZoom = 50;
+        this.controls.minZoom = 50;
         // this.controls.enabled = false;
         this.mouse = new THREE.Vector2();
         this.raycaster = new THREE.Raycaster();
 
-        this.scene = new THREE.Scene();   
-
-        this.initComposer();    
-        this.generateCards();
+        this.scene = new THREE.Scene();
+        var light = new THREE.DirectionalLight( 0xffffff, 0.5 );
+        this.scene.add(light)
+        this.map = new Map(this.scene);
+        // this.initComposer();
+        this.generateMap();
 
         // Init Clock
         this.clock = new Clock();
@@ -67,6 +68,8 @@ export default class App {
 
         this.onWindowResize();
         this.gui.add(this.config.world, "timeFactor", 0, 0.0001);
+
+        this.renderer.animate( this.render.bind(this) );
     }
 
     initComposer(){
@@ -83,7 +86,7 @@ export default class App {
         this.fadePass.uniforms[ "amount" ].value = 0.9;
         // this.sepiaPass.renderToScreen = true;
         // this.fadePass.renderToScreen = true;
-        this.fxaaPass.renderToScreen = true; 
+        this.fxaaPass.renderToScreen = true;
 
         this.fxaaPass.material.uniforms.resolution.value = new THREE.Vector2(window.innerWidth, window.innerHeight);
         // this.composer.addPass(this.sepiaPass);
@@ -95,35 +98,7 @@ export default class App {
     }
 
 
-    generateCards() {
-        var cards = [], card;
-        var recto = new THREE.TextureLoader().load( "/static/images/img_recto.jpg", ()=>{
-            var canvas = document.createElement('canvas');
-            canvas.width = recto.image.width;
-            canvas.height = recto.image.height;
-            var ctx = canvas.getContext('2d')
-
-            ctx.drawImage(recto.image, 0, 0, recto.image.width, recto.image.height);
-
-            datas.forEach(data => {
-                card = new Card(data);
-                var coords = card.getCoordsInImage(recto.image);
-                var color =  ImageUtil.getColorAt(ctx, coords.x, coords.y);
-                if( card.isWorking ){
-                    cards.push(card);
-                }
-            });
-
-            console.log(cards);
-            this.cardsCloud = new CardsCloud({
-                cards,
-                gui: this.gui,
-                camera: this.camera
-            }); 
-
-            this.scene.add(this.cardsCloud.mesh);
-            this.renderer.animate( this.render.bind(this) );
-        } );
+    generateMap() {
     }
 
 
@@ -134,9 +109,7 @@ export default class App {
         this.stats.begin();
         this.clock.update();
 
-        this.cardsCloud.render(this.clock.elapsed);
-    	this.composer.render();
-
+        // this.cardsCloud.render(this.clock.elapsed);
 
         // update the picking ray with the camera and mouse position
         this.raycaster.setFromCamera( this.mouse, this.camera );
@@ -149,6 +122,8 @@ export default class App {
             // this.cardsCloud
         }
 
+        this.renderer.render( this.scene, this.camera );
+
         this.stats.end();
     }
 
@@ -156,7 +131,7 @@ export default class App {
     // -----------------------------------------
 
 
-    updateMousePosition( event ) { 
+    updateMousePosition( event ) {
         this.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
         this.mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
     }
@@ -166,7 +141,6 @@ export default class App {
     	this.camera.aspect = window.innerWidth / window.innerHeight;
     	this.camera.updateProjectionMatrix();
     	this.renderer.setSize( window.innerWidth, window.innerHeight );
-        this.composer.setSize( window.innerWidth, window.innerHeight );
     }
 
 
