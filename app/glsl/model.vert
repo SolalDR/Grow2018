@@ -22,12 +22,12 @@ uniform float u_noise_bending_intensity;
 uniform float u_noise_bending_speed;
 uniform float u_noise_bending_spread;
 uniform vec3 u_camera_position;
+uniform vec3 u_based_position;
 
 
 //instance attributes
 attribute vec3 translation;
 attribute vec4 rotation;
-attribute vec3 scale;
 attribute vec2 coords;
 attribute float rank;
 
@@ -35,7 +35,7 @@ varying vec2 vCoords;
 varying vec2 vUv;
 varying vec3 vNormal;
 
-vec3 transform( inout vec3 P, vec3 T, vec4 R, vec3 S ) {
+vec3 transform( inout vec3 P, vec3 T, vec4 R ) {
   //computes the rotation where R is a (vec4) quaternion
   P = 2.0 * cross( R.xyz, cross( R.xyz, P ) + R.w * P );
 
@@ -70,15 +70,9 @@ void main() {
   newRotation.z = cos(noiseRotation.z)*3.14;
   newRotation.xyz = normalize(newRotation.xyz);
 
-
-  // trans = vec3(0., rank*0.1, 0.);
-  // newRotation = vec4(1.0, 0.0, 0.0, .0);
-
-
-  transform( pos, trans, newRotation, scale );
+  transform( pos, trans + u_based_position, newRotation );
 
   gl_Position = projectionMatrix * modelViewMatrix * vec4(pos , 1.0);
-  gl_Position.z = -1.*log2(distance(u_camera_position, translation));
 
   vCoords = coords;
   vUv = uv;

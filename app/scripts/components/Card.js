@@ -1,12 +1,27 @@
 import config from "./../config.js";
 
+/**
+ * Logic model representing a single card
+ */
 class Card {
-	
+
+  /**
+   * @constructor
+   * @param  {Object} datas The cards datas (from "/app/datas/datas.json")
+   * @param  {Object} args  Additionnals infos
+   * @attribute verso The verso images load from "/static/images/cards/..."
+   * @attribute recto The recto images load from "/static/images/cards/..."
+   * @attribute title Card title
+   * @attribute author
+   * @attribute year
+   * @attribute rank
+   * @attribute year
+   * @attribute isWorking Some images aren't working
+   * @attribute coords Get the coords in the sprite texture
+   */
 	constructor(datas, args = {}) {
 		this.verso = null;
 		this.recto = null;
-
-		this.id = datas.ID;
 		this.title = datas.title;
 		this.author = datas.author;
 		this.year = datas.year;
@@ -14,21 +29,32 @@ class Card {
 		this.rectoUrl = datas.img_recto;
 		this.rank = datas.img_rank - 1;
 		this.isWorking = datas.img_working;
-		
+
 		this.onLoad = args.onLoad ? args.onLoad : false;
 
-		this.coords = this.getCoords();
+		this.coords = this.computeCoords();
 	}
 
-	getCoords() {
+
+  /**
+   * Compute coords from img_rank & grid size
+   * @return {Object} Return a vector2
+   */
+	computeCoords() {
 		return {
 			x: this.rank%config.cards.grid.size,
 			y: Math.floor(this.rank/config.cards.grid.size)
 		}
 	}
 
+
+  /**
+   * Compute coords from image to map with uv
+   * @param  {Image} image
+   * @return {Object} return a vector 2
+   */
 	getCoordsInImage(image){
-		var coords = this.getCoords();
+		var coords = this.computeCoords();
 		return {
 			x: Math.floor(coords.x*(image.width/config.cards.grid.size) + (image.width/config.cards.grid.size)/2),
 			y: Math.floor(coords.y*(image.height/config.cards.grid.size) + (image.height/config.cards.grid.size)/2)
@@ -36,6 +62,9 @@ class Card {
 	}
 
 
+  /**
+   * Load verso & recto texture
+   */
 	loadTexture(){
 		var versoLoad = false, rectoLoad = false;
 
@@ -45,22 +74,21 @@ class Card {
 		this.recto = new Image();
 		this.recto.src = this.rectoUrl;
 
+    var testLoading = function(){
+      if( versoLoad && rectoLoad ) {
+        this.loaded = true;
+        if(this.onLoad) this.onLoad.call(this);
+      }
+    }
+
 		this.verso.onLoad = (e) => {
-			console.log(e);
 			versoLoad = true;
-			if( versoLoad && rectoLoad ) {
-				this.loaded = true;
-				if(this.onLoad) this.onLoad.call(this);
-			}
+			testLoading.apply(this);
 		}
 
 		this.recto.onLoad = (e) => {
-			console.log(e);
 			rectoLoad = true;
-			if( versoLoad && rectoLoad ) {
-				this.loaded = true;
-				if(this.onLoad) this.onLoad.call(this);
-			}
+			testLoading.apply(this);
 		}
 	}
 }

@@ -1,10 +1,9 @@
 import * as THREE from "three";
 
 /**
- * @author Solal Dussout-Revel
+ * @author SolalDR http://solaldussout-revel.com
  * A little snippet to merge BufferGeometry without replacing the attributes
  */
-
 THREE.BufferGeometryUtils = {
 
   merge: function(geometries) {
@@ -15,7 +14,7 @@ THREE.BufferGeometryUtils = {
       // First remove index
       geometry = geometry.toNonIndexed();
 
-      // For each attribute 
+      // For each attribute
       for(var attr in geometry.attributes){
 
         // Register if not yet
@@ -26,7 +25,7 @@ THREE.BufferGeometryUtils = {
           };
         }
 
-        // Verify item size are the same for each attribute 
+        // Verify item size are the same for each attribute
         if( geometry.attributes[attr].itemSize != attributes[attr].itemSize){
           console.warn(`THREE.BufferGeometryUtils: itemSize in attribute "${attr}" doesn't match`);
           break;
@@ -43,11 +42,11 @@ THREE.BufferGeometryUtils = {
 
     // Create buffer attributes
     for( var attribute in attributes ){
-      geometry.addAttribute( attribute, new THREE.BufferAttribute( 
-        new Float32Array(attributes[attribute].array), 
-        attributes[attribute].itemSize 
+      geometry.addAttribute( attribute, new THREE.BufferAttribute(
+        new Float32Array(attributes[attribute].array),
+        attributes[attribute].itemSize
       ));
-    }    
+    }
 
     return geometry;
   }
