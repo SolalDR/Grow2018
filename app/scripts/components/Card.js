@@ -29,6 +29,8 @@ class Card {
 		this.rectoUrl = datas.img_recto;
 		this.rank = datas.img_rank - 1;
 		this.isWorking = datas.img_working;
+    this.latitude = null;
+    this.longitude = null;
 
 		this.onLoad = args.onLoad ? args.onLoad : false;
 

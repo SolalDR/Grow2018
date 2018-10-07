@@ -12,6 +12,7 @@ import ImageUtil from "./helpers/ImageUtil.js";
 import Map from "./components/Map.js";
 import CloudMaterial from "./components/CloudMaterial.js";
 import AppGui from "./AppGui.js";
+import Bird from "./components/Bird.js";
 
 /**
  * Main app object
@@ -93,12 +94,6 @@ export default class App {
     this.directionalLight = new THREE.DirectionalLight( new THREE.Color(config.colors.lightDirectionnal), 0.18 );
     this.directionalLight.position.y = 500;
     this.scene.add(this.directionalLight);
-
-    // Point light
-    // var pointLight = new THREE.PointLight( 0xFFFFFF, 0.4 );
-    // pointLight.position.y = 100;
-    // this.scene.add(pointLight);
-
 
     // Point light
     this.pointerLight = new THREE.PointLight( new THREE.Color(config.colors.lightPointer), 0.2 );
