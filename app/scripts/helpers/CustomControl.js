@@ -197,29 +197,22 @@ class CustomControl extends Event {
         this.velocity.y += (0 - this.velocity.y) * 0.1
       this.camera.position.y += this.velocity.y;
 
+      // Boundaries Y
+      if( this.camera.position.y < this.boundaries.min.y ) {
+        this.camera.position.y = this.boundaries.min.y;
+      } else if(this.camera.position.y > this.boundaries.max.y) {
+        this.camera.position.y = this.boundaries.max.y;
+      }
+
+      this.updatePhi();
+
       this.needUpdateRotation = true;
     }
 
-    // Boundaries Y
-    if( this.camera.position.y < this.boundaries.min.y ) {
-      this.camera.position.y = this.boundaries.min.y;
-    } else if(this.camera.position.y > this.boundaries.max.y) {
-      this.camera.position.y = this.boundaries.max.y;
-    }
-
-    // Boundaries X & Z
-    if( this.camera.position.distanceTo( new THREE.Vector3() ) > 1000 ){
-      var position = new THREE.Vector3().copy(this.camera.position).normalize().multiplyScalar(1000)
-      this.camera.position.set(position.x, position.y, position.z)
-    }
-
-
     // Apply rotations
     if( this.needUpdateRotation ){
-      this.updatePhi();
       this.updateTarget();
     }
-
 
     this.needUpdateRotation = false;
   }

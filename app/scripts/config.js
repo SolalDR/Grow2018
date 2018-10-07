@@ -1,6 +1,13 @@
 export default {
-  scene: {
-    background: 0x8CC5E8
+
+  colors: {
+    background: "#ffffff",
+    lightDirectionnal: "#ffffff",
+    lightPointer: "#ffffff",
+    mapBuilding: "#ffffff",
+    mapBuildingEmissive: "#beb19a",
+    mapFloor: "#ffffff",
+    mapFloorEmissive: "#beb19a"
   },
 
   camera: {

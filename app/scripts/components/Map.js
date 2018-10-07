@@ -1,6 +1,6 @@
 import OBJLoader from "./../helpers/OBJLoader.js";
 import JSONLoader from "./../helpers/JSONLoader.js";
-
+import config from "./../config.js";
 /**
  * The city map
  */
@@ -37,8 +37,8 @@ class Map {
         var material = new THREE.MeshStandardMaterial({
           roughness: 0,
           metalness: 0,
-          emissive: 0xAAAAAA,
-          color: 0xFFFFFF
+          emissive: new THREE.Color(config.colors.mapBuildingEmissive),
+          color: new THREE.Color(config.colors.mapBuilding)
         });
         var geometry = object.children[0].geometry;
         var mesh = new THREE.Mesh(geometry, material);
@@ -61,8 +61,8 @@ class Map {
     var material = new THREE.MeshStandardMaterial({
       roughness: 0,
       metalness: 0,
-      emissive: 0xAAAAAA,
-      color: 0xFFFFFF
+      emissive: new THREE.Color(config.colors.mapFloorEmissive),
+      color: new THREE.Color(config.colors.mapFloor)
     });
     this.floor = new THREE.Mesh(geometry, material);
     this.floor.rotation.x = -Math.PI/2;

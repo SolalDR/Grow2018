@@ -11,6 +11,7 @@ import CardsCloud from "./components/CardsCloud.js";
 import ImageUtil from "./helpers/ImageUtil.js";
 import Map from "./components/Map.js";
 import CloudMaterial from "./components/CloudMaterial.js";
+import AppGui from "./AppGui.js";
 
 /**
  * Main app object
@@ -73,8 +74,8 @@ export default class App {
     this.renderer.setSize( window.innerWidth, window.innerHeight );
     this.container.appendChild( this.renderer.domElement );
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color( config.scene.background );
-    if(config.fog.active) this.scene.fog = new THREE.Fog( config.scene.background, config.fog.near, config.fog.far );
+    this.scene.background = new THREE.Color( config.colors.background );
+    if(config.fog.active) this.scene.fog = new THREE.Fog( this.scene.background, config.fog.near, config.fog.far );
     this.onWindowResize();
 
     this.init();
@@ -89,14 +90,21 @@ export default class App {
    */
   init(){
     // Generic light
-    var light = new THREE.DirectionalLight( 0xffffff, 0.18 );
-    light.position.y = 100;
-    this.scene.add(light);
+    this.directionalLight = new THREE.DirectionalLight( new THREE.Color(config.colors.lightDirectionnal), 0.18 );
+    this.directionalLight.position.y = 500;
+    this.scene.add(this.directionalLight);
 
     // Point light
-    var pointLight = new THREE.PointLight( 0xFFFFFF, 0.4 );
-    pointLight.position.y = 50;
-    this.scene.add(pointLight);
+    // var pointLight = new THREE.PointLight( 0xFFFFFF, 0.4 );
+    // pointLight.position.y = 100;
+    // this.scene.add(pointLight);
+
+
+    // Point light
+    this.pointerLight = new THREE.PointLight( new THREE.Color(config.colors.lightPointer), 0.2 );
+    this.pointerLight.position.y = 100;
+    this.scene.add(this.pointerLight);
+
 
     this.cloud = new THREE.Mesh(new THREE.PlaneGeometry(this.camera.far, this.camera.far, 2, 2), new CloudMaterial());
     this.cloud.rotation.x = -Math.PI/2
@@ -106,6 +114,8 @@ export default class App {
     this.scene.add(this.cloud);
     this.map = new Map(this.scene);
     this.generateCards();
+
+    AppGui.init(this)
   }
 
 
@@ -159,14 +169,33 @@ export default class App {
     document.body.style.cursor = this.cardsCloud.pixelPicking.cardSelected ? 'pointer' : null;
 
     if( config.control.type == config.control.CUSTOM ){
-      this.controls.update( this.mouseHasChange, this.clock.delta );
+      this.controls.update( this.mouseHasMove, this.clock.delta );
     } else if( config.control.type == config.control.FPS ){
       this.controls.update( this.clock.delta/1000 );
     }
 
+
+    if( this.mouseHasMove || this.mouseHasClick || (this.controls.movement && this.controls.movement.active) ){
+      this.raycaster.setFromCamera( this.mouse, this.camera );
+      var intersects = this.raycaster.intersectObjects( this.scene.children );
+      for ( var i = 0; i < intersects.length; i++ ) {
+        if( intersects[i].object.name == "floor") {
+          if( config.control.type == config.control.CUSTOM && this.mouseHasClick ) {
+            this.controls.onMouseClick( intersects[i] );
+          }
+
+          this.pointerLight.position.x = intersects[i].point.x
+          this.pointerLight.position.z = intersects[i].point.z
+          break;
+        }
+      }
+    }
+
+
     this.renderer.render( this.scene, this.camera );
     this.stats.end();
-    this.mouseHasChange = false;
+    this.mouseHasMove = false;
+    this.mouseHasClick = false;
   }
 
 
@@ -176,7 +205,7 @@ export default class App {
   updateMousePosition( event ) {
     this.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
     this.mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-    this.mouseHasChange = true;
+    this.mouseHasMove = true;
   }
 
   onMouseDown( event ){
@@ -192,22 +221,7 @@ export default class App {
     }
 
     if( Date.now() - this.click < 200 ) {
-      this.onMouseClick();
-    }
-  }
-
-  onMouseClick(){
-    this.raycaster.setFromCamera( this.mouse, this.camera );
-
-    // calculate objects intersecting the picking ray
-    var intersects = this.raycaster.intersectObjects( this.scene.children );
-    for ( var i = 0; i < intersects.length; i++ ) {
-      if( intersects[i].object.name == "floor") {
-        if( config.control.type == config.control.CUSTOM ) {
-          this.controls.onMouseClick( intersects[i] );
-        }
-        break;
-      }
+      this.mouseHasClick = true;
     }
   }
 
