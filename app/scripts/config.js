@@ -1,29 +1,31 @@
 export default {
   scene: {
-    background: 0xEEEEEE
+    background: 0x8CC5E8
   },
 
   camera: {
     position: {
       x: 0,
-      y: 0,
+      y: 100,
       z: 0
     },
+    fov: 60,
     near: 1,
-    far: 1000
+    far: 500
   },
 
   fog: {
-    density: 0.01,
-    near: 1,
-    far: 10,
-    active: false
+    density: 0.0025,
+    near: 200,
+    far: 500,
+    active: true
   },
 
   control: {
     FPS: 1, // "firstPerson"
     ORBIT: 2,
-    type: 1,
+    CUSTOM: 3,
+    type: 3,
     speed: 100
   },
 
@@ -93,3 +95,5 @@ var patterns = {
     }
   }
 }
+
+

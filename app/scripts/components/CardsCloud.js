@@ -76,10 +76,10 @@ class CardsCloud {
     }
 
     // Add all the attribuets
-    this.geometry.addAttribute( 'translation', new THREE.InstancedBufferAttribute( translation, 3, 1 ) );
-    this.geometry.addAttribute( 'rotation', new THREE.InstancedBufferAttribute( rotation, 4, 1 ) );
-    this.geometry.addAttribute( 'coords', new THREE.InstancedBufferAttribute( coords, 2, 1 ) );
-    this.geometry.addAttribute( 'rank', new THREE.InstancedBufferAttribute( ranks, 1, 1 ) );
+    this.geometry.addAttribute( 'translation', new THREE.InstancedBufferAttribute( translation, 3, false, 1 ) );
+    this.geometry.addAttribute( 'rotation', new THREE.InstancedBufferAttribute( rotation, 4, false, 1 ) );
+    this.geometry.addAttribute( 'coords', new THREE.InstancedBufferAttribute( coords, 2, false, 1 ) );
+    this.geometry.addAttribute( 'rank', new THREE.InstancedBufferAttribute( ranks, 1, false, 1 ) );
   }
 
 

@@ -42,6 +42,8 @@ class Map {
         });
         var geometry = object.children[0].geometry;
         var mesh = new THREE.Mesh(geometry, material);
+        mesh.scale.y = 3
+        mesh.position.y = 50
         this.tiles.push({mesh: mesh, coords: tile.coords})
 
         console.log(mesh);
@@ -65,6 +67,7 @@ class Map {
     this.floor = new THREE.Mesh(geometry, material);
     this.floor.rotation.x = -Math.PI/2;
     this.floor.position.y = -20;
+    this.floor.name = "floor";
     this.scene.add(this.floor);
   }
 }

@@ -30,20 +30,47 @@ for x in 0..resolution
   end
 end
 
+coordsString = []
+coords.each do |coord|
+  coordsString << coord[:lat].to_s + "," + coord[:lon].to_s
+end
+
+
+splitedCoords = coordsString.each_slice(10).to_a
+splitedJoinCoords = []
+splitedCoords.each do |splitedCoord|
+  splitedJoinCoords << splitedCoord.join("|")
+end
+
+
+
+
+
 # todo :
 # - format request
 # - send request & manage result
 
 
+
+
 uri = URI('https://api.open-elevation.com/api/v1/lookup')
-params = { :locations => "10,10" }
+responses = []
+splitedJoinCoords.each_with_index do |param, index|
 
-uri.query = URI.encode_www_form(params)
+  paramsFormated = { :locations => param }
+  uri.query = URI.encode_www_form(paramsFormated)
+  rank = index
 
-Net::HTTP.start(uri.host, uri.port, :use_ssl => true ) do |http|
-  request = Net::HTTP::Get.new uri
+  Net::HTTP.start(uri.host, uri.port, :use_ssl => true ) do |http|
+    request = Net::HTTP::Get.new uri
+    response = http.request request # Net::HTTPResponse object
+    responses << {
+      rank: rank,
+      response: response.body
+    }
 
-  response = http.request request # Net::HTTPResponse object
+    if( responses.length == splitedJoinCoords.length )
+  end
 
-  puts response.body
 end
+
