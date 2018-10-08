@@ -1,5 +1,6 @@
 import OrbitControls from "./helpers/OrbitControls.js";
 import FirstPersonControls from "./helpers/FirstPersonControls.js";
+import CustomControl from "./helpers/CustomControl.js";
 import Dat from "dat-gui";
 import { Stats } from "three-stats";
 import Clock from "./helpers/Clock.js";
@@ -9,6 +10,9 @@ import Card from "./components/Card.js";
 import CardsCloud from "./components/CardsCloud.js";
 import ImageUtil from "./helpers/ImageUtil.js";
 import Map from "./components/Map.js";
+import CloudMaterial from "./components/CloudMaterial.js";
+import AppGui from "./AppGui.js";
+import Bird from "./components/Bird.js";
 
 /**
  * Main app object
@@ -19,8 +23,11 @@ export default class App {
    * @constructor
    */
   constructor() {
+    window.THREE = THREE;
     window.addEventListener('resize', this.onWindowResize.bind(this), false);
     document.body.addEventListener("mousemove", this.updateMousePosition.bind(this), false);
+    window.addEventListener("mousedown", this.onMouseDown.bind(this));
+    window.addEventListener("mouseup", this.onMouseUp.bind(this));
 
     // Measure & Config
     this.config = config;
@@ -31,20 +38,34 @@ export default class App {
     document.body.appendChild( this.stats.dom );
 
     // Camera and control
-    this.camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, config.camera.near, config.camera.far );
+    this.camera = new THREE.PerspectiveCamera( config.camera.fov, window.innerWidth / window.innerHeight, config.camera.near, config.camera.far );
     this.camera.position.set( config.camera.position.x, config.camera.position.y, config.camera.position.z);
+    this.mouse = new THREE.Vector2();
+    this.raycaster = new THREE.Raycaster();
 
-    if( config.control.type == config.control.ORBIT ){
-      this.controls = new OrbitControls( this.camera );
-      this.controls.target.copy(config.cards.position);
-      this.controls.maxZoom = 50;
-      this.controls.minZoom = 50;
-    } else {
-      this.controls = new THREE.FirstPersonControls( this.camera );
-      this.controls.movementSpeed = config.control.speed;
-      this.controls.lookSpeed = 0.1;
+
+    switch (config.control.type ){
+      case config.control.ORBIT:
+        this.controls = new OrbitControls( this.camera );
+        this.controls.target.copy(config.cards.position);
+        this.controls.maxZoom = 50;
+        this.controls.minZoom = 50;
+        break;
+
+      case config.control.CUSTOM:
+        this.controls = new CustomControl(this.camera, {
+          boundaries: new THREE.Box3(new THREE.Vector3(-1000, 100, -1000), new THREE.Vector3(1000, 500, 1000)),
+          mouse: this.mouse
+        });
+        break;
+
+      case config.control.FPS:
+        this.controls = new THREE.FirstPersonControls( this.camera );
+        this.controls.movementSpeed = config.control.speed;
+        this.controls.lookSpeed = 0.1;
+        break;
+
     }
-
 
     // Renderer & Scene
     this.container = document.querySelector( '#main' );
@@ -52,17 +73,11 @@ export default class App {
     this.renderer = new THREE.WebGLRenderer( { antialias: true } );
     this.renderer.setPixelRatio( window.devicePixelRatio );
     this.renderer.setSize( window.innerWidth, window.innerHeight );
-    // this.renderer.setClearColor ( 0xEEEEEE, 1 )
     this.container.appendChild( this.renderer.domElement );
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color( config.scene.background );
-    if(config.fog.active) this.scene.fog = new THREE.FogExp2( config.scene.background, config.fog.density );
+    this.scene.background = new THREE.Color( config.colors.background );
+    if(config.fog.active) this.scene.fog = new THREE.Fog( this.scene.background, config.fog.near, config.fog.far );
     this.onWindowResize();
-
-
-    // Raycasting
-    this.mouse = new THREE.Vector2();
-    this.raycaster = new THREE.Raycaster();
 
     this.init();
   }
@@ -76,17 +91,26 @@ export default class App {
    */
   init(){
     // Generic light
-    var light = new THREE.DirectionalLight( 0xffffff, 0.18 );
-    light.position.y = 100;
-    this.scene.add(light);
+    this.directionalLight = new THREE.DirectionalLight( new THREE.Color(config.colors.lightDirectionnal), 0.18 );
+    this.directionalLight.position.y = 500;
+    this.scene.add(this.directionalLight);
 
     // Point light
-    var pointLight = new THREE.PointLight( 0xFFFFFF, 0.4 );
-    pointLight.position.y = 50;
-    this.scene.add(pointLight);
+    this.pointerLight = new THREE.PointLight( new THREE.Color(config.colors.lightPointer), 0.2 );
+    this.pointerLight.position.y = 100;
+    this.scene.add(this.pointerLight);
 
+
+    this.cloud = new THREE.Mesh(new THREE.PlaneGeometry(this.camera.far, this.camera.far, 2, 2), new CloudMaterial());
+    this.cloud.rotation.x = -Math.PI/2
+    this.cloud.position.y = 200
+    CloudMaterial.generateGui("Cloud1", this.gui, this.cloud);
+
+    this.scene.add(this.cloud);
     this.map = new Map(this.scene);
     this.generateCards();
+
+    AppGui.init(this)
   }
 
 
@@ -133,12 +157,40 @@ export default class App {
     this.stats.begin();
     this.clock.update();
 
+    this.cloud.material.uniforms.u_time.value = this.clock.elapsed*0.001;
+    this.cloud.material.uniforms.needsUpdate = true;
+
     this.cardsCloud.render(this.clock.elapsed);
     document.body.style.cursor = this.cardsCloud.pixelPicking.cardSelected ? 'pointer' : null;
 
-    this.controls.update( this.clock.delta/1000 );
+    if( config.control.type == config.control.CUSTOM ){
+      this.controls.update( this.mouseHasMove, this.clock.delta );
+    } else if( config.control.type == config.control.FPS ){
+      this.controls.update( this.clock.delta/1000 );
+    }
+
+
+    if( this.mouseHasMove || this.mouseHasClick || (this.controls.movement && this.controls.movement.active) ){
+      this.raycaster.setFromCamera( this.mouse, this.camera );
+      var intersects = this.raycaster.intersectObjects( this.scene.children );
+      for ( var i = 0; i < intersects.length; i++ ) {
+        if( intersects[i].object.name == "floor") {
+          if( config.control.type == config.control.CUSTOM && this.mouseHasClick ) {
+            this.controls.onMouseClick( intersects[i] );
+          }
+
+          this.pointerLight.position.x = intersects[i].point.x
+          this.pointerLight.position.z = intersects[i].point.z
+          break;
+        }
+      }
+    }
+
+
     this.renderer.render( this.scene, this.camera );
     this.stats.end();
+    this.mouseHasMove = false;
+    this.mouseHasClick = false;
   }
 
 
@@ -148,6 +200,24 @@ export default class App {
   updateMousePosition( event ) {
     this.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
     this.mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+    this.mouseHasMove = true;
+  }
+
+  onMouseDown( event ){
+    if( config.control.type == config.control.CUSTOM ) {
+      this.controls.onMouseDown(event);
+    }
+    this.click = Date.now();
+  }
+
+  onMouseUp( event ){
+    if( config.control.type == config.control.CUSTOM ) {
+      this.controls.onMouseDown(event);
+    }
+
+    if( Date.now() - this.click < 200 ) {
+      this.mouseHasClick = true;
+    }
   }
 
 

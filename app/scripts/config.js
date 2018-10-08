@@ -1,29 +1,38 @@
 export default {
-  scene: {
-    background: 0xEEEEEE
+
+  colors: {
+    background: "#ffffff",
+    lightDirectionnal: "#ffffff",
+    lightPointer: "#ffffff",
+    mapBuilding: "#ffffff",
+    mapBuildingEmissive: "#beb19a",
+    mapFloor: "#ffffff",
+    mapFloorEmissive: "#beb19a"
   },
 
   camera: {
     position: {
-      x: 123.8665535136857,
-      y: 674.1277619982702,
-      z: 52.578232537239
+      x: 0,
+      y: 100,
+      z: 0
     },
+    fov: 60,
     near: 1,
-    far: 1000
+    far: 500
   },
 
   fog: {
-    density: 0.01,
-    near: 1,
-    far: 10,
-    active: false
+    density: 0.0025,
+    near: 200,
+    far: 500,
+    active: true
   },
 
   control: {
     FPS: 1, // "firstPerson"
     ORBIT: 2,
-    type: 2,
+    CUSTOM: 3,
+    type: 3,
     speed: 100
   },
 
@@ -93,3 +102,5 @@ var patterns = {
     }
   }
 }
+
+
