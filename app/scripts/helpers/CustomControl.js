@@ -9,7 +9,9 @@ class CustomControl extends Event {
     boundaries = null,
     minAngle = 20,
     maxAngle = 80,
-    mouse = null
+    mouse = null,
+    phi = null,
+    theta = null
   } = {} ){
     super();
     this.eventsList = ["startMovement", "endMovement"]
@@ -19,10 +21,12 @@ class CustomControl extends Event {
     this.ease = ease;
     this.boundaries = boundaries;
     this.mouse = mouse;
+    this.enabled = true;
 
     this.rotation = {
       min: - THREE.Math.degToRad(minAngle) - Math.PI/2,
-      max: - THREE.Math.degToRad(maxAngle) - Math.PI/2
+      max: - THREE.Math.degToRad(maxAngle) - Math.PI/2,
+      animation: null
     }
 
     var vector = camera.getWorldDirection();
@@ -36,25 +40,13 @@ class CustomControl extends Event {
 
     this.drag = {
       active: false,
-      current: {
-        speed: {x: 0, y: 0},
-        distance: {x: 0, y: 0},
-        clientX: null,
-        clientY: null
-      },
-      origin: {
-        event: null,
-        phi: 0,
-        theta: 0,
-        clientX: null,
-        clientY: null
-      }
+      current: { speed: {x: 0, y: 0}, distance: {x: 0, y: 0}, clientX: null, clientY: null },
+      origin: { phi: 0, theta: 0, clientX: null, clientY: null }
     }
 
     var target = this.camera.getWorldDirection();
-
-    this.theta = Math.atan2(target.x, target.z)
-    this.updatePhi();
+    this.theta = theta !== null ? theta : Math.atan2(target.x, target.z);
+    this.phi = phi !== null ? phi: this.computedPhi();
     this.updateTarget();
 
     window.addEventListener("mousewheel", this.onMouseWheel.bind(this));
@@ -81,6 +73,15 @@ class CustomControl extends Event {
     this.camera.lookAt(vector);
   }
 
+  computedPhi(height = this.camera.position.y) {
+    return THREE.Math.mapLinear(
+      height,
+      this.boundaries.min.y,
+      this.boundaries.max.y,
+      this.rotation.min,
+      this.rotation.max
+    );
+  }
 
   updateTarget(){
     var phi = this.phi + this.mouse.y/50;
@@ -93,15 +94,7 @@ class CustomControl extends Event {
     this.target = targetPosition;
   }
 
-  updatePhi(){
-    this.phi = THREE.Math.mapLinear(
-      this.camera.position.y,
-      this.boundaries.min.y,
-      this.boundaries.max.y,
-      this.rotation.min,
-      this.rotation.max
-    );
-  }
+
 
   generatePathHelper(curve, color = 0xFF0000, precision = 50){
     var points = curve.getPoints(precision);
@@ -152,15 +145,32 @@ class CustomControl extends Event {
   }
 
 
-  move(target){
+  move({
+    target = null,
+    speed = 2,
+    duration = null,
+    onFinish = null
+  } = {}){
     var curve = this.generatePath(target, { linear: true });
+
+    if( this.movement.animation ) {
+      this.movement.animation.stop();
+      this.movement.animation = null;
+    }
+
+    if( duration ){
+      speed = null;
+    }
+
     this.movement.animation = new Animation({
       timingFunction: "easeInOutQuad",
       from: 0,
       to: curve.getLength(),
-      speed: 2,
+      speed: speed,
+      duration: duration,
       onFinish: ()=>{
         this.movement.active = false;
+        if( onFinish ) onFinish();
       },
       onProgress: (advancement, value)=> {
         curve.getPoint(advancement, this.camera.position);
@@ -170,10 +180,51 @@ class CustomControl extends Event {
     this.movement.active = true;
   }
 
+  rotate({
+    phi = this.phi,
+    theta = this.theta,
+    duration = null,
+    speed = 0.02,
+    onFinish = null
+  } = {}){
+
+    var phiStored = this.phi;
+    var thetaStored = this.theta;
+
+    if( this.rotation.animation ) {
+      this.rotation.animation.stop();
+      this.rotation.animation = null;
+    }
+
+    if( duration ){
+      speed = null
+    }
+
+    this.rotation.animation = new Animation({
+      timingFunction: "easeInOutQuad",
+      from: 0,
+      to: 1,
+      speed: speed,
+      duration: duration,
+      onFinish: ()=>{
+        this.rotation.animation = null;
+        if( onFinish ) onFinish();
+      },
+      onProgress: (advancement, value)=> {
+        this.phi = phiStored + (phi - phiStored)*advancement;
+        this.theta = thetaStored + (theta - thetaStored)*advancement;
+      }
+    });
+  }
+
 
   update( mouseHasChange, delta ){
 
     if( this.movement.active ) this.movement.animation.render(delta);
+    if( this.rotation.animation !== null ) {
+      this.rotation.animation.render(delta);
+      this.needUpdateRotation = true;
+    }
 
     if( mouseHasChange && !this.movement.active ){
       this.needUpdateRotation = true
@@ -187,6 +238,7 @@ class CustomControl extends Event {
       this.theta = this.drag.origin.theta + thetaDelta*this.speed
       this.needUpdateRotation = true;
     }
+
 
     // Scroll control
     if( this.velocity.y !== 0 ){
@@ -204,7 +256,10 @@ class CustomControl extends Event {
         this.camera.position.y = this.boundaries.max.y;
       }
 
-      this.updatePhi();
+      if(this.rotation.animation === null){
+        this.phi = this.computedPhi();
+      }
+
 
       this.needUpdateRotation = true;
     }
@@ -222,19 +277,22 @@ class CustomControl extends Event {
 
 
   onMouseWheel( event ){
+    if(!this.enabled) return;
     this.velocity.y = event.deltaY/10;
   }
 
   onMouseClick( intersect ){
+    if( !this.enabled ) return;
     var target = intersect.point;
     target.y = this.camera.position.y;
 
     if( target.distanceTo(this.camera.position) > this.camera.far ) return;
 
-    this.move(target);
+    this.move({target: target});
   }
 
   onMouseDown( event ) {
+    if( !this.enabled ) return;
     this.drag.origin = {
       phi: this.phi,
       theta: this.theta,

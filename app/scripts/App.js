@@ -13,6 +13,7 @@ import Map from "./components/Map.js";
 import CloudMaterial from "./components/CloudMaterial.js";
 import AppGui from "./AppGui.js";
 import Bird from "./components/Bird.js";
+import UI from "./components/UI.js";
 
 /**
  * Main app object
@@ -42,30 +43,7 @@ export default class App {
     this.camera.position.set( config.camera.position.x, config.camera.position.y, config.camera.position.z);
     this.mouse = new THREE.Vector2();
     this.raycaster = new THREE.Raycaster();
-
-
-    switch (config.control.type ){
-      case config.control.ORBIT:
-        this.controls = new OrbitControls( this.camera );
-        this.controls.target.copy(config.cards.position);
-        this.controls.maxZoom = 50;
-        this.controls.minZoom = 50;
-        break;
-
-      case config.control.CUSTOM:
-        this.controls = new CustomControl(this.camera, {
-          boundaries: new THREE.Box3(new THREE.Vector3(-1000, 100, -1000), new THREE.Vector3(1000, 500, 1000)),
-          mouse: this.mouse
-        });
-        break;
-
-      case config.control.FPS:
-        this.controls = new THREE.FirstPersonControls( this.camera );
-        this.controls.movementSpeed = config.control.speed;
-        this.controls.lookSpeed = 0.1;
-        break;
-
-    }
+    this.initControl();
 
     // Renderer & Scene
     this.container = document.querySelector( '#main' );
@@ -85,11 +63,42 @@ export default class App {
 
   // -----------------------------------------
 
+  /**
+   * Manage different type of control
+   */
+  initControl(){
+    switch (config.control.type ){
+      case config.control.ORBIT:
+        this.controls = new OrbitControls( this.camera );
+        this.controls.target.copy(config.cards.position);
+        this.controls.maxZoom = 50;
+        this.controls.minZoom = 50;
+        break;
+
+      case config.control.CUSTOM:
+        this.controls = new CustomControl(this.camera, {
+          boundaries: new THREE.Box3(new THREE.Vector3(-1000, 100, -1000), new THREE.Vector3(1000, 500, 1000)),
+          mouse: this.mouse,
+          phi: config.camera.phi,
+          theta: config.camera.theta
+        });
+        this.controls.enabled = false;
+        break;
+
+      case config.control.FPS:
+        this.controls = new THREE.FirstPersonControls( this.camera );
+        this.controls.movementSpeed = config.control.speed;
+        this.controls.lookSpeed = 0.1;
+        break;
+    }
+  }
 
   /**
    * Instantiate content & display
    */
   init(){
+    this.ui = new UI();
+
     // Generic light
     this.directionalLight = new THREE.DirectionalLight( new THREE.Color(config.colors.lightDirectionnal), 0.18 );
     this.directionalLight.position.y = 500;
@@ -101,16 +110,31 @@ export default class App {
     this.scene.add(this.pointerLight);
 
 
-    this.cloud = new THREE.Mesh(new THREE.PlaneGeometry(this.camera.far, this.camera.far, 2, 2), new CloudMaterial());
-    this.cloud.rotation.x = -Math.PI/2
-    this.cloud.position.y = 200
-    CloudMaterial.generateGui("Cloud1", this.gui, this.cloud);
+    // this.cloud = new THREE.Mesh(new THREE.PlaneGeometry(this.camera.far, this.camera.far, 2, 2), new CloudMaterial());
+    // this.cloud.rotation.x = -Math.PI/2
+    // this.cloud.position.y = 200
+    // CloudMaterial.generateGui("Cloud1", this.gui, this.cloud);
+    // this.scene.add(this.cloud);
 
-    this.scene.add(this.cloud);
     this.map = new Map(this.scene);
     this.generateCards();
 
-    AppGui.init(this)
+    AppGui.init(this);
+
+    this.ui.on("start", ()=>{
+      var target = new THREE.Vector3(0, 400, 0);
+      this.controls.move({
+        target: target,
+        duration: 5000
+      });
+      this.controls.rotate({
+        phi: this.controls.computedPhi(target.y),
+        duration: 5000,
+        onFinish: ()=>{
+          this.controls.enabled = true;
+        }
+      });
+    });
   }
 
 
@@ -157,8 +181,8 @@ export default class App {
     this.stats.begin();
     this.clock.update();
 
-    this.cloud.material.uniforms.u_time.value = this.clock.elapsed*0.001;
-    this.cloud.material.uniforms.needsUpdate = true;
+    // this.cloud.material.uniforms.u_time.value = this.clock.elapsed*0.001;
+    // this.cloud.material.uniforms.needsUpdate = true;
 
     this.cardsCloud.render(this.clock.elapsed);
     document.body.style.cursor = this.cardsCloud.pixelPicking.cardSelected ? 'pointer' : null;

@@ -53,9 +53,7 @@ class Map {
     loader.load(
       tile.url,
       ( object ) => {
-        var material = new THREE.MeshStandardMaterial({
-          roughness: 0,
-          metalness: 0,
+        var material = new THREE.MeshPhongMaterial({
           emissive: new THREE.Color(config.colors.mapBuildingEmissive),
           color: new THREE.Color(config.colors.mapBuilding)
         });
