@@ -5,9 +5,9 @@ export default {
 
   camera: {
     position: {
-      x: 0,
-      y: 0,
-      z: 0
+      x: 123.8665535136857,
+      y: 674.1277619982702,
+      z: 52.578232537239
     },
     near: 1,
     far: 1000
@@ -23,7 +23,7 @@ export default {
   control: {
     FPS: 1, // "firstPerson"
     ORBIT: 2,
-    type: 1,
+    type: 2,
     speed: 100
   },
 
@@ -46,7 +46,7 @@ export default {
       spread: 1,
       intensity: 40,
       speed: 1,
-      bounding: 50
+      bounding: 20
     },
 
     rotation: {

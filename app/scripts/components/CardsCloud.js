@@ -91,7 +91,7 @@ class CardsCloud {
     var recto = new THREE.TextureLoader().load( "/static/images/img_recto.jpg" );
     var verso = new THREE.TextureLoader().load( "/static/images/img_verso.jpg" );
     var noise = new THREE.TextureLoader().load( "/static/images/noise_3d.png" );
-    var bumpmap = new THREE.TextureLoader().load( "/static/images/card_bump.jpg" );
+    var displacementmap = new THREE.TextureLoader().load( "/static/images/card_displacement.jpg" );
 
     this.material = new THREE.RawShaderMaterial( {
       vertexShader: vertexShader,
@@ -101,7 +101,7 @@ class CardsCloud {
         img_recto:   { type: "t", value: recto },
         img_verso:   { type: "t", value: verso },
         img_noise:   { type: "t", value: noise },
-        img_bumpmap: { type: "t", value: bumpmap },
+        img_displacementmap: { type: "t", value: displacementmap },
         selected_card_rank: { type: "f", value: -1 },
         u_based_position:              { type: "v3", value: c.position },
         u_noise_translation_intensity: { type: "f",  value: c.translation.intensity },

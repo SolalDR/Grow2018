@@ -1,4 +1,7 @@
 precision highp float;
+
+#define M_PI 3.1415926535897932384626433832795
+
 uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
 uniform mat3 normalMatrix;
@@ -10,7 +13,7 @@ attribute vec3 normal;
 
 uniform float u_time;
 uniform sampler2D img_noise;
-uniform sampler2D img_bumpmap;
+uniform sampler2D img_displacementmap;
 
 uniform float u_noise_translation_intensity;
 uniform float u_noise_translation_speed;
@@ -46,28 +49,40 @@ vec3 transform( inout vec3 P, vec3 T, vec4 R ) {
   return P;
 }
 
+vec3 noise(float x, float y) {
+  return texture2D(img_noise, vec2(mod(x, 1.), mod(y, 1.))).xyz;
+}
 
 void main() {
 
   vec3 pos = position;
-  vec3 trans = translation;
+  float spreading = sin(rank/340.*M_PI);
+  vec3 trans = translation * spreading;
+  // vec3 trans = vec3(0., 0., 0.);
 
-  vec4 bumpmap = texture2D(img_bumpmap, uv);
-  pos.z += bumpmap.x * cos(u_time*u_noise_bending_speed + rank/340.*u_noise_bending_spread) * u_noise_bending_intensity;
+  vec4 displacementmap = texture2D(img_displacementmap, uv);
+  pos.z += displacementmap.x * cos(u_time*u_noise_bending_speed + rank/340.*u_noise_bending_spread) * u_noise_bending_intensity;
 
-  vec4 noiseTranslation = texture2D(img_noise,
-    vec2( rank/340.*u_noise_translation_spread, mod(u_time*u_noise_translation_speed, 1.))
-  )*u_noise_translation_intensity - u_noise_translation_intensity/2.;
-  trans += noiseTranslation.xyz;
+  vec3 curveNoise = noise((u_time*5. + rank/340./20.*(spreading*2. + 1.)), 0.)*300. - 150.;
 
-  vec4 noiseRotation = texture2D(img_noise,
-    vec2(rank/340.*u_noise_rotation_spread, mod(u_time*u_noise_rotation_speed, 1.))
+  // vec3 translationNoise = noise(
+  //   rank/340.*u_noise_translation_spread,
+  //   u_time*u_noise_translation_speed
+  // )*u_noise_translation_intensity - u_noise_translation_intensity/2.;
+
+  vec3 translationNoise = vec3(0., 0., 0.);
+
+  trans += translationNoise + curveNoise;
+
+  vec3 rotationNoise = noise(
+    rank/340.*u_noise_rotation_spread,
+    u_time*u_noise_rotation_speed
   )*u_noise_rotation_intensity - u_noise_rotation_intensity/2.;
 
   vec4 newRotation = rotation;
-  newRotation.x = cos(noiseRotation.x)*3.14;
-  newRotation.y = cos(noiseRotation.y)*3.14;
-  newRotation.z = cos(noiseRotation.z)*3.14;
+  newRotation.x = cos(rotationNoise.x)*M_PI;
+  newRotation.y = cos(rotationNoise.y)*M_PI;
+  newRotation.z = cos(rotationNoise.z)*M_PI;
   newRotation.xyz = normalize(newRotation.xyz);
 
   transform( pos, trans + u_based_position, newRotation );
