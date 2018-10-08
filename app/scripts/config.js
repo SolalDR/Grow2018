@@ -12,7 +12,7 @@ export default {
 
   camera: {
     position: {
-      x: -50,
+      x: -100,
       y: 800,
       z: 0
     },
@@ -57,7 +57,7 @@ export default {
       spread: 1,
       intensity: 40,
       speed: 1,
-      bounding: 50
+      bounding: 20
     },
 
     rotation: {
