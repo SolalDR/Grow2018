@@ -21,7 +21,7 @@ class CardsCloud {
 		this.cards = args.cards;
 		this.gui = args.gui;
 		this.camera = args.camera;
-    this.distribution = new Normal({amplitude: 2, minimum: 0, maximum: 1});
+    this.distribution = new Normal({amplitude: config.cards.distribution.amplitude, minimum: 0, maximum: 1});
 
     this.generateGeometry();
     this.generateMaterial();
@@ -119,6 +119,9 @@ class CardsCloud {
         u_noise_bending_intensity:     { type: "f",  value: c.bending.intensity },
         u_noise_bending_speed:         { type: "f",  value: c.bending.speed },
         u_noise_bending_spread:        { type: "f",  value: c.bending.spread },
+        u_noise_curve_intensity:       { type: "f",  value: c.curve.intensity },
+        u_noise_curve_speed:           { type: "f",  value: c.curve.speed },
+        u_noise_curve_spread:          { type: "f",  value: c.curve.spread },
         u_camera_position:             { type: "v3", value: this.camera.position },
         u_time:                        { type: "f",  value: 0 }
       },
@@ -133,10 +136,13 @@ class CardsCloud {
 		var positionF = this.gui.addFolder("Positions");
 		var rotationF = this.gui.addFolder("Rotations");
 		var bendingF = this.gui.addFolder("Bending");
+    var curveF = this.gui.addFolder("Curve");
+
 		args.forEach(arg => {
 			positionF.add(config.cards.translation, arg).onChange(this.onRefreshUniforms.bind(this));
 			rotationF.add(config.cards.rotation, arg).onChange(this.onRefreshUniforms.bind(this));
 			bendingF.add(config.cards.bending, arg).onChange(this.onRefreshUniforms.bind(this));
+      curveF.add(config.cards.curve, arg).onChange(this.onRefreshUniforms.bind(this));
 		})
 	}
 
@@ -173,6 +179,9 @@ class CardsCloud {
     this.material.uniforms.u_noise_bending_intensity.value = config.cards.bending.intensity;
     this.material.uniforms.u_noise_bending_speed.value = config.cards.bending.speed;
     this.material.uniforms.u_noise_bending_spread.value = config.cards.bending.spread;
+    this.material.uniforms.u_noise_curve_intensity.value = config.cards.curve.intensity;
+    this.material.uniforms.u_noise_curve_speed.value = config.cards.curve.speed;
+    this.material.uniforms.u_noise_curve_spread.value = config.cards.curve.spread;
     this.material.uniforms.needsUpdate = true;
     this.pixelPicking.onRefreshUniforms();
   }

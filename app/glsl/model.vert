@@ -24,6 +24,9 @@ uniform float u_noise_rotation_spread;
 uniform float u_noise_bending_intensity;
 uniform float u_noise_bending_speed;
 uniform float u_noise_bending_spread;
+uniform float u_noise_curve_intensity;
+uniform float u_noise_curve_speed;
+uniform float u_noise_curve_spread;
 uniform vec3 u_camera_position;
 uniform vec3 u_based_position;
 
@@ -64,7 +67,7 @@ void main() {
   vec4 displacementmap = texture2D(img_displacementmap, uv);
   pos.z += displacementmap.x * cos(u_time*u_noise_bending_speed + rank/340.*u_noise_bending_spread) * u_noise_bending_intensity;
 
-  vec3 curveNoise = noise((u_time*5. + offset/5.), 0.)*200. - 100.;
+  vec3 curveNoise = noise((u_time*u_noise_curve_speed + offset*u_noise_curve_spread), 0.)*u_noise_curve_intensity - u_noise_curve_intensity/2.;
 
   vec3 translationNoise = noise(
     rank/340.*u_noise_translation_spread,

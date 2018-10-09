@@ -53,6 +53,16 @@ export default {
       z: 100
     },
 
+    curve: {
+      spread: 0.2,
+      intensity: 200,
+      speed: 2
+    },
+
+    distribution: {
+      amplitude: 2
+    },
+
     translation: {
       spread: 0.5,
       intensity: 15,
