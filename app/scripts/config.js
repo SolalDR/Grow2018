@@ -18,15 +18,15 @@ export default {
     },
     phi: -Math.PI/2,
     theta: 0,
-    fov: 60,
-    near: 1,
-    far: 500
+    fov: 60 ,
+    near: 10,
+    far: 1200
   },
 
   fog: {
     density: 0.0025,
-    near: 200,
-    far: 500,
+    near: 800,
+    far: 1200,
     active: true
   },
 

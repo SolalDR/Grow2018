@@ -12,7 +12,13 @@ class Map {
    */
   constructor(scene){
     this.datas = [
-      {coords: {x: 0, y: 0}, url: "/static/meshes/export_32.obj" }
+      {coords: {x: 0, y: 0}, url: "/static/meshes/map/Cote_Phare.obj" },
+      {coords: {x: 0, y: 0}, url: "/static/meshes/map/Centre_Ville.obj" },
+      {coords: {x: 0, y: 0}, url: "/static/meshes/map/Centre_Ville_Haut_Gauche.obj" },
+      {coords: {x: 0, y: 0}, url: "/static/meshes/map/Centre_Ville_Haut_Droite.obj" },
+      {coords: {x: 0, y: 0}, url: "/static/meshes/map/Bas_Ville.obj" },
+      {coords: {x: 0, y: 0}, url: "/static/meshes/map/Bas_Cote_Droite.obj" },
+      {coords: {x: 0, y: 0}, url: "/static/meshes/map/Au_Dessus_Riviere.obj" }
     ];
 
     this.tiles = [];
@@ -30,7 +36,7 @@ class Map {
    * Generate floor plane
    */
   generateFloor(){
-    var geometry = new THREE.PlaneGeometry(2000, 1000, 2, 2);
+    var geometry = new THREE.PlaneGeometry(8200, 11000, 2, 2);
     var material = new THREE.MeshStandardMaterial({
       roughness: 0,
       metalness: 0,
@@ -39,7 +45,8 @@ class Map {
     });
     this.floor = new THREE.Mesh(geometry, material);
     this.floor.rotation.x = -Math.PI/2;
-    this.floor.position.y = -20;
+
+    this.floor.position.set(-100, -50, -1700);
     this.floor.name = "floor";
     this.scene.add(this.floor);
   }
@@ -59,8 +66,12 @@ class Map {
         });
         var geometry = object.children[0].geometry;
         var mesh = new THREE.Mesh(geometry, material);
-        mesh.scale.y = 3
-        mesh.position.y = 50
+        mesh.scale.y = 3;
+
+        console.log(mesh.position);
+        mesh.frustrumCulled = true;
+        mesh.position.x += 1300;
+        mesh.position.z -= 1200;
 
         mesh.geometry.verticesNeedUpdate = true;
         this.tiles.push({mesh: mesh, coords: tile.coords})
