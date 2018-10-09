@@ -53,7 +53,7 @@ export default {
 
     translation: {
       spread: 1,
-      intensity: 40,
+      intensity: 15,
       speed: 1,
       bounding: 20
     },

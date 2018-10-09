@@ -4,6 +4,7 @@ import fragmentShader from "./../../glsl/model.frag";
 import raycasterFragmentShader from "./../../glsl/raycaster.frag";
 import BufferGeometryUtils from "./../helpers/BufferGeometryUtils.js";
 import PixelPicking from "./PixelPicking.js";
+import Normal from "./Normal.js"
 
 /**
  * A mesh containing all the cards with instance buffer geometry
@@ -20,6 +21,7 @@ class CardsCloud {
 		this.cards = args.cards;
 		this.gui = args.gui;
 		this.camera = args.camera;
+    this.distribution = new Normal({amplitude: 2, minimum: 0, maximum: 1});
 
     this.generateGeometry();
     this.generateMaterial();
@@ -51,17 +53,20 @@ class CardsCloud {
     // Create empty attributes
     var translation = new Float32Array( count * 3 );
     var rotation = new Float32Array( count * 4 );
+    var offsets = new Float32Array( count );
     var coords = new Float32Array( count * 2 );
     var ranks = new Float32Array( count );
+
 
     var q = new THREE.Quaternion();
 
     // For each card, generate random attributes & uv coords
-    for(let i=0; i<this.cards.length; i++){
+    for(let i = 0; i < this.cards.length; i++) {
       coords[ i*2 ] = this.cards[i].coords.x
       coords[ i*2 + 1 ] = 18 - this.cards[i].coords.y
 
       ranks[ i ] = this.cards[i].rank;
+      offsets [ i ] = this.distribution.random();
       translation[ i*3 ] = ( Math.random() - .5 ) * c.translation.bounding;
       translation[ i*3 + 1 ] = ( Math.random() - .5 ) * c.translation.bounding;
       translation[ i*3 + 2 ] = ( Math.random() - .5 ) * c.translation.bounding;
@@ -78,6 +83,7 @@ class CardsCloud {
     // Add all the attribuets
     this.geometry.addAttribute( 'translation', new THREE.InstancedBufferAttribute( translation, 3, false, 1 ) );
     this.geometry.addAttribute( 'rotation', new THREE.InstancedBufferAttribute( rotation, 4, false, 1 ) );
+    this.geometry.addAttribute( 'offset', new THREE.InstancedBufferAttribute( offsets, 1, false, 1 ) );
     this.geometry.addAttribute( 'coords', new THREE.InstancedBufferAttribute( coords, 2, false, 1 ) );
     this.geometry.addAttribute( 'rank', new THREE.InstancedBufferAttribute( ranks, 1, false, 1 ) );
   }

@@ -33,6 +33,7 @@ attribute vec3 translation;
 attribute vec4 rotation;
 attribute vec2 coords;
 attribute float rank;
+attribute float offset;
 
 varying vec2 vCoords;
 varying vec2 vUv;
@@ -56,21 +57,21 @@ vec3 noise(float x, float y) {
 void main() {
 
   vec3 pos = position;
-  float spreading = sin(rank/340.*M_PI);
+  float spreading = sin(abs(offset/19.)*M_PI);
   vec3 trans = translation * spreading;
   // vec3 trans = vec3(0., 0., 0.);
 
   vec4 displacementmap = texture2D(img_displacementmap, uv);
   pos.z += displacementmap.x * cos(u_time*u_noise_bending_speed + rank/340.*u_noise_bending_spread) * u_noise_bending_intensity;
 
-  vec3 curveNoise = noise((u_time*5. + rank/340./20.*(spreading*2. + 1.)), 0.)*300. - 150.;
+  vec3 curveNoise = noise((u_time*5. + offset/10.), 0.)*300. - 150.;
 
-  // vec3 translationNoise = noise(
-  //   rank/340.*u_noise_translation_spread,
-  //   u_time*u_noise_translation_speed
-  // )*u_noise_translation_intensity - u_noise_translation_intensity/2.;
+  vec3 translationNoise = noise(
+    rank/340.*u_noise_translation_spread,
+    u_time*u_noise_translation_speed
+  )*u_noise_translation_intensity - u_noise_translation_intensity/2.;
 
-  vec3 translationNoise = vec3(0., 0., 0.);
+  //vec3 translationNoise = vec3(0., 0., 0.);
 
   trans += translationNoise + curveNoise;
 
