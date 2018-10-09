@@ -14,7 +14,7 @@ export default {
     position: {
       x: -100,
       y: 800,
-      z: 0
+      z: 100
     },
     phi: -Math.PI/2,
     theta: 0,
@@ -48,13 +48,13 @@ export default {
     heightSegments: 5,
 
     position: {
-      x: 0,
+      x: -40,
       y: 800,
-      z: 0
+      z: 100
     },
 
     translation: {
-      spread: 1,
+      spread: 0.5,
       intensity: 15,
       speed: 1,
       bounding: 20

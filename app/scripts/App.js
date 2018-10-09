@@ -165,6 +165,8 @@ export default class App {
           camera: this.camera
         });
 
+        console.log(this.cardsCloud.mesh.position)
+
         this.scene.add(this.cardsCloud.mesh);
         this.renderer.animate( this.render.bind(this) );
       }

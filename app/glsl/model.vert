@@ -64,7 +64,7 @@ void main() {
   vec4 displacementmap = texture2D(img_displacementmap, uv);
   pos.z += displacementmap.x * cos(u_time*u_noise_bending_speed + rank/340.*u_noise_bending_spread) * u_noise_bending_intensity;
 
-  vec3 curveNoise = noise((u_time*5. + offset/10.), 0.)*300. - 150.;
+  vec3 curveNoise = noise((u_time*5. + offset/5.), 0.)*200. - 100.;
 
   vec3 translationNoise = noise(
     rank/340.*u_noise_translation_spread,
@@ -79,6 +79,8 @@ void main() {
     rank/340.*u_noise_rotation_spread,
     u_time*u_noise_rotation_speed
   )*u_noise_rotation_intensity - u_noise_rotation_intensity/2.;
+
+  // vec3 rotationNoise = vec3(0., 0., 0.);
 
   vec4 newRotation = rotation;
   newRotation.x = cos(rotationNoise.x)*M_PI;
