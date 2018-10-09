@@ -173,7 +173,8 @@ class CustomControl extends Event {
         if( onFinish ) onFinish();
       },
       onProgress: (advancement, value)=> {
-        curve.getPoint(advancement, this.camera.position);
+        var position = curve.getPoint(advancement, this.camera.position);
+        this.camera.position.set(position.x, position.y, position.z);
       }
     });
     this.movement.curve = curve;
