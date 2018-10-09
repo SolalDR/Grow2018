@@ -1,21 +1,23 @@
 export default {
 
   colors: {
-    background: "#ffffff",
+    background: "#EEEEEE",
     lightDirectionnal: "#ffffff",
     lightPointer: "#ffffff",
     mapBuilding: "#ffffff",
-    mapBuildingEmissive: "#beb19a",
+    mapBuildingEmissive: "#CCCCCC",
     mapFloor: "#ffffff",
-    mapFloorEmissive: "#beb19a"
+    mapFloorEmissive: "#CCCCCC"
   },
 
   camera: {
     position: {
-      x: 0,
-      y: 100,
+      x: -100,
+      y: 800,
       z: 0
     },
+    phi: -Math.PI/2,
+    theta: 0,
     fov: 60,
     near: 1,
     far: 500
@@ -47,7 +49,7 @@ export default {
 
     position: {
       x: 0,
-      y: 500,
+      y: 800,
       z: 0
     },
 

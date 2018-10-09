@@ -1,0 +1,33 @@
+.intro
+  display: flex
+  flex-direction: column
+  justify-content: center
+  text-align: center
+
+  &--hidden
+    display: none
+
+  &__subtitle
+    transition: .6s ease-in
+    opacity: 1
+    transform: translateY(0)
+    transition-delay: 0s
+
+  &__title
+    transition: .6s ease-in
+    opacity: 1
+    transform: translateY(0)
+    transition-delay: .2s
+
+  &__cta-container
+    transition: .6s ease-in
+    opacity: 1
+    transform: translateY(0)
+    transition-delay: .4s
+
+
+  &--hidding
+    .intro
+      &__subtitle, &__title, &__cta-container
+        opacity: 0
+        transform: translateY(-30px)

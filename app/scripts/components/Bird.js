@@ -22,7 +22,6 @@ class Bird {
     this.mesh = new THREE.Mesh(this.geometry, new THREE.MeshStandardMaterial());
   }
 
-
   render(time){
     this.geometry.vertices[2].y = Math.cos(time*0.005);
     this.geometry.vertices[3].y = Math.cos(time*0.005);
