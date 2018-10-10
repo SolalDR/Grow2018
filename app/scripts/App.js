@@ -79,8 +79,7 @@ export default class App {
         this.controls = new CustomControl(this.camera, {
           boundaries: new THREE.Box3(new THREE.Vector3(-1000, 100, -1000), new THREE.Vector3(1000, 500, 1000)),
           mouse: this.mouse,
-          phi: config.camera.phi,
-          theta: config.camera.theta
+          phi: config.camera.phi
         });
         this.controls.enabled = false;
         break;
@@ -134,6 +133,8 @@ export default class App {
           this.controls.enabled = true;
         }
       });
+
+      this.cardsCloud.fall();
     });
   }
 
@@ -164,8 +165,6 @@ export default class App {
           gui: this.gui,
           camera: this.camera
         });
-
-        console.log(this.cardsCloud.mesh.position)
 
         this.scene.add(this.cardsCloud.mesh);
         this.renderer.animate( this.render.bind(this) );

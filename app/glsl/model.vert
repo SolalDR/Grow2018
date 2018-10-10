@@ -32,7 +32,7 @@ uniform vec3 u_based_position;
 
 
 //instance attributes
-attribute vec3 translation;
+attribute vec3 noise_translation;
 attribute vec4 rotation;
 attribute vec2 coords;
 attribute float rank;
@@ -61,7 +61,7 @@ void main() {
 
   vec3 pos = position;
   float spreading = sin(abs(offset/19.)*M_PI);
-  vec3 trans = translation * spreading;
+  vec3 trans = noise_translation * spreading;
   // vec3 trans = vec3(0., 0., 0.);
 
   vec4 displacementmap = texture2D(img_displacementmap, uv);

@@ -12,9 +12,9 @@ export default {
 
   camera: {
     position: {
-      x: -100,
+      x: -60,
       y: 800,
-      z: 100
+      z: 0
     },
     phi: -Math.PI/2,
     theta: 0,
@@ -25,7 +25,7 @@ export default {
 
   fog: {
     density: 0.0025,
-    near: 200,
+    near: 400,
     far: 500,
     active: true
   },
@@ -48,19 +48,16 @@ export default {
     heightSegments: 5,
 
     position: {
-      x: -40,
+      x: 0,
       y: 800,
-      z: 100
+      z: 0
     },
 
     curve: {
       spread: 0.2,
       intensity: 200,
-      speed: 2
-    },
-
-    distribution: {
-      amplitude: 2
+      speed: 2,
+      distribution: 2
     },
 
     translation: {

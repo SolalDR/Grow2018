@@ -21,7 +21,7 @@ class CardsCloud {
 		this.cards = args.cards;
 		this.gui = args.gui;
 		this.camera = args.camera;
-    this.distribution = new Normal({amplitude: config.cards.distribution.amplitude, minimum: 0, maximum: 1});
+    this.distribution = new Normal({amplitude: config.cards.curve.distribution, minimum: 0, maximum: 1});
 
     this.generateGeometry();
     this.generateMaterial();
@@ -51,7 +51,7 @@ class CardsCloud {
     this.geometry = new THREE.InstancedBufferGeometry().copy(geometryInstance);
 
     // Create empty attributes
-    var translation = new Float32Array( count * 3 );
+    var noiseTranslation = new Float32Array( count * 3 );
     var rotation = new Float32Array( count * 4 );
     var offsets = new Float32Array( count );
     var coords = new Float32Array( count * 2 );
@@ -67,9 +67,9 @@ class CardsCloud {
 
       ranks[ i ] = this.cards[i].rank;
       offsets [ i ] = this.distribution.random();
-      translation[ i*3 ] = ( Math.random() - .5 ) * c.translation.bounding;
-      translation[ i*3 + 1 ] = ( Math.random() - .5 ) * c.translation.bounding;
-      translation[ i*3 + 2 ] = ( Math.random() - .5 ) * c.translation.bounding;
+      noiseTranslation[ i*3 ] = ( Math.random() - .5 ) * c.translation.bounding;
+      noiseTranslation[ i*3 + 1 ] = ( Math.random() - .5 ) * c.translation.bounding;
+      noiseTranslation[ i*3 + 2 ] = ( Math.random() - .5 ) * c.translation.bounding;
 
       q.set(  ( Math.random() - .5 ) * 2, ( Math.random() - .5 ) * 2, ( Math.random() - .5 ) * 2, Math.random() * Math.PI );
       q.normalize();
@@ -81,7 +81,7 @@ class CardsCloud {
     }
 
     // Add all the attribuets
-    this.geometry.addAttribute( 'translation', new THREE.InstancedBufferAttribute( translation, 3, false, 1 ) );
+    this.geometry.addAttribute( 'noise_translation', new THREE.InstancedBufferAttribute( noiseTranslation, 3, false, 1 ) );
     this.geometry.addAttribute( 'rotation', new THREE.InstancedBufferAttribute( rotation, 4, false, 1 ) );
     this.geometry.addAttribute( 'offset', new THREE.InstancedBufferAttribute( offsets, 1, false, 1 ) );
     this.geometry.addAttribute( 'coords', new THREE.InstancedBufferAttribute( coords, 2, false, 1 ) );
@@ -109,6 +109,7 @@ class CardsCloud {
         img_noise:   { type: "t", value: noise },
         img_displacementmap: { type: "t", value: displacementmap },
         selected_card_rank: { type: "f", value: -1 },
+        falling:                       { type: "b",  value: false },
         u_based_position:              { type: "v3", value: c.position },
         u_noise_translation_intensity: { type: "f",  value: c.translation.intensity },
         u_noise_translation_speed:     { type: "f",  value: c.translation.speed },
@@ -144,6 +145,8 @@ class CardsCloud {
 			bendingF.add(config.cards.bending, arg).onChange(this.onRefreshUniforms.bind(this));
       curveF.add(config.cards.curve, arg).onChange(this.onRefreshUniforms.bind(this));
 		})
+
+     curveF.add(config.cards.curve, 'distribution').onChange(this.onRefreshDistribution.bind(this));
 	}
 
 
@@ -184,6 +187,28 @@ class CardsCloud {
     this.material.uniforms.u_noise_curve_spread.value = config.cards.curve.spread;
     this.material.uniforms.needsUpdate = true;
     this.pixelPicking.onRefreshUniforms();
+  }
+
+
+  // -----------------------------------------
+
+
+  /**
+   * Actualize the distribution and offsets then force updating
+   * @return {[type]} [description]
+   */
+  onRefreshDistribution (){
+    this.distribution.amplitude = config.cards.curve.distribution;
+
+    for(let i = 0; i < this.cards.length; i++) {
+      this.geometry.attributes.offset.array[i] = this.distribution.random();
+    }
+
+    this.geometry.attributes.offset.needsUpdate = true;
+  }
+
+  fall() {
+    this.material.uniforms.falling.value = true;
   }
 }
 

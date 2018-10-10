@@ -61,6 +61,7 @@ class Map {
         var mesh = new THREE.Mesh(geometry, material);
         mesh.scale.y = 3
         mesh.position.y = 50
+        mesh.frustrumCulled = false
 
         mesh.geometry.verticesNeedUpdate = true;
         this.tiles.push({mesh: mesh, coords: tile.coords})
