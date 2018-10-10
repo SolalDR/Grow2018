@@ -7,12 +7,13 @@ class CustomControl extends Event {
     speed = 1,
     ease = 0.2,
     boundaries = null,
-    minAngle = 20,
-    maxAngle = 80,
+    minAngle = 45,
+    maxAngle = 85,
     mouse = null,
     phi = null,
     theta = null
   } = {} ){
+
     super();
     this.eventsList = ["startMovement", "endMovement"]
     this.camera = camera;
@@ -147,8 +148,8 @@ class CustomControl extends Event {
 
   move({
     target = null,
-    speed = 2,
-    duration = null,
+    speed = null,
+    duration = 1500,
     onFinish = null
   } = {}){
     var curve = this.generatePath(target, { linear: true });
@@ -156,10 +157,6 @@ class CustomControl extends Event {
     if( this.movement.animation ) {
       this.movement.animation.stop();
       this.movement.animation = null;
-    }
-
-    if( duration ){
-      speed = null;
     }
 
     this.movement.animation = new Animation({

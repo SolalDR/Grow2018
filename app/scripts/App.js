@@ -48,7 +48,7 @@ export default class App {
     // Renderer & Scene
     this.container = document.querySelector( '#main' );
     document.body.appendChild( this.container );
-    this.renderer = new THREE.WebGLRenderer( { antialias: true } );
+    this.renderer = new THREE.WebGLRenderer( { antialias: false } );
     this.renderer.setPixelRatio( window.devicePixelRatio );
     this.renderer.setSize( window.innerWidth, window.innerHeight );
     this.container.appendChild( this.renderer.domElement );
@@ -77,7 +77,7 @@ export default class App {
 
       case config.control.CUSTOM:
         this.controls = new CustomControl(this.camera, {
-          boundaries: new THREE.Box3(new THREE.Vector3(-1000, 100, -1000), new THREE.Vector3(1000, 500, 1000)),
+          boundaries: new THREE.Box3(new THREE.Vector3(-1000, 200, -1000), new THREE.Vector3(1000, 1200, 1000)),
           mouse: this.mouse,
           phi: config.camera.phi
         });
