@@ -45,3 +45,7 @@ jspm_packages
 .DS_Store?
 ehthumbs.db
 Thumbs.db
+
+# Brainstrom
+
+.idea
