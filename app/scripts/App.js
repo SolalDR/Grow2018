@@ -14,6 +14,7 @@ import CloudMaterial from "./components/CloudMaterial.js";
 import AppGui from "./AppGui.js";
 import Bird from "./components/Bird.js";
 import UI from "./components/UI.js";
+import Pointer from "./components/Pointer.js";
 
 /**
  * Main app object
@@ -99,8 +100,10 @@ export default class App {
     this.ui = new UI();
 
     // Generic light
+    this.directionalLight = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
+
     this.directionalLight = new THREE.DirectionalLight( new THREE.Color(config.colors.lightDirectionnal), 0.18 );
-    this.directionalLight.position.y = 500;
+    this.directionalLight.position.y = 1000;
     this.scene.add(this.directionalLight);
 
     // Point light
@@ -114,6 +117,9 @@ export default class App {
     // this.cloud.position.y = 200
     // CloudMaterial.generateGui("Cloud1", this.gui, this.cloud);
     // this.scene.add(this.cloud);
+    this.pointer = new Pointer();
+    this.scene.add(this.pointer.group);
+
 
     this.map = new Map(this.scene);
     this.generateCards();
@@ -204,14 +210,15 @@ export default class App {
             this.controls.onMouseClick( intersects[i] );
           }
 
-          this.pointerLight.position.x = intersects[i].point.x
-          this.pointerLight.position.z = intersects[i].point.z
+          // this.pointerLight.position.x = intersects[i].point.x
+          // this.pointerLight.position.z = intersects[i].point.z
+          this.pointer.move(intersects[i].point);
           break;
         }
       }
     }
 
-
+    this.pointer.render(this.clock.elapsed);
     this.renderer.render( this.scene, this.camera );
     this.stats.end();
     this.mouseHasMove = false;
@@ -229,6 +236,7 @@ export default class App {
   }
 
   onMouseDown( event ){
+    this.pointer.click = true;
     if( config.control.type == config.control.CUSTOM ) {
       this.controls.onMouseDown(event);
     }
@@ -236,10 +244,10 @@ export default class App {
   }
 
   onMouseUp( event ){
+    this.pointer.click = false;
     if( config.control.type == config.control.CUSTOM ) {
       this.controls.onMouseDown(event);
     }
-
     if( Date.now() - this.click < 200 ) {
       this.mouseHasClick = true;
     }

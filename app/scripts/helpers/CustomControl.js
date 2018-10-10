@@ -170,10 +170,12 @@ class CustomControl extends Event {
         if( onFinish ) onFinish();
       },
       onProgress: (advancement, value)=> {
+        console.log("Hello", advancement);
         var position = curve.getPoint(advancement, this.camera.position);
         this.camera.position.set(position.x, position.y, position.z);
       }
     });
+
     this.movement.curve = curve;
     this.movement.active = true;
   }
@@ -258,7 +260,6 @@ class CustomControl extends Event {
         this.phi = this.computedPhi();
       }
 
-
       this.needUpdateRotation = true;
     }
 
@@ -283,9 +284,6 @@ class CustomControl extends Event {
     if( !this.enabled ) return;
     var target = intersect.point;
     target.y = this.camera.position.y;
-
-    if( target.distanceTo(this.camera.position) > this.camera.far ) return;
-
     this.move({target: target});
   }
 

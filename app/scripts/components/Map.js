@@ -1,5 +1,7 @@
 import OBJLoader from "./../helpers/OBJLoader.js";
 import JSONLoader from "./../helpers/JSONLoader.js";
+// import vertexShader from "./../../glsl/map.vert";
+// import fragmentShader from "./../../glsl/map.frag";
 import config from "./../config.js";
 /**
  * The city map
@@ -12,13 +14,14 @@ class Map {
    */
   constructor(scene){
     this.datas = [
-      {coords: {x: 0, y: 0}, url: "/static/meshes/map/Cote_Phare.obj" },
-      {coords: {x: 0, y: 0}, url: "/static/meshes/map/Centre_Ville.obj" },
-      {coords: {x: 0, y: 0}, url: "/static/meshes/map/Centre_Ville_Haut_Gauche.obj" },
-      {coords: {x: 0, y: 0}, url: "/static/meshes/map/Centre_Ville_Haut_Droite.obj" },
-      {coords: {x: 0, y: 0}, url: "/static/meshes/map/Bas_Ville.obj" },
-      {coords: {x: 0, y: 0}, url: "/static/meshes/map/Bas_Cote_Droite.obj" },
-      {coords: {x: 0, y: 0}, url: "/static/meshes/map/Au_Dessus_Riviere.obj" }
+      {name: "sol", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Sol.obj" },
+      {name: "", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Cote_Phare.obj" },
+      {name: "", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Centre_Ville.obj" },
+      {name: "", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Centre_Ville_Haut_Gauche.obj" },
+      {name: "", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Centre_Ville_Haut_Droite.obj" },
+      {name: "", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Bas_Ville.obj" },
+      {name: "", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Bas_Cote_Droite.obj" },
+      {name: "", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Au_Dessus_Riviere.obj" }
     ];
 
     this.tiles = [];
@@ -46,7 +49,7 @@ class Map {
     this.floor = new THREE.Mesh(geometry, material);
     this.floor.rotation.x = -Math.PI/2;
 
-    this.floor.position.set(-100, -50, -1700);
+    this.floor.position.set(-100, 0, -1700);
     this.floor.name = "floor";
     this.scene.add(this.floor);
   }
@@ -57,26 +60,43 @@ class Map {
    */
   loadTileOBJ(tile){
     var loader = new OBJLoader();
+    var textureLoader = new THREE.TextureLoader();
     loader.load(
-      tile.url,
+      tile.obj_url,
       ( object ) => {
         var material = new THREE.MeshPhongMaterial({
           emissive: new THREE.Color(config.colors.mapBuildingEmissive),
           color: new THREE.Color(config.colors.mapBuilding)
         });
+
+        // material = new THREE.ShaderMaterial({
+        //   vertexShader: vertexShader,
+        //   fragmentShader: fragmentShader
+        // })
+
         var geometry = object.children[0].geometry;
         var mesh = new THREE.Mesh(geometry, material);
         mesh.scale.y = 3;
 
-        console.log(mesh.position);
         mesh.frustrumCulled = true;
         mesh.position.x += 1300;
         mesh.position.z -= 1200;
 
         mesh.geometry.verticesNeedUpdate = true;
+        mesh.name = tile.name
+
+        if( tile.map ){
+          textureLoader.load(
+            tile.map,
+            (texture) => {
+              mesh.material.map = texture;
+            }
+          );
+        }
+
+
         this.tiles.push({mesh: mesh, coords: tile.coords})
 
-        console.log(mesh);
         this.scene.add( mesh );
       }
     );
