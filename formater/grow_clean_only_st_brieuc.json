@@ -1,0 +1,596 @@
+[
+   {
+      "titre":"2118 - Saint-Brieuc – Viaduc de Souzain",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-103_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-103_2.jpg",
+      "annee":1911,
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.517576,
+         "longitude":-2.7473183
+      }
+   },
+   {
+      "titre":"4862. - SAINT-BRIEUC. - La Pointe à l' Aigle et L' Anse à la Vierge",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-321_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-321_2.jpg",
+      "annee":1924,
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.51418,
+         "longitude":-2.765835
+      }
+   },
+   {
+      "titre":"5169. - SAINT-BRIEUC-LÉGUÉ. - Le Phare à marée basse",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-266_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-266_2.jpg",
+      "annee":1916,
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5225322,
+         "longitude":-2.7599218
+      }
+   },
+   {
+      "titre":"SAINT-BRIEUC - Vieilles maisons Rue Fardel",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-243_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-243_2.jpg",
+      "annee":" ",
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5150487,
+         "longitude":-2.7651218
+      }
+   },
+   {
+      "titre":"53 SAINT-BRIEUC. - Sous la Tour. - Le chemin du Phare. - LL",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-260_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-260_2.jpg",
+      "annee":1921,
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5288601,
+         "longitude":-2.7230229
+      }
+   },
+   {
+      "titre":"139 SAINT-BRIEUC. - Saint-Laurent. - Vue générale de la Plage. - LL",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-323_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-323_2.jpg",
+      "annee":1921,
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5267243,
+         "longitude":-2.7170757
+      }
+   },
+   {
+      "titre":" SAINT-BRIEUC – Eglise Saint-Michel",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-184_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-184_2.jpg",
+      "annee":1908,
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5163747,
+         "longitude":-2.7564007
+      }
+   },
+   {
+      "titre":"SAINT-BRIEUC – Le Phare et l' Entrée du Port",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-265_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-265_2.jpg",
+      "annee":1910,
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5238608,
+         "longitude":-2.7478824
+      }
+   },
+   {
+      "titre":"3764. - ST-BRIEUC. - Promenade du Tour de la Vallée",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-023_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-023_2.jpg",
+      "annee":1914,
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.513656,
+         "longitude":-2.7563701
+      }
+   },
+   {
+      "titre":"A. G. - 54. - LE LÉGUÉ-St-BRIEUC. - Les Quais du Gouët",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-293_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-293_2.jpg",
+      "annee":1909,
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.52329899999999,
+         "longitude":-2.7501063
+      }
+   },
+   {
+      "titre":"18.- SAINT-BRIEUC. - Vue générale",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-004_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-004_2.jpg",
+      "annee":" ",
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5121745,
+         "longitude":-2.7593472
+      }
+   },
+   {
+      "titre":"St-Brieuc Rue de Gouédic",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-234_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-234_2.jpg",
+      "annee":" ",
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5092752,
+         "longitude":-2.7546263
+      }
+   },
+   {
+      "titre":"7 SAINT-BRIEUC. – La Cathédrale. - ND",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-170_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-170_2.jpg",
+      "annee":" ",
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5142256,
+         "longitude":-2.7642835
+      }
+   },
+   {
+      "titre":"85 SAINT-BRIEUC. - La Vallée du Gouëdic vers Cesson. - A. G.",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-059_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-059_2.jpg",
+      "annee":1917,
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5155319,
+         "longitude":-2.7499851
+      }
+   },
+   {
+      "titre":"MAISON DU XVIE SIECLE. - RUE DU GOUËT",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-228_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-228_2.jpg",
+      "annee":1920,
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.51633289999999,
+         "longitude":-2.7636991
+      }
+   },
+   {
+      "titre":"94. - SAINT-BRIEUC (Côtes-du-Nord). - Le Moulin de Souzin.",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-036_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-036_2.jpg",
+      "annee":" ",
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5240995,
+         "longitude":-2.7885589
+      }
+   },
+   {
+      "titre":"A G. 15. SAINT-BRIEUC – Ecole des Garçons de la rue Baratoux",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-146_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-146_2.jpg",
+      "annee":" ",
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5157507,
+         "longitude":-2.7620559
+      }
+   },
+   {
+      "titre":"136 SAINT-BRIEUC. – Caserne du Champ-de-Mars.",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-157_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-157_2.jpg",
+      "annee":" ",
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.51233310000001,
+         "longitude":-2.7602619
+      }
+   },
+   {
+      "titre":"475. - St-BRIEUC. - Maison ancienne Place du Martray",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-220_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-220_2.jpg",
+      "annee":" ",
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.514385,
+         "longitude":-2.7639109
+      }
+   },
+   {
+      "titre":"36 – SAINT-BRIEUC. Les trois ponts, Vallée de Gouëdic.",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-005_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-005_2.jpg",
+      "annee":1914,
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5165637,
+         "longitude":-2.749171
+      }
+   },
+   {
+      "titre":"647. St-Brieuc. Le pont de Rohanec'h",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-087_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-087_2.jpg",
+      "annee":1909,
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5223921,
+         "longitude":-2.7453236
+      }
+   },
+   {
+      "titre":"18. - St-BRIEUC. - Le Théâtre",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-151_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-151_2.jpg",
+      "annee":1903,
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.51389390000001,
+         "longitude":-2.7613444
+      }
+   },
+   {
+      "titre":"6. - SAINT-BRIEUC – Les nouveaux Boulevards",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-008_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-008_2.jpg",
+      "annee":1907,
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5081914,
+         "longitude":-2.7605605
+      }
+   },
+   {
+      "titre":"1829. - SAINT-BRIEUC. - Fête des Fleurs, 1905 Le Char de l' Armée",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-211_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-211_2.jpg",
+      "annee":1913,
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.514209,
+         "longitude":-2.7625691
+      }
+   },
+   {
+      "titre":"6556. - La Baie de St-BRIEUC, vue d' HILLION",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-020_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-020_2.jpg",
+      "annee":" ",
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.51171369999999,
+         "longitude":-2.7622826
+      }
+   },
+   {
+      "titre":"15. St-BRIEUC – Eglise St-Guillaume",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-188_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-188_2.jpg",
+      "annee":" ",
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5119706,
+         "longitude":-2.7590827
+      }
+   },
+   {
+      "titre":"64 SAINT-BRIEUC. - Le Palais de Justice.",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-142_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-142_2.jpg",
+      "annee":" ",
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5126562,
+         "longitude":-2.758385
+      }
+   },
+   {
+      "titre":"641. St-Brieuc. Place de la Préfecture",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-136_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-136_2.jpg",
+      "annee":1911,
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5142678,
+         "longitude":-2.765694
+      }
+   },
+   {
+      "titre":"21 St-BRIEUC. - MAISON DU XVe SECLE. DITE HOTEL DES DUCS DE BRETAGNE. CONSTRUITE EN 1572 PAR YVON COLLON LL",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-241_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-241_2.jpg",
+      "annee":" ",
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5149503,
+         "longitude":-2.7649146
+      }
+   },
+   {
+      "titre":"28 St-BRIEUC – Vieilles Maisons. Anciennes habitation des ducs de bretagne",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-238_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-238_2.jpg",
+      "annee":" ",
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5216073,
+         "longitude":-2.7265835
+      }
+   },
+   {
+      "titre":"8. - St-BRIEUC. - La Grande Allée des Promenades",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-027_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-027_2.jpg",
+      "annee":1905,
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5132342,
+         "longitude":-2.7585509
+      }
+   },
+   {
+      "titre":"4540. - SAINT-BRIEUC. - Caserne Charner",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-160_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-160_2.jpg",
+      "annee":" ",
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5081599,
+         "longitude":-2.7661894
+      }
+   },
+   {
+      "titre":"75. SAINT-BRIEUC – Rue du Légué",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-300_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-300_2.jpg",
+      "annee":1911,
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5220876,
+         "longitude":-2.7634542
+      }
+   },
+   {
+      "titre":"15 SAINT-BRIEUC. - La Préfecture. - LL",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-131_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-131_2.jpg",
+      "annee":1913,
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.51108929999999,
+         "longitude":-2.7557048
+      }
+   },
+   {
+      "titre":"SAINT-BRIEUC .- Vue générale prise de Notre-Dame-de-l'Espérance",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-001_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-001_2.jpg",
+      "annee":" ",
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.51236429999999,
+         "longitude":-2.7667843
+      }
+   },
+   {
+      "titre":"4181. SAINT-BRIEUC Rue St-Jacques dite Rue au Beurre. Les maisons récemment démolies",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-223_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-223_2.jpg",
+      "annee":1913,
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5147473,
+         "longitude":-2.7636926
+      }
+   },
+   {
+      "titre":"30 SAINT-BRIEUC - La Rue fardel",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-244_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-244_2.jpg",
+      "annee":" ",
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5105088,
+         "longitude":-2.7574185
+      }
+   },
+   {
+      "titre":"2033. - SAINT-BRIEUC. -  La Rampe de Rohannec'h .  Au fond, le Viaduc de Souzin et le Légué                                                 ",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-054_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-054_2.jpg",
+      "annee":" ",
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5224072,
+         "longitude":-2.7442301
+      }
+   },
+   {
+      "titre":"SAINT-BRIEUC. - RUE SAINT-PIERRE",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-189_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-189_2.jpg",
+      "annee":" ",
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5131712,
+         "longitude":-2.7654943
+      }
+   },
+   {
+      "titre":"57. Saint-Brieuc – Place Houvenagle A. G.",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-226_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-226_2.jpg",
+      "annee":1908,
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5151262,
+         "longitude":-2.7624326
+      }
+   },
+   {
+      "titre":"4716. ST-BRIEUC – Rue des Trois-Frères Merlin",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-227_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-227_2.jpg",
+      "annee":" ",
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5142843,
+         "longitude":-2.762877
+      }
+   },
+   {
+      "titre":"1212. - St-BRIEUC . - Place Duguesclin",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-232_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-232_2.jpg",
+      "annee":" ",
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.51128569999999,
+         "longitude":-2.7585648
+      }
+   },
+   {
+      "titre":"19. - SAINT-BRIEUC. -  Fontaine Saint-Brieuc",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-176_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-176_2.jpg",
+      "annee":1908,
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5172734,
+         "longitude":-2.7670004
+      }
+   },
+   {
+      "titre":"9. - St-BRIEUC. - Caserne Charner, près la Gare (col. E. H.) ",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-158_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-158_2.jpg",
+      "annee":" ",
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5086441,
+         "longitude":-2.762392
+      }
+   },
+   {
+      "titre":"18. St-BRIEUC – Place de la Préfecture et Statue de Poulain Corbion",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-133_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-133_2.jpg",
+      "annee":" ",
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.51290849999999,
+         "longitude":-2.7641247
+      }
+   },
+   {
+      "titre":"1243 – Saint-Brieuc – Rue Saint-Guilaume",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-222_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-222_2.jpg",
+      "annee":1916,
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5127687,
+         "longitude":-2.7592259
+      }
+   },
+   {
+      "titre":"6034. - St-BRIEUC. - Hôpital Général Le Pavillon Central (Côté Jardin)",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-145_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-145_2.jpg",
+      "annee":" ",
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.4924687,
+         "longitude":-2.7500869
+      }
+   },
+   {
+      "titre":"13 – St-BRIEUC. - Rue Fardel",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-235_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-235_2.jpg",
+      "annee":" ",
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.51491799999999,
+         "longitude":-2.764865
+      }
+   },
+   {
+      "titre":"109 SAINT-BRIEUC. - Le Palais de Justice.",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-139_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-139_2.jpg",
+      "annee":1917,
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5149543,
+         "longitude":-2.7615608
+      }
+   },
+   {
+      "titre":"A. G. 3. SAINT-BRIEUC - Place Duguesclin",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-231_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-231_2.jpg",
+      "annee":" ",
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5119054,
+         "longitude":-2.7588877
+      }
+   },
+   {
+      "titre":"3070. - St-BRIEUC. - La Pointe à l' Aigle – Phare du Légué. Hôtel Terminus",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-288_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-288_2.jpg",
+      "annee":1913,
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.51647939999999,
+         "longitude":-2.7637169
+      }
+   },
+   {
+      "titre":"1253 -  Le LÉGUÉ - SAINT-BRIEUC - Le Pont de Gouët",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-301_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-301_2.jpg",
+      "annee":1903,
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.521911,
+         "longitude":-2.7651819
+      }
+   },
+   {
+      "titre":"SAINT-BRIEUC – Cathédrale et Hôtel de Ville",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-167_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-167_2.jpg",
+      "annee":1934,
+      "periode":"2e quart 20e siècle",
+      "coords":{
+         "latitude":48.5138007,
+         "longitude":-2.7641156
+      }
+   },
+   {
+      "titre":"37. Saint-Brieuc – Rue Fardel A. G.",
+      "image_recto":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-247_1.jpg",
+      "image_verso":"http://datarmor.cotesdarmor.fr/documents/10184/22002/M0196_94-26-247_2.jpg",
+      "annee":1907,
+      "periode":"1er quart 20e siècle",
+      "coords":{
+         "latitude":48.5169832,
+         "longitude":-2.7654196
+      }
+   }
+]

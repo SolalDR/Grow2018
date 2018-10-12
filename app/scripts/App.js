@@ -6,6 +6,7 @@ import { Stats } from "three-stats";
 import Clock from "./helpers/Clock.js";
 import config from "./config.js";
 import datas from "./../datas/datas.json";
+import cleanDatas from "./../datas/data_sb_only.json";
 import Card from "./components/Card.js";
 import CardsCloud from "./components/CardsCloud.js";
 import ImageUtil from "./helpers/ImageUtil.js";
@@ -15,6 +16,7 @@ import AppGui from "./AppGui.js";
 import Bird from "./components/Bird.js";
 import UI from "./components/UI.js";
 import Pointer from "./components/Pointer.js";
+import CardMarkersManager from "./components/CardMarkersManager";
 
 /**
  * Main app object
@@ -59,6 +61,10 @@ export default class App {
     this.onWindowResize();
 
     this.init();
+
+    // export for three js extension
+    window.scene = this.scene;
+    window.THREE = THREE;
   }
 
 
@@ -123,6 +129,11 @@ export default class App {
 
     this.map = new Map(this.scene);
     this.generateCards();
+    this.cardMarkersManager = new CardMarkersManager({
+      data: cleanDatas,
+      scene: this.scene
+    });
+    //this.generateCardsMarkers();
 
     AppGui.init(this);
 
