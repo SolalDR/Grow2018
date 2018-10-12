@@ -18,9 +18,9 @@ export default {
     },
     phi: -Math.PI/2,
     theta: 0,
-    fov: 60 ,
+    fov: 45 ,
     near: 10,
-    far: 1200
+    far: 100000//1200
   },
 
   fog: {
@@ -80,6 +80,20 @@ export default {
       spread: 1,
       intensity: 0.1,
       speed: 1000
+    }
+  },
+
+  markers: {
+    elevation: 45,
+    refs: {
+      topLeft: {
+        x: -715,
+        z: 1175
+      },
+      bottomRight: {
+        x: 973,
+        z: 300
+      }
     }
   }
 }

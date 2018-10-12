@@ -6,6 +6,7 @@ import { Stats } from "three-stats";
 import Clock from "./helpers/Clock.js";
 import config from "./config.js";
 import datas from "./../datas/datas.json";
+import cleanDatas from "./../datas/data_sb_only.json";
 import Card from "./components/Card.js";
 import CardsCloud from "./components/CardsCloud.js";
 import ImageUtil from "./helpers/ImageUtil.js";
@@ -14,6 +15,7 @@ import CloudMaterial from "./components/CloudMaterial.js";
 import AppGui from "./AppGui.js";
 import Bird from "./components/Bird.js";
 import UI from "./components/UI.js";
+import CardMarkersManager from "./components/CardMarkersManager";
 
 /**
  * Main app object
@@ -58,6 +60,10 @@ export default class App {
     this.onWindowResize();
 
     this.init();
+
+    // export for three js extension
+    window.scene = this.scene;
+    window.THREE = THREE;
   }
 
 
@@ -118,18 +124,24 @@ export default class App {
 
     this.map = new Map(this.scene);
     this.generateCards();
+    this.cardMarkersManager = new CardMarkersManager({
+      data: cleanDatas,
+      scene: this.scene
+    });
+    //this.generateCardsMarkers();
 
     AppGui.init(this);
 
+    // TODO: revert debug value
     this.ui.on("start", ()=>{
       var target = new THREE.Vector3(0, 400, 0);
       this.controls.move({
         target: target,
-        duration: 5000
+        duration: 1000 //5000
       });
       this.controls.rotate({
         phi: this.controls.computedPhi(target.y),
-        duration: 5000,
+        duration: 1000, //5000,
         onFinish: ()=>{
           this.controls.enabled = true;
         }
@@ -171,6 +183,72 @@ export default class App {
         this.renderer.animate( this.render.bind(this) );
       }
     );
+  }
+
+  /**
+   * generateCardsMarkers
+   *
+   * generate cards entities on map
+   */
+  generateCardsMarkers() {
+    var cardMarks = [];
+    var cardMark;
+
+
+    // Landmarks refs for cards positioning
+    var boundsLandmark = {};
+    var geometry = new THREE.SphereGeometry(8, 4, 4, 0, Math.PI * 2, 0, Math.PI * 2);
+    var material = new THREE.MeshNormalMaterial();
+    var boundLandmarkMesh = new THREE.Mesh(geometry, material);
+    boundLandmarkMesh.position.y = 45;
+    boundsLandmark.topLeft = boundLandmarkMesh.clone();
+    boundsLandmark.bottomRight = boundLandmarkMesh.clone();
+
+    boundsLandmark.topLeft.name = 'boundsLandmark.topLeft';
+    boundsLandmark.topLeft.position.x = -715;
+    boundsLandmark.topLeft.position.z = 1175;
+    boundsLandmark.topLeft.metaCoords = {
+      latitude:48.52106,
+      longitude: -2.7815
+    };
+
+    boundsLandmark.bottomRight.name = 'boundsLandmark.bottomRight';
+    boundsLandmark.bottomRight.position.x = 973;
+    boundsLandmark.bottomRight.position.z = 300;
+    boundsLandmark.bottomRight.metaCoords = {
+      latitude:48.50595,
+      longitude: -2.76966
+    };
+
+    // Instantiate cards marks
+    cleanDatas.forEach(data => {
+
+      cardMark = boundLandmarkMesh.clone();
+
+      // map from latitude to x
+      cardMark.position.x = THREE.Math.mapLinear(
+        data.coords.latitude,
+        boundsLandmark.bottomRight.metaCoords.latitude,
+        boundsLandmark.topLeft.metaCoords.latitude,
+        boundsLandmark.bottomRight.position.x,
+        boundsLandmark.topLeft.position.x
+      );
+
+      // map from latitude to x
+      cardMark.position.z = THREE.Math.mapLinear(
+        data.coords.longitude,
+        boundsLandmark.bottomRight.metaCoords.longitude,
+        boundsLandmark.topLeft.metaCoords.longitude,
+        boundsLandmark.bottomRight.position.z,
+        boundsLandmark.topLeft.position.z
+      );
+
+      this.scene.add(cardMark);
+
+      cardMarks.push(cardMark);
+
+    });
+
   }
 
 

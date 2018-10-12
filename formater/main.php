@@ -1,4 +1,7 @@
-<?php 
+<?php
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 ini_set(‘gd.jpeg_ignore_warning’, 1);
 ini_set('memory_limit', '1024M');
@@ -62,7 +65,7 @@ foreach($cards as $key => $card){
 	$card["img_working"] = true;
 
 	if($recto && exif_imagetype("img/".$card["img_recto"]) == IMAGETYPE_JPEG){
-		$rectoResized =  imagecreatetruecolor($stepWidth, $stepHeight); 
+		$rectoResized =  imagecreatetruecolor($stepWidth, $stepHeight);
 
 		$widthCard = imagesx($recto);
 		$heightCard = imagesy($recto);
@@ -75,7 +78,7 @@ foreach($cards as $key => $card){
 
 		imagecopyresampled($rectoResized, $recto, 0, 0, 0, 0, $stepWidth, $stepHeight, $widthCard, $heightCard);
 		imagecopymerge($imageRecto, $rectoResized, $destination_x, $destination_y, 0, 0, $stepWidth, $stepHeight, 100);
-		
+
 	} else {
 		$card["img_working"] = false;
 	}
@@ -83,7 +86,7 @@ foreach($cards as $key => $card){
 	$verso = imagecreatefromjpeg("img/".$card["img_verso"]); // La photo est la destination
 
 	if($verso && exif_imagetype("img/".$card["img_verso"]) == IMAGETYPE_JPEG){
-		$versoResized =  imagecreatetruecolor($stepWidth, $stepHeight); 
+		$versoResized =  imagecreatetruecolor($stepWidth, $stepHeight);
 
 		$widthCard = imagesx($verso);
 		$heightCard = imagesy($verso);
