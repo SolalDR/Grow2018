@@ -103,7 +103,7 @@ export default class App {
    * Instantiate content & display
    */
   init(){
-    this.ui = new UI();
+    this.ui = new UI(this);
 
     // Generic light
     this.directionalLight = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
@@ -134,6 +134,9 @@ export default class App {
       scene: this.scene
     });
     //this.generateCardsMarkers();
+
+    // TODO: remove
+    this.ui.compass.targetPosition = this.cardMarkersManager.markers[0].mesh.position;
 
     AppGui.init(this);
 
@@ -198,6 +201,7 @@ export default class App {
   render() {
     this.stats.begin();
     this.clock.update();
+    this.ui.compass.update();
 
     // this.cloud.material.uniforms.u_time.value = this.clock.elapsed*0.001;
     // this.cloud.material.uniforms.needsUpdate = true;

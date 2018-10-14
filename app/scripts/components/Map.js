@@ -14,7 +14,6 @@ class Map {
    */
   constructor(scene){
     this.datas = [
-      {name: "sol", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Sol.obj" },
       {name: "", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Cote_Phare.obj" },
       {name: "", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Centre_Ville.obj" },
       {name: "", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Centre_Ville_Haut_Gauche.obj" },

@@ -1,32 +1,26 @@
 import Event from "./../helpers/Event.js";
 import animationEnd from "./../helpers/AnimationEnd.js";
+import Intro from "./UI/Intro.js"
+import Compass from "./UI/Compass.js"
 
 /**
  * Manage user interface interaction
  */
 class UI extends Event {
-
-
-  constructor(){
+  constructor(app) {
     super();
     this.eventsList = ["load", "start"];
-    this.elements = {};
-    this.elements.intro = document.getElementById("screen-intro");
-    this.elements.start = document.getElementById("cta-intro__start");
-
+    this.initComponents(app);
     this.initEvents();
   }
 
-  initEvents(){
-    window.addEventListener("load", ()=>{
+  initComponents(app) {
+    this.intro = Intro.init(app);
+    this.compass = Compass.init(app);
+  }
 
-    });
-
-    this.elements.start.addEventListener("click", ()=>{
-      this.elements.intro.classList.add("intro--hidding");
-      setTimeout(() => this.elements.intro.classList.replace("intro--hidding", "intro--hidden"), 2000);
-      this.dispatch("start");
-    });
+  initEvents() {
+    this.intro.on('hide', () => this.dispatch('start'));
   }
 }
 
