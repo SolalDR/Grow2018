@@ -84,7 +84,7 @@ export default class App {
 
       case config.control.CUSTOM:
         this.controls = new CustomControl(this.camera, {
-          boundaries: new THREE.Box3(new THREE.Vector3(-1000, 200, -1000), new THREE.Vector3(1000, 1200, 1000)),
+          boundaries: new THREE.Box3(new THREE.Vector3(-1000, 200, -1000), new THREE.Vector3(1000, 2000, 1000)),
           mouse: this.mouse,
           phi: config.camera.phi
         });
@@ -224,9 +224,6 @@ export default class App {
           if( config.control.type == config.control.CUSTOM && this.mouseHasClick ) {
             this.controls.onMouseClick( intersects[i] );
           }
-
-          // this.pointerLight.position.x = intersects[i].point.x
-          // this.pointerLight.position.z = intersects[i].point.z
           this.pointer.move(intersects[i].point);
           break;
         }
