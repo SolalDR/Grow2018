@@ -211,11 +211,32 @@ export default class App {
       this.controls.update( this.clock.delta/1000 );
     }
 
+    // click marker from cursor
+    if(this.mouseHasClick) {
+      var pointerPos = new THREE.Vector2(this.pointer.group.position.x, this.pointer.group.position.z);
+      var pointerRadius = this.pointer.ring.geometry.parameters.outerRadius;
+      for ( var i = 0; i < this.cardMarkersManager.markers.length; i++ ) {
+        var marker = this.cardMarkersManager.markers[i];
+        var markerPos = new THREE.Vector2(marker.mesh.position.x, marker.mesh.position.z);
+        if(pointerPos.distanceTo(markerPos) < pointerRadius*2) {
+          console.log('clicked on ', marker.mesh.meta.title);
+          break;
+        }
+      }
+    }
 
     if( this.mouseHasMove || this.mouseHasClick || (this.controls.movement && this.controls.movement.active) ){
       this.raycaster.setFromCamera( this.mouse, this.camera );
       var intersects = this.raycaster.intersectObjects( this.scene.children );
       for ( var i = 0; i < intersects.length; i++ ) {
+
+        if( intersects[i].object.name == "marker") {
+          if(this.mouseHasClick) {
+            console.log(intersects[i].meta.title);
+          }
+          break;
+        }
+        
         if( intersects[i].object.name == "floor") {
           if( config.control.type == config.control.CUSTOM && this.mouseHasClick ) {
             this.controls.onMouseClick( intersects[i] );

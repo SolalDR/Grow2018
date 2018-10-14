@@ -28,6 +28,10 @@ class CardMarker {
     var geometry = new THREE.SphereGeometry(8, 4, 4, 0, Math.PI * 2, 0, Math.PI * 2);
     var material = new THREE.MeshNormalMaterial();
     this.mesh = new THREE.Mesh(geometry, material);
+    this.mesh.name = 'marker';
+    this.mesh.meta = {
+      title: this.cardData.titre
+    };
     this.mesh.position.y = config.markers.elevation;
   }
 
