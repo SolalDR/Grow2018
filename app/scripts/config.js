@@ -20,14 +20,14 @@ export default {
     theta: 0,
     fov: 60 ,
     near: 10,
-    far: 1200
+    far: 5000
   },
 
   fog: {
     density: 0.0025,
     near: 1000,
     far: 1200,
-    active: true
+    active: false
   },
 
   control: {
