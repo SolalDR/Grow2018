@@ -42,8 +42,8 @@ class Map {
     var distanceX = this.bbox.max.x - this.bbox.min.x;
     var distanceZ = this.bbox.max.z - this.bbox.min.z;
     var cloneVector = vector.clone();
-    // cloneVector.z += 330
-    // cloneVector.x -= 130
+    cloneVector.z += 330
+    cloneVector.x -= 130
 
     cloneVector.sub(this.center)
       .applyAxisAngle(new THREE.Vector3(0, 1, 0), -Math.PI/2)
@@ -124,14 +124,15 @@ class Map {
         textureLoader.load("/static/images/textures/map.png", (texture)=>{
           this.generateInfosMap(texture);
           this.testLoaded();
-          material.uniforms.u_map.value = texture;
-          material.uniforms.needsUpdate = true;
-          this.floor.material.map = texture;
+          // material.uniforms.u_map.value = texture;
+          // material.uniforms.needsUpdate = true;
+          // this.floor.material.map = texture;
         });
 
         textureLoader.load("/static/images/textures/ao_8k.jpg", (texture)=>{
-          material.uniforms.u_ao.value = texture;
-          material.uniforms.needsUpdate = true;
+          // material.uniforms.u_ao.value = texture;
+          // material.uniforms.needsUpdate = true;
+          this.floor.material.map = texture;
         });
 
         this.bbox = new THREE.Box3().setFromObject(this.floor);
@@ -154,7 +155,6 @@ class Map {
 
     for(var i=0; i<this.tiles.length; i++){
       mesh = this.tiles[i].mesh;
-      mesh.applyMatrix(mesh.modelViewMatrix);
       for(var j=0; j<mesh.geometry.attributes.position.count; j++){
         vertice = new THREE.Vector3(
           mesh.geometry.attributes.position.array[ j*3 ],
@@ -175,11 +175,8 @@ class Map {
 
       this.floor.geometry.attributes.position.array[i*3 + 1] += infos[2]/255*100 - 100;
     }
-
-    this.floor.geometry = new THREE.Geometry().fromBufferGeometry(this.floor.geometry);
-    this.floor.geometry.verticesNeedUpdate = true;
-    this.floor.geometry.computeVertexNormal();
-    this.floor.geometry.computeFaceNormals();
+    this.floor.geometry.computeVertexNormals();
+    this.floor.material.shading = THREE.SmoothShading;
   }
 
   testLoaded(){
@@ -208,8 +205,6 @@ class Map {
 
         var geometry = object.children[0].geometry;
         var mesh = new THREE.Mesh(geometry, material);
-        mesh.scale.y = 3;
-        mesh.position.y += 10
         mesh.frustrumCulled = true;
 
         mesh.geometry.verticesNeedUpdate = true;
