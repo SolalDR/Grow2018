@@ -20,12 +20,12 @@ export default {
     theta: 0,
     fov: 45 ,
     near: 10,
-    far: 100000//1200
+    far: 1500
   },
 
   fog: {
     density: 0.0025,
-    near: 1000,
+    near: 800,
     far: 1200,
     active: true
   },
@@ -84,12 +84,12 @@ export default {
     elevation: 45,
     refs: {
       topLeft: {
-        x: -715,
-        z: 1175
+        x: -715 - 1300,
+        z: 1175 + 1200
       },
       bottomRight: {
-        x: 973,
-        z: 300
+        x: 973 - 1300,
+        z: 300+ 1200
       }
     }
   }
