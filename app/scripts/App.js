@@ -46,7 +46,6 @@ export default class App {
     this.camera.position.set( config.camera.position.x, config.camera.position.y, config.camera.position.z);
     this.mouse = new THREE.Vector2();
     this.raycaster = new THREE.Raycaster();
-    this.initControl();
 
     // Renderer & Scene
     this.container = document.querySelector( '#main' );
@@ -61,6 +60,8 @@ export default class App {
     this.onWindowResize();
 
     this.init();
+    this.initControl();
+
 
     // export for three js extension
     window.scene = this.scene;
@@ -86,7 +87,8 @@ export default class App {
         this.controls = new CustomControl(this.camera, {
           boundaries: new THREE.Box3(new THREE.Vector3(-1000, 200, -1000), new THREE.Vector3(1000, 2000, 1000)),
           mouse: this.mouse,
-          phi: config.camera.phi
+          phi: config.camera.phi,
+          scene: this.scene
         });
         this.controls.enabled = false;
         break;

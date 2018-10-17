@@ -7,16 +7,18 @@ class CustomControl extends Event {
     speed = 1,
     ease = 0.2,
     boundaries = null,
-    minAngle = 45,
+    minAngle = 25,
     maxAngle = 85,
     mouse = null,
     phi = null,
-    theta = null
+    theta = null,
+    scene = null
   } = {} ){
 
     super();
     this.eventsList = ["startMovement", "endMovement"]
     this.camera = camera;
+    this.scene = scene;
     this.velocity = new THREE.Vector3(0, 0, 0);
     this.speed = speed;
     this.ease = ease;
@@ -255,6 +257,10 @@ class CustomControl extends Event {
         this.camera.position.y = this.boundaries.max.y;
       }
 
+      this.camera.far = Math.max(1000, this.camera.position.y * 1.3);
+      this.scene.fog.far = this.camera.far;
+      this.scene.fog.near = this.camera.far - 300;
+      this.camera.updateProjectionMatrix();
       if(this.rotation.animation === null){
         this.phi = this.computedPhi();
       }

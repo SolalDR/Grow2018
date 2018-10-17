@@ -75,7 +75,7 @@ class Bird {
       scale[ i*3 + 2 ] = this.scale;
 
       offset[i] = Math.random()*Math.PI;
-      speed[i] = 6 + Math.random()*3;
+      speed[i] = 100 + Math.random()*3;
 
       q.set(  ( Math.random() - .5 ) * 2, ( Math.random() - .5 ) * 2, ( Math.random() - .5 ) * 2, Math.random() * Math.PI );
       q.normalize();
