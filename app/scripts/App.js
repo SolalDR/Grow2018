@@ -131,7 +131,7 @@ export default class App {
     this.map = new Map(this.scene);
     this.map.on("floor:load", ()=>{
       this.birds = new Bird({
-        count: 50,
+        count: 100,
         bbox: this.map.bbox,
         scale: 4
       });
@@ -151,7 +151,7 @@ export default class App {
     AppGui.init(this);
 
     this.ui.on("start", ()=>{
-      var target = new THREE.Vector3(0, 400, 0);
+      var target = new THREE.Vector3(0, 200, 0);
       this.controls.move({
         target: target,
         duration: 5000

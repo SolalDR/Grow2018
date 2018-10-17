@@ -145,6 +145,7 @@ class Map extends Event {
         });
 
         this.bbox = new THREE.Box3().setFromObject(this.floor);
+        this.diff = this.bbox.max.clone().sub(this.bbox.min);
         this.center = new THREE.Vector3();
         this.bbox.getCenter(this.center);
         this.floor.name = "floor";
