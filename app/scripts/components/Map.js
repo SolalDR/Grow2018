@@ -1,4 +1,5 @@
 import OBJLoader from "./../helpers/OBJLoader.js";
+import DRACOLoader from "./../helpers/DRACOLoader.js";
 import JSONLoader from "./../helpers/JSONLoader.js";
 import vertexShader from "./../../glsl/map.vert";
 import fragmentShader from "./../../glsl/map.frag";
@@ -23,10 +24,15 @@ class Map {
       {name: "", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Au_Dessus_Riviere.obj" }
     ];
 
+    this.datas = [
+      {name: "", coords: {x: 0, y: 0}, obj_url: "/static/meshes/city.drc" }
+    ]
+
     this.tiles = [];
     this.scene = scene;
     this.datas.forEach(data => {
-      this.loadTileOBJ(data);
+      // this.loadTileOBJ(data);
+      this.loadTileDRC(data);
       // this.loadTileJSON(data);
     });
 
@@ -186,6 +192,36 @@ class Map {
     return false;
   }
 
+
+  loadTileDRC(tile, onLoad) {
+    DRACOLoader.setDecoderPath('/static/draco/');
+    DRACOLoader.setDecoderConfig({type: 'js'}); // (Optional) Override detection of WASM support.
+
+    var loader = new DRACOLoader();
+    var textureLoader = new THREE.TextureLoader();
+    loader.load(
+      tile.obj_url,
+      ( geometry ) => {
+        var material = new THREE.MeshPhongMaterial({
+          emissive: new THREE.Color(config.colors.mapBuildingEmissive),
+          color: new THREE.Color(config.colors.mapBuilding)
+        });
+
+
+        // var geometry = object.children[0].geometry;
+        var mesh = new THREE.Mesh(geometry, material);
+        mesh.frustrumCulled = true;
+        mesh.position.y += 20;
+        mesh.geometry.verticesNeedUpdate = true;
+        mesh.name = tile.name;
+
+        this.tiles.push({mesh: mesh, coords: tile.coords});
+        this.scene.add( mesh );
+
+        this.testLoaded();
+      }
+    );
+  }
 
   /**
    * Load a tile and add it to mesh
