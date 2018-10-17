@@ -126,14 +126,22 @@ export default class App {
     this.pointer = new Pointer();
     this.scene.add(this.pointer.group);
 
-
     this.map = new Map(this.scene);
+    this.map.on("floor:load", ()=>{
+      this.birds = new Bird({
+        count: 50,
+        bbox: this.map.bbox,
+        scale: 4
+      });
+      this.birds.mesh.position.set(-40, 500, 100);
+      this.scene.add(this.birds.mesh);
+    })
+
     this.generateCards();
     this.cardMarkersManager = new CardMarkersManager({
       data: cleanDatas,
       scene: this.scene
     });
-    //this.generateCardsMarkers();
 
     // TODO: remove
     this.ui.compass.targetPosition = this.cardMarkersManager.markers[0].mesh.position;
@@ -206,6 +214,7 @@ export default class App {
     // this.cloud.material.uniforms.u_time.value = this.clock.elapsed*0.001;
     // this.cloud.material.uniforms.needsUpdate = true;
 
+    if(this.birds) this.birds.render(this.clock.elapsed/1000);
     this.cardsCloud.render(this.clock.elapsed);
     document.body.style.cursor = this.cardsCloud.pixelPicking.cardSelected ? 'pointer' : null;
 

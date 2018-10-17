@@ -1,3 +1,4 @@
+import Event from "./../helpers/Event.js";
 import OBJLoader from "./../helpers/OBJLoader.js";
 import DRACOLoader from "./../helpers/DRACOLoader.js";
 import JSONLoader from "./../helpers/JSONLoader.js";
@@ -7,13 +8,15 @@ import config from "./../config.js";
 /**
  * The city map
  */
-class Map {
+class Map extends Event {
 
   /**
    * @attribute {Array} tiles
    * @param {THREE.Scene} scene The three.js scene
    */
   constructor(scene){
+    super();
+    this.eventsList = ["floor:load"]
     this.datas = [
       {name: "", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Cote_Phare.obj" },
       {name: "", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Centre_Ville.obj" },
@@ -148,6 +151,8 @@ class Map {
 
         this.scene.add(this.floor);
         this.testLoaded();
+
+        this.dispatch("floor:load");
     });
 
 
