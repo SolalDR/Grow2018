@@ -25,17 +25,31 @@ class CardMarker {
    * Generate marker mesh
    */
   generateMesh() {
+
+    // create mesh
     var geometry = new THREE.SphereGeometry(8, 4, 4, 0, Math.PI * 2, 0, Math.PI * 2);
     var material = new THREE.MeshNormalMaterial();
+    material.transparent = true;
+    material.opacity = 0;
     this.mesh = new THREE.Mesh(geometry, material);
+
+    // set position
+    this.mesh.position.y = config.markers.elevation;
+
+    // set data
     this.mesh.name = 'marker';
     this.mesh.meta = {
       title: this.cardData.titre
     };
-    this.mesh.position.y = config.markers.elevation;
+
+
   }
 
+  /**
+   * Set x, y position from gps coordinates
+   */
   setPositionCoords() {
+
     // map from latitude to x
     this.mesh.position.x = THREE.Math.mapLinear(
       this.cardData.coords.latitude,
@@ -45,7 +59,7 @@ class CardMarker {
       config.markers.refs.topLeft.x
     );
 
-    // map from latitude to x
+    // map from longitude to z
     this.mesh.position.z = THREE.Math.mapLinear(
       this.cardData.coords.longitude,
       this.refMarkersDatas.bottomRight.coords.longitude,
@@ -53,6 +67,7 @@ class CardMarker {
       config.markers.refs.bottomRight.z,
       config.markers.refs.topLeft.z
     );
+
   }
 }
 

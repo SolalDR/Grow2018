@@ -14,13 +14,13 @@ class Map {
    */
   constructor(scene){
     this.datas = [
-      {name: "", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Cote_Phare.obj" },
-      {name: "", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Centre_Ville.obj" },
-      {name: "", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Centre_Ville_Haut_Gauche.obj" },
-      {name: "", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Centre_Ville_Haut_Droite.obj" },
-      {name: "", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Bas_Ville.obj" },
-      {name: "", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Bas_Cote_Droite.obj" },
-      {name: "", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Au_Dessus_Riviere.obj" }
+      {name: "Map - Cote Phare", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Cote_Phare.obj" },
+      {name: "Map - Centre Ville", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Centre_Ville.obj" },
+      {name: "Map - Centre Ville Haut Gauche", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Centre_Ville_Haut_Gauche.obj" },
+      {name: "Map Centre Ville Haut Droite", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Centre_Ville_Haut_Droite.obj" },
+      {name: "Map - Bas ville", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Bas_Ville.obj" },
+      {name: "Map - Bas Cote Droite", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Bas_Cote_Droite.obj" },
+      {name: "Map - Au dessus riviere", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Au_Dessus_Riviere.obj" }
     ];
 
     this.tiles = [];

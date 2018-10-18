@@ -89,8 +89,11 @@ export default {
       },
       bottomRight: {
         x: 973 - 1300,
-        z: 300+ 1200
+        z: 300 + 1200
       }
+    },
+    grid: {
+      size: 14
     }
   }
 }
