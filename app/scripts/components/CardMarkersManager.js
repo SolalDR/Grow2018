@@ -121,7 +121,7 @@ class CardMarkersManager {
     var gSize = this.grid.size;
     var m = this.gridMarkers;
     return [
-      ...m[i - 1],
+      ...m[i - 1] || [],
       ...m[i] || [],
       ...m[i - 2] || [],
       ...m[i - gSize - 1] || [],
@@ -168,7 +168,7 @@ class CardMarkersManager {
           var marker = markerSelection[i];
           var markerPos = new THREE.Vector2(marker.mesh.position.x, marker.mesh.position.z);
           var distance  = pointerPos.distanceTo(markerPos);
-          var maxDistance = 200;
+          var maxDistance = 150;
           marker.mesh.material.opacity = THREE.Math.mapLinear(distance, 0, maxDistance, 1, 0);
 
           // marker Selection

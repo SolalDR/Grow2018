@@ -93,7 +93,7 @@ export default {
       }
     },
     grid: {
-      size: 14
+      size: 20
     }
   }
 }
