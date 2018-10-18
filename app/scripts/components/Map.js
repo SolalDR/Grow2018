@@ -102,7 +102,7 @@ class Map extends Event {
   generateFloor(){
     var loader = new OBJLoader();
     var textureLoader = new THREE.TextureLoader();
-    loader.load("/static/meshes/map/Sol_2.obj", (object)=>{
+    loader.load("/static/meshes/map/Sol.obj", (object)=>{
 
         var geometry = object.children[0].geometry;
         var material = new THREE.MeshStandardMaterial({
