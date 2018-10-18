@@ -46,7 +46,6 @@ export default class App {
     this.camera.position.set( config.camera.position.x, config.camera.position.y, config.camera.position.z);
     this.mouse = new THREE.Vector2();
     this.raycaster = new THREE.Raycaster();
-    this.initControl();
 
     // Renderer & Scene
     this.container = document.querySelector( '#main' );
@@ -61,6 +60,8 @@ export default class App {
     this.onWindowResize();
 
     this.init();
+    this.initControl();
+
 
     // export for three js extension
     window.scene = this.scene;
@@ -86,7 +87,8 @@ export default class App {
         this.controls = new CustomControl(this.camera, {
           boundaries: new THREE.Box3(new THREE.Vector3(-1000, 200, -1000), new THREE.Vector3(1000, 2000, 1000)),
           mouse: this.mouse,
-          phi: config.camera.phi
+          phi: config.camera.phi,
+          scene: this.scene
         });
         this.controls.enabled = false;
         break;
@@ -126,8 +128,17 @@ export default class App {
     this.pointer = new Pointer();
     this.scene.add(this.pointer.group);
 
-
     this.map = new Map(this.scene);
+    this.map.on("floor:load", ()=>{
+      this.birds = new Bird({
+        count: 100,
+        bbox: this.map.bbox,
+        scale: 4
+      });
+      this.birds.mesh.position.set(-40, 500, 100);
+      this.scene.add(this.birds.mesh);
+    })
+
     this.generateCards();
     this.cardMarkersManager = new CardMarkersManager({
       data: cleanDatas,
@@ -141,7 +152,7 @@ export default class App {
     AppGui.init(this);
 
     this.ui.on("start", ()=>{
-      var target = new THREE.Vector3(0, 400, 0);
+      var target = new THREE.Vector3(0, 200, 0);
       this.controls.move({
         target: target,
         duration: 5000
@@ -207,6 +218,7 @@ export default class App {
     // this.cloud.material.uniforms.u_time.value = this.clock.elapsed*0.001;
     // this.cloud.material.uniforms.needsUpdate = true;
 
+    if(this.birds) this.birds.render(this.clock.elapsed/1000);
     this.cardsCloud.render(this.clock.elapsed);
     document.body.style.cursor = this.cardsCloud.pixelPicking.cardSelected ? 'pointer' : null;
 

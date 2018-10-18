@@ -1,4 +1,6 @@
+import Event from "./../helpers/Event.js";
 import OBJLoader from "./../helpers/OBJLoader.js";
+import DRACOLoader from "./../helpers/DRACOLoader.js";
 import JSONLoader from "./../helpers/JSONLoader.js";
 import vertexShader from "./../../glsl/map.vert";
 import fragmentShader from "./../../glsl/map.frag";
@@ -6,13 +8,15 @@ import config from "./../config.js";
 /**
  * The city map
  */
-class Map {
+class Map extends Event {
 
   /**
    * @attribute {Array} tiles
    * @param {THREE.Scene} scene The three.js scene
    */
   constructor(scene){
+    super();
+    this.eventsList = ["floor:load"]
     this.datas = [
       {name: "Map - Cote Phare", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Cote_Phare.obj" },
       {name: "Map - Centre Ville", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Centre_Ville.obj" },
@@ -23,10 +27,15 @@ class Map {
       {name: "Map - Au dessus riviere", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Au_Dessus_Riviere.obj" }
     ];
 
+    this.datas = [
+      {name: "", coords: {x: 0, y: 0}, obj_url: "/static/meshes/city.drc" }
+    ]
+
     this.tiles = [];
     this.scene = scene;
     this.datas.forEach(data => {
-      this.loadTileOBJ(data);
+      // this.loadTileOBJ(data);
+      this.loadTileDRC(data);
       // this.loadTileJSON(data);
     });
 
@@ -136,12 +145,15 @@ class Map {
         });
 
         this.bbox = new THREE.Box3().setFromObject(this.floor);
+        this.diff = this.bbox.max.clone().sub(this.bbox.min);
         this.center = new THREE.Vector3();
         this.bbox.getCenter(this.center);
         this.floor.name = "floor";
 
         this.scene.add(this.floor);
         this.testLoaded();
+
+        this.dispatch("floor:load");
     });
 
 
@@ -186,6 +198,36 @@ class Map {
     return false;
   }
 
+
+  loadTileDRC(tile, onLoad) {
+    DRACOLoader.setDecoderPath('/static/draco/');
+    DRACOLoader.setDecoderConfig({type: 'js'}); // (Optional) Override detection of WASM support.
+
+    var loader = new DRACOLoader();
+    var textureLoader = new THREE.TextureLoader();
+    loader.load(
+      tile.obj_url,
+      ( geometry ) => {
+        var material = new THREE.MeshPhongMaterial({
+          emissive: new THREE.Color(config.colors.mapBuildingEmissive),
+          color: new THREE.Color(config.colors.mapBuilding)
+        });
+
+
+        // var geometry = object.children[0].geometry;
+        var mesh = new THREE.Mesh(geometry, material);
+        mesh.frustrumCulled = true;
+        mesh.position.y += 20;
+        mesh.geometry.verticesNeedUpdate = true;
+        mesh.name = tile.name;
+
+        this.tiles.push({mesh: mesh, coords: tile.coords});
+        this.scene.add( mesh );
+
+        this.testLoaded();
+      }
+    );
+  }
 
   /**
    * Load a tile and add it to mesh
