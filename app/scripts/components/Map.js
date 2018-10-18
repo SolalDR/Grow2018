@@ -18,25 +18,20 @@ class Map extends Event {
     super();
     this.eventsList = ["floor:load"]
     this.datas = [
-      {name: "Map - Cote Phare", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Cote_Phare.obj" },
-      {name: "Map - Centre Ville", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Centre_Ville.obj" },
-      {name: "Map - Centre Ville Haut Gauche", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Centre_Ville_Haut_Gauche.obj" },
-      {name: "Map Centre Ville Haut Droite", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Centre_Ville_Haut_Droite.obj" },
-      {name: "Map - Bas ville", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Bas_Ville.obj" },
-      {name: "Map - Bas Cote Droite", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Bas_Cote_Droite.obj" },
-      {name: "Map - Au dessus riviere", coords: {x: 0, y: 0}, obj_url: "/static/meshes/map/Au_Dessus_Riviere.obj" }
+      {name: "", obj_url: "01.obj.drc", map_url: "ao_4k/01-4k.jpg" },
+      {name: "", obj_url: "02.obj.drc", map_url: "ao_4k/02-4k.jpg" },
+      {name: "", obj_url: "03.obj.drc", map_url: "ao_4k/03-4k.jpg" },
+      {name: "", obj_url: "04.obj.drc", map_url: "ao_4k/04-4k.jpg" },
+      {name: "", obj_url: "05.obj.drc", map_url: "ao_4k/05-4k.jpg" },
+      {name: "", obj_url: "06.obj.drc", map_url: "ao_4k/06-4k.jpg" },
+      {name: "", obj_url: "07.obj.drc", map_url: "ao_4k/07-4k.jpg" },
+      {name: "", obj_url: "08.obj.drc", map_url: "ao_4k/08-4k.jpg" },
     ];
-
-    this.datas = [
-      {name: "", coords: {x: 0, y: 0}, obj_url: "/static/meshes/city.drc" }
-    ]
 
     this.tiles = [];
     this.scene = scene;
     this.datas.forEach(data => {
-      // this.loadTileOBJ(data);
       this.loadTileDRC(data);
-      // this.loadTileJSON(data);
     });
 
     this.generateFloor();
@@ -110,17 +105,6 @@ class Map extends Event {
     loader.load("/static/meshes/map/Sol_2.obj", (object)=>{
 
         var geometry = object.children[0].geometry;
-        // var material = new THREE.ShaderMaterial({
-        //   vertexShader: vertexShader,
-        //   fragmentShader: fragmentShader,
-        //   uniforms: {
-        //     u_map: { type: "t", value: null },
-        //     u_ao: { type: "t", value: null },
-        //     u_emissive: { type: "v3", value: new THREE.Color(config.colors.mapBuildingEmissive) },
-        //     u_color: { type: "v3", value: new THREE.Color(config.colors.mapBuilding) },
-        //   }
-        // });
-
         var material = new THREE.MeshStandardMaterial({
           roughness: 0,
           metalness: 0,
@@ -133,16 +117,9 @@ class Map extends Event {
         textureLoader.load("/static/images/textures/map.png", (texture)=>{
           this.generateInfosMap(texture);
           this.testLoaded();
-          // material.uniforms.u_map.value = texture;
-          // material.uniforms.needsUpdate = true;
-          // this.floor.material.map = texture;
+          this.computeHeightMap();
         });
 
-        textureLoader.load("/static/images/textures/ao_8k.jpg", (texture)=>{
-          // material.uniforms.u_ao.value = texture;
-          // material.uniforms.needsUpdate = true;
-          // this.floor.material.map = texture;
-        });
 
         this.bbox = new THREE.Box3().setFromObject(this.floor);
         this.diff = this.bbox.max.clone().sub(this.bbox.min);
@@ -206,13 +183,18 @@ class Map extends Event {
     var loader = new DRACOLoader();
     var textureLoader = new THREE.TextureLoader();
     loader.load(
-      tile.obj_url,
+      "/static/meshes/map_drc/" + tile.obj_url,
       ( geometry ) => {
-        var material = new THREE.MeshPhongMaterial({
-          emissive: new THREE.Color(config.colors.mapBuildingEmissive),
-          color: new THREE.Color(config.colors.mapBuilding)
+
+        console.log(geometry);
+        var material = new THREE.MeshBasicMaterial({
+          // emissive: new THREE.Color(config.colors.mapBuildingEmissive),
+          // color: new THREE.Color(config.colors.mapBuilding)
         });
 
+        textureLoader.load("/static/images/textures/"+tile.map_url, (texture)=>{
+          material.map = texture;
+        });
 
         // var geometry = object.children[0].geometry;
         var mesh = new THREE.Mesh(geometry, material);
@@ -221,7 +203,7 @@ class Map extends Event {
         mesh.geometry.verticesNeedUpdate = true;
         mesh.name = tile.name;
 
-        this.tiles.push({mesh: mesh, coords: tile.coords});
+        this.tiles.push({mesh: mesh});
         this.scene.add( mesh );
 
         this.testLoaded();
@@ -251,7 +233,7 @@ class Map extends Event {
         mesh.geometry.verticesNeedUpdate = true;
         mesh.name = tile.name;
 
-        this.tiles.push({mesh: mesh, coords: tile.coords});
+        this.tiles.push({mesh: mesh});
         this.scene.add( mesh );
 
         this.testLoaded();
