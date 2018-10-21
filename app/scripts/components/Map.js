@@ -14,9 +14,9 @@ class Map extends Event {
    * @attribute {Array} tiles
    * @param {THREE.Scene} scene The three.js scene
    */
-  constructor(scene){
+  constructor(scene, raycaster){
     super();
-    this.eventsList = ["floor:load"]
+    this.eventsList = ["floor:load", "map:load"]
     this.datas = [
       {name: "", obj_url: "01.obj.drc", map_url: "ao_4k/01-4k.jpg" },
       {name: "", obj_url: "02.obj.drc", map_url: "ao_4k/02-4k.jpg" },
@@ -30,6 +30,7 @@ class Map extends Event {
 
     this.tiles = [];
     this.scene = scene;
+    this.raycaster = raycaster;
     this.datas.forEach(data => {
       this.loadTileDRC(data);
     });
@@ -43,19 +44,19 @@ class Map extends Event {
   }
 
   getInfosAtPosition(vector){
-    var distanceX = this.bbox.max.x - this.bbox.min.x;
-    var distanceZ = this.bbox.max.z - this.bbox.min.z;
     var cloneVector = vector.clone();
-    cloneVector.z += 330
-    cloneVector.x -= 130
 
     cloneVector.sub(this.center)
       .applyAxisAngle(new THREE.Vector3(0, 1, 0), -Math.PI/2)
-      .add(this.center)
+
+    cloneVector.x *= this.ratioZ
+    cloneVector.z *= this.ratioX
+
+    cloneVector.add(this.center)
 
     return this.getInfosAt(
-      (cloneVector.x - this.bbox.min.x)/distanceX,
-      1. - (cloneVector.z - this.bbox.min.z)/distanceZ
+      (cloneVector.x - this.bbox.min.x)/this.diff.x,
+      1. - (cloneVector.z - this.bbox.min.z)/this.diff.z
     );
   }
 
@@ -92,7 +93,7 @@ class Map extends Event {
       texture: texture
     }
 
-    // document.body.appendChild(canvas);
+    this.dispatch("map:load");
   }
 
 
@@ -102,7 +103,7 @@ class Map extends Event {
   generateFloor(){
     var loader = new OBJLoader();
     var textureLoader = new THREE.TextureLoader();
-    loader.load("/static/meshes/map/Sol.obj", (object)=>{
+    loader.load("/static/meshes/Sol.obj", (object)=>{
 
         var geometry = object.children[0].geometry;
         var material = new THREE.MeshStandardMaterial({
@@ -117,12 +118,19 @@ class Map extends Event {
         textureLoader.load("/static/images/textures/map.png", (texture)=>{
           this.generateInfosMap(texture);
           this.testLoaded();
-          this.computeHeightMap();
+          if( config.heightmap.debug ){
+            material.map = texture;
+          }
+          if(config.heightmap.active){
+            this.computeHeightMap();
+          }
         });
 
 
         this.bbox = new THREE.Box3().setFromObject(this.floor);
         this.diff = this.bbox.max.clone().sub(this.bbox.min);
+        this.ratioX = this.diff.z/this.diff.x;
+        this.ratioZ = this.diff.x/this.diff.z;
         this.center = new THREE.Vector3();
         this.bbox.getCenter(this.center);
         this.floor.name = "floor";
@@ -132,15 +140,12 @@ class Map extends Event {
 
         this.dispatch("floor:load");
     });
-
-
-
-
   }
 
 
   computeHeightMap(){
     var vertice = null, infos = null, mesh = null, uv = null;
+
 
     for(var i=0; i<this.tiles.length; i++){
       mesh = this.tiles[i].mesh;
@@ -151,7 +156,7 @@ class Map extends Event {
           mesh.geometry.attributes.position.array[ j*3 + 2]
         );
         infos = this.getInfosAtPosition(vertice);
-        mesh.geometry.attributes.position.array[ j*3 + 1] += infos[2]/255*100 - 100
+        mesh.geometry.attributes.position.array[ j*3 + 1] += infos[2]/255*config.heightmap.ratio - config.heightmap.ratio;
       }
     }
 
@@ -162,10 +167,11 @@ class Map extends Event {
         this.floor.geometry.attributes.position.array[ i*3 + 2]
       ));
 
-      this.floor.geometry.attributes.position.array[i*3 + 1] += infos[2]/255*100 - 100;
+      this.floor.geometry.attributes.position.array[i*3 + 1] += infos[2]/255*config.heightmap.ratio - config.heightmap.ratio;
     }
+
+    console.log("Hello", this.floor);
     this.floor.geometry.computeVertexNormals();
-    this.floor.material.shading = THREE.SmoothShading;
   }
 
   testLoaded(){

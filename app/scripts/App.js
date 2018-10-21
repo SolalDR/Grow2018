@@ -14,6 +14,7 @@ import Map from "./components/Map.js";
 import CloudMaterial from "./components/CloudMaterial.js";
 import AppGui from "./AppGui.js";
 import Bird from "./components/Bird.js";
+import Forest from "./components/Forest.js";
 import UI from "./components/UI.js";
 import Pointer from "./components/Pointer.js";
 import CardMarkersManager from "./components/CardMarkersManager";
@@ -128,15 +129,18 @@ export default class App {
     this.pointer = new Pointer();
     this.scene.add(this.pointer.group);
 
-    this.map = new Map(this.scene);
-    this.map.on("floor:load", ()=>{
+    this.map = new Map(this.scene, this.raycaster);
+    this.map.on("map:load", ()=>{
       this.birds = new Bird({
-        count: 100,
+        count: 200,
         bbox: this.map.bbox,
         scale: 4
       });
       this.birds.mesh.position.set(-40, 500, 100);
       this.scene.add(this.birds.mesh);
+
+      this.forest = new Forest({ map: this.map })
+      this.scene.add(this.forest.mesh);
     })
 
     this.generateCards();
