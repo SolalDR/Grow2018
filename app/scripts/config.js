@@ -1,5 +1,11 @@
 export default {
 
+  heightmap: {
+    active: true,
+    debug: false,
+    ratio: 100
+  },
+
   colors: {
     background: "#EEEEEE",
     lightDirectionnal: "#ffffff",
