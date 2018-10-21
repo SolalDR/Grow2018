@@ -231,15 +231,14 @@ export default class App {
     if( this.mouseHasMove || this.mouseHasClick || (this.controls.movement && this.controls.movement.active) ){
       this.raycaster.setFromCamera( this.mouse, this.camera );
       var intersects = this.raycaster.intersectObjects( this.scene.children );
-      for ( var i = 0; i < intersects.length; i++ ) {
-        if( intersects[i].object.name == "floor") {
-          if( config.control.type == config.control.CUSTOM && this.mouseHasClick ) {
-            this.controls.onMouseClick( intersects[i] );
-          }
-          this.pointer.move(intersects[i].point);
-          break;
+      intersects.find(intersect => {
+        if( intersect.object.name !== 'floor' ) return false;
+        if( config.control.type == config.control.CUSTOM && this.mouseHasClick ) {
+          this.controls.onMouseClick( intersect );
         }
-      }
+        this.pointer.move( intersect.point );
+        return true;
+      });
     }
 
     this.pointer.render(this.clock.elapsed);

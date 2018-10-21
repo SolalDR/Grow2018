@@ -25,6 +25,7 @@ class CustomControl extends Event {
     this.boundaries = boundaries;
     this.mouse = mouse;
     this.enabled = true;
+    this.dragging = false;
 
     this.rotation = {
       min: - THREE.Math.degToRad(minAngle) - Math.PI/2,
@@ -56,6 +57,7 @@ class CustomControl extends Event {
     window.addEventListener("DOMMouseScroll", this.onMouseWheel.bind(this));
     window.addEventListener("mousedown", this.onMouseDown.bind(this));
     window.addEventListener("mouseup", this.onMouseUp.bind(this));
+    window.addEventListener("mousemove", this.onMouseMove.bind(this));
   }
 
   set minRotation(value){
@@ -287,6 +289,10 @@ class CustomControl extends Event {
 
   onMouseClick( intersect ){
     if( !this.enabled ) return;
+    if( this.dragging ) {
+      this.dragging = false;
+      return;
+    }
     var target = intersect.point;
     target.y = this.camera.position.y;
     this.move({target: target});
@@ -307,6 +313,12 @@ class CustomControl extends Event {
     this.drag.active = false;
     this.drag.current.clientX = null;
     this.drag.current.clientY = null;
+
+    setTimeout(() => { this.dragging = false }, 10);
+  }
+
+  onMouseMove() {
+    if(this.drag.active) this.dragging = true;
   }
 }
 

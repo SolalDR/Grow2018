@@ -37,7 +37,7 @@ class Compass extends Event {
 
   get lookingVector() {
     return new THREE.Vector3(0, 0, -1)
-      .applyEuler(this.camera.rotation, this.camera.eulerOrder)
+      .applyEuler(this.camera.rotation, this.camera.rotation.order)
       .setY(0);
   }
 

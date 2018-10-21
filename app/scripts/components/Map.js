@@ -165,7 +165,7 @@ class Map extends Event {
       this.floor.geometry.attributes.position.array[i*3 + 1] += infos[2]/255*100 - 100;
     }
     this.floor.geometry.computeVertexNormals();
-    this.floor.material.shading = THREE.SmoothShading;
+    this.floor.material.flatShading = false;
   }
 
   testLoaded(){
