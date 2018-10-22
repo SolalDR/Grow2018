@@ -3,12 +3,13 @@ import vertexShader from "./../../glsl/forest.vert";
 import fragmentShader from "./../../glsl/forest.frag";
 import config from "./../config.js";
 import OBJLoader from "./../helpers/OBJLoader.js";
+import Event from "./../helpers/Event.js";
 
 
 /**
  * @class Represent vegetation
  */
-class Forest {
+class Forest extends Event {
 
   /**
    * @constructor
@@ -19,6 +20,8 @@ class Forest {
     size = 50,
     density = 0.001
   }){
+    super();
+    this.eventsList = ["load"];
     this.map = map;
     this.sides = sides;
     this.size = size;
@@ -36,7 +39,7 @@ class Forest {
       this.mesh = new THREE.Mesh(this.geometry, this.material);
       this.mesh.position.set(0, 20, 0);
       this.mesh.frustumCulled = false;
-
+      this.dispatch("load");
     })
   }
 
@@ -112,9 +115,9 @@ class Forest {
       rotation[ i*4 + 2 ] = 0;
       rotation[ i*4 + 3 ] = 1;
 
-      scale[ i*3 ] = 1;
-      scale[ i*3 + 1 ] = 1;
-      scale[ i*3 + 2 ] = 1;
+      scale[ i*3 ] = 0.08;
+      scale[ i*3 + 1 ] = 0.08;
+      scale[ i*3 + 2 ] = 0.08;
 
       color[ i*3 ] = trees[i][1][0]
       color[ i*3 + 1 ] = trees[i][1][1]

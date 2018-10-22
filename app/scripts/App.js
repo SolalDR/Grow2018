@@ -140,7 +140,9 @@ export default class App {
       this.scene.add(this.birds.mesh);
 
       this.forest = new Forest({ map: this.map })
-      this.scene.add(this.forest.mesh);
+      this.forest.on("load", ()=>{
+        this.scene.add(this.forest.mesh);
+      })
     })
 
     this.generateCards();
