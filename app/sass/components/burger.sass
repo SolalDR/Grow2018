@@ -1,0 +1,67 @@
+$width: 30px
+$height: 20px
+
+.burger
+  position: fixed
+  top: 25px
+  left: 25px
+  height: $height
+  width: $width
+  z-index: 3
+  cursor: pointer
+  transform: translateY(0px)
+  opacity: 1
+  transition:
+    property: transform, opacity
+    duration: .3s
+    timing-function: ease
+
+  &--hidden
+    transform: translateY(-50px)
+    opacity: 0
+
+
+  &__bar
+    width: 30px
+    height: 2px
+    background-color: black
+    display: block
+    position: absolute
+    left: 50%
+    top: 0
+    transition:
+      property: transform, opacity, background-color
+      duration: .3s
+      timing-function: ease
+
+    &:nth-child(1)
+      transform: translateY(0) translateX(-50%) scaleX(1)
+
+    &:nth-child(2)
+      transform: translateY($height/2) translateX(-50%) scaleX(1)
+
+    &:nth-child(3)
+      transform: translateY($height) translateX(-50%) scaleX(1)
+
+
+
+  &:hover
+    .burger__bar
+      &:nth-child(1)
+        transform: translateY(0) scaleX(0.5) translateX(-100%)
+
+      &:nth-child(3)
+        transform: translateY($height) scaleX(0.5) translateX(-100%)
+
+  &--close
+    .burger__bar
+      &:nth-child(1)
+        transform: translateY($height/2) translateX(-50%) rotate(45deg) scaleX(1)
+
+      &:nth-child(2)
+        transform: translateY($height/2) translateX(-50%) scaleX(0)
+
+      &:nth-child(3)
+        transform: translateY($height/2) translateX(-50%) rotate(-45deg) scaleX(1)
+
+

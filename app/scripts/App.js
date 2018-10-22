@@ -2,7 +2,6 @@ import OrbitControls from "./helpers/OrbitControls.js";
 import FirstPersonControls from "./helpers/FirstPersonControls.js";
 import CustomControl from "./helpers/CustomControl.js";
 import Dat from "dat-gui";
-import { Stats } from "three-stats";
 import Clock from "./helpers/Clock.js";
 import config from "./config.js";
 import datas from "./../datas/datas.json";
@@ -17,6 +16,7 @@ import Bird from "./components/Bird.js";
 import Forest from "./components/Forest.js";
 import UI from "./components/UI.js";
 import Pointer from "./components/Pointer.js";
+import Water from "./components/Water.js";
 import CardMarkersManager from "./components/CardMarkersManager";
 
 /**
@@ -38,9 +38,6 @@ export default class App {
     this.config = config;
     this.gui = new Dat.GUI();
     this.clock = new Clock();
-    this.stats = new Stats();
-    this.stats.showPanel( 1 ); // 0: fps, 1: ms, 2: mb, 3+: custom
-    document.body.appendChild( this.stats.dom );
 
     // Camera and control
     this.camera = new THREE.PerspectiveCamera( config.camera.fov, window.innerWidth / window.innerHeight, config.camera.near, config.camera.far );
@@ -62,7 +59,6 @@ export default class App {
 
     this.init();
     this.initControl();
-
 
     // export for three js extension
     window.scene = this.scene;
@@ -129,6 +125,9 @@ export default class App {
     this.pointer = new Pointer();
     this.scene.add(this.pointer.group);
 
+    // this.water = new Water();
+    // this.scene.add(this.water.mesh);
+
     this.map = new Map(this.scene, this.raycaster);
     this.map.on("map:load", ()=>{
       this.birds = new Bird({
@@ -157,11 +156,12 @@ export default class App {
 
     AppGui.init(this);
 
-    this.ui.on("start", ()=>{
+    this.ui.on("intro:begin", ()=>{
       var target = new THREE.Vector3(0, 200, 0);
       this.controls.move({
         target: target,
-        duration: 5000
+        duration: 5000,
+        onFinish: () => { console.log("Hello end"); this.ui.dispatch("intro:end") }
       });
       this.controls.rotate({
         phi: this.controls.computedPhi(target.y),
@@ -216,7 +216,6 @@ export default class App {
    * THREE.js raf
    */
   render() {
-    this.stats.begin();
     this.clock.update();
     this.ui.compass.update();
     this.cardMarkersManager.update(this.mouseHasClick);
@@ -249,7 +248,6 @@ export default class App {
 
     this.pointer.render(this.clock.elapsed);
     this.renderer.render( this.scene, this.camera );
-    this.stats.end();
     this.mouseHasMove = false;
     this.mouseHasClick = false;
   }
