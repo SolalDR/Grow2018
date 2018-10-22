@@ -193,9 +193,9 @@ class Map extends Event {
       ( geometry ) => {
 
         console.log(geometry);
-        var material = new THREE.MeshBasicMaterial({
-          // emissive: new THREE.Color(config.colors.mapBuildingEmissive),
-          // color: new THREE.Color(config.colors.mapBuilding)
+        var material = new THREE.MeshPhongMaterial({
+          emissive: new THREE.Color(config.colors.mapBuildingEmissive),
+          color: new THREE.Color(config.colors.mapBuilding)
         });
 
         textureLoader.load("/static/images/textures/"+tile.map_url, (texture)=>{

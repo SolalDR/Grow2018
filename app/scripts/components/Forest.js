@@ -140,8 +140,12 @@ class Forest extends Event {
       fragmentShader: fragmentShader,
       transparent: true,
       side: THREE.DoubleSide,
+      fog: true,
       uniforms: {
-        u_map: { type: "t", value: this.texture }
+        u_map: { type: "t", value: this.texture },
+        fogColor: {type: "v3", value: new THREE.Color(config.colors.background) },
+        fogNear: {type: "f", value: config.fog.near },
+        fogFar: {type: "f", value: config.fog.far }
       }
     })
   }

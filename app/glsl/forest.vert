@@ -5,9 +5,10 @@ attribute vec3 color;
 
 varying vec2 vUV;
 varying vec4 vColor;
+varying float fogDepth;
 
-const int mode = 2;
-const vec3 lightPos = vec3(1.0, 1.0, 1.0);
+const int mode = 3;
+const vec3 lightPos = vec3(1.0, 100.0, 1.0);
 const vec3 diffuseColor = vec3(0.2, 0.2, 0.2);
 const vec3 specColor = vec3(1.0, 1.0, 1.0);
 
@@ -22,7 +23,9 @@ void main(){
   vec3 newPosition = position;
   vUV = uv;
   transform( newPosition, translation, rotation, scale );
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
+
+  vec4 mvPosition = modelViewMatrix * vec4(newPosition, 1.0);
+  gl_Position = projectionMatrix * mvPosition;
 
   // all following gemetric computations are performed in the
   // camera coordinate system (aka eye coordinates)
@@ -33,12 +36,14 @@ void main(){
   vec3 reflectDir = reflect(-lightDir, normal);
   vec3 viewDir = normalize(-vertPos);
 
-  float lambertian = max(dot(lightDir, normal), 0.0);
+  float lambertian = max(dot(lightDir, normal), 0.7);
   float specular = 0.0;
 
   if(lambertian > 0.0) {
-    float specAngle = max(dot(reflectDir, viewDir), 0.2);
+    float specAngle = max(dot(reflectDir, viewDir), 0.0);
     specular = pow(specAngle, 4.0);
+
+    specular = max(0.2, specular);
 
     // the exponent controls the shininess (try mode 2)
     if(mode == 2)  specular = pow(specAngle, 16.0);
@@ -50,5 +55,6 @@ void main(){
     if(mode == 4) specular *= 0.0;
   }
 
+  fogDepth = -mvPosition.z;
   vColor = vec4(lambertian*diffuseColor + specular*specColor, 1.0);
 }
