@@ -106,11 +106,10 @@ class Map extends Event {
     loader.load("/static/meshes/Sol.obj", (object)=>{
 
         var geometry = object.children[0].geometry;
-        var material = new THREE.MeshStandardMaterial({
-          roughness: 0,
-          metalness: 0,
+        var material = new THREE.MeshPhongMaterial({
           emissive: new THREE.Color(config.colors.mapFloorEmissive),
-          color: new THREE.Color(config.colors.mapFloor)
+          color: new THREE.Color(config.colors.mapFloor),
+          shininess: 100
         });
 
         this.floor = new THREE.Mesh(geometry, material);

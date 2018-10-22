@@ -26,7 +26,6 @@ class Forest extends Event {
     this.sides = sides;
     this.size = size;
     this.density = density;
-    this.texture = new THREE.TextureLoader().load( "/static/images/tree.jpg" );
     this.loadObject();
   }
 
@@ -142,7 +141,6 @@ class Forest extends Event {
       side: THREE.DoubleSide,
       fog: true,
       uniforms: {
-        u_map: { type: "t", value: this.texture },
         fogColor: {type: "v3", value: new THREE.Color(config.colors.background) },
         fogNear: {type: "f", value: config.fog.near },
         fogFar: {type: "f", value: config.fog.far }

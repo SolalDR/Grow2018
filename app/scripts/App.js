@@ -136,7 +136,7 @@ export default class App {
         bbox: this.map.bbox,
         scale: 4
       });
-      this.birds.mesh.position.set(-40, 500, 100);
+      this.birds.mesh.position.set(-40, 400, 100);
       this.scene.add(this.birds.mesh);
 
       this.forest = new Forest({ map: this.map })

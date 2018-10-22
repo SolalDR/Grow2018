@@ -1,5 +1,6 @@
 import vertexShader from "./../../glsl/bird.vert";
 import fragmentShader from "./../../glsl/bird.frag";
+import config from "./../config.js";
 
 class Bird {
 
@@ -44,11 +45,7 @@ class Bird {
   generateGeometry(){
     var geo = new THREE.PlaneBufferGeometry( 6, 6, 2, 1 );
     geo.rotateX(-Math.PI/2);
-    // geo.rotateY(Math.PI);
-
     var geometryInstance = geo;
-
-
     this.geometry = new THREE.InstancedBufferGeometry().copy(geometryInstance);
 
     // Create empty attributes
@@ -93,12 +90,16 @@ class Bird {
     this.material = new THREE.ShaderMaterial({
       vertexShader: vertexShader,
       fragmentShader: fragmentShader,
+      fog: true,
       uniforms: {
         u_time: { type: "f", value: 0 },
         u_zmin: { type: "f", value: this.bbox.min.z },
         u_zmax: { type: "f", value: this.bbox.max.z },
         u_zcenter: { type: "f", value: this.center.z },
-        u_map: {type: "t", value: bird }
+        u_map: {type: "t", value: bird },
+        fogColor: {type: "v3", value: new THREE.Color(config.colors.background) },
+        fogNear: {type: "f", value: config.fog.near },
+        fogFar: {type: "f", value: config.fog.far }
       },
       transparent: true
     });
