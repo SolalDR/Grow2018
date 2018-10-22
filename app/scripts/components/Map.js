@@ -114,7 +114,7 @@ class Map extends Event {
 
         this.floor = new THREE.Mesh(geometry, material);
 
-        textureLoader.load("/static/images/textures/map.png", (texture)=>{
+        textureLoader.load("/static/images/textures/map.jpg", (texture)=>{
           this.generateInfosMap(texture);
           this.testLoaded();
           if( config.heightmap.debug ){
