@@ -9,15 +9,24 @@ $height: $width/$rat
   right: 0
   padding-top: 60px
   z-index: 5
+  will-change: transform, opacity
+  transform: translateX(0)
+  opacity: 1
+  transition:
+    property: transform, opacity
+    duration: $animation-duration
+    timing-function: ease
 
   &--hidden
     pointer-events: none
+    transform: translateX(100px)
+    opacity: 0
 
   &__list
     max-height: 100vh
     overflow: scroll
     height: 100vh
-    width: 14vh
+    width: 90px
     position: fixed
     right: 0
     top: 0
@@ -31,6 +40,7 @@ $height: $width/$rat
     position: relative
     z-index: 999
     overflow: hidden
+    margin: 10px 15px
 
   &__img
     position: absolute

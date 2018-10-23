@@ -46,7 +46,7 @@ class CardMarkersManager extends Event {
 
     // generate markers
     this.cards.forEach(card => {
-
+      console.log(card.isWorking)
       // init marker
       card.marker.init(this.textures);
 

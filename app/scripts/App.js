@@ -59,6 +59,9 @@ export default class App {
     if(config.fog.active) this.scene.fog = new THREE.Fog( this.scene.background, config.fog.near, config.fog.far );
     this.onWindowResize();
 
+    this.container.addEventListener("mousedown", this.onMouseDown.bind(this));
+    this.container.addEventListener("mouseup", this.onMouseUp.bind(this));
+
     this.init();
     this.initControl();
 
@@ -315,6 +318,7 @@ export default class App {
   }
 
   onMouseDown( event ){
+    if( event.target.nodeName != "CANVAS" ) return;
     this.pointer.click = true;
     if( config.control.type == config.control.CUSTOM ) {
       this.controls.onMouseDown(event);
@@ -323,6 +327,7 @@ export default class App {
   }
 
   onMouseUp( event ){
+    if( event.target.nodeName != "CANVAS" ) return;
     this.pointer.click = false;
     if( config.control.type == config.control.CUSTOM ) {
       this.controls.onMouseDown(event);

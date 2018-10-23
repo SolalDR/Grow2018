@@ -9,6 +9,7 @@ export default class Collection extends Event {
     this.counter = Counter.init();
     this.cards = [];
     this.initElements(element);
+    this.initEvents();
   }
 
   get hidden() {
@@ -50,6 +51,15 @@ export default class Collection extends Event {
       cards: [],
       list: this.element.querySelector(".collection__list")
     }
+  }
+
+  initEvents(){
+    this.counter.on("click", ()=>{
+      if( this.cards.length > 0 ){
+        this.hidden = !this.hidden;
+        this.counter.active = !this.hidden;
+      }
+    })
   }
 
   static init() {

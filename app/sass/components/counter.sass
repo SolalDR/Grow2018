@@ -3,8 +3,10 @@
   top: 20px
   right: 20px
   transform: translateY(0)
+  z-index: 5
+  cursor: pointer
   transition:
-    property: transform, opacity
+    property: transform, opacity, background-color
     duration: $animation-duration
     timing-function: ease
 
@@ -14,8 +16,19 @@
 
   &__label
     padding: 8px 10px 5px
-    border: 2px solid black
+    border: 2px solid $color-primary
     font-weight: bold
+    background-color: transparent
+    transition: $animation-duration ease
 
   &__count
+    transition: $animation-duration ease
+
+  &--active, &:hover
+    .counter
+      &__label
+        background-color: $color-primary
+        color: white
+      &__count
+        color: white
 
