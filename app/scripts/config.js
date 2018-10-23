@@ -12,7 +12,7 @@ export default {
     lightPointer: "#ffffff",
     mapBuilding: "#ffffff",
     mapBuildingEmissive: "#CCCCCC",
-    mapFloor: "#ffffff",
+    mapFloor: "#6b6464", // #6b6464
     mapFloorEmissive: "#CCCCCC"
   },
 
@@ -68,10 +68,11 @@ export default {
 
   cards: {
     grid: {
-      size: 19
+      size: 8
     },
-    width: 14/20,
-    height: 9/20,
+    width: 14/7,
+    height: 9/7,
+    ratio: 14/9,
     widthSegments: 7,
     heightSegments: 5,
 

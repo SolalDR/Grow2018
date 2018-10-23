@@ -9,10 +9,18 @@
 @import "components/title"
 @import "components/btn"
 @import "components/compass"
+@import "components/counter"
+@import "components/target"
+@import "components/navigation"
+@import "components/burger"
+@import "components/menu"
+@import "components/collection"
+@import "components/card"
 
 
 .dg.ac
   z-index: 99999 !important
+  display: none
   *
     color: white
 
@@ -26,3 +34,10 @@
   height: 100%
   opacity: 0.1
   pointer-events: none
+
+
+.mode--developper
+  .dg.ac
+    display: block
+
+

@@ -1,10 +1,11 @@
 import config from "./../config.js";
 import CardMarker from "./CardMarker";
+import Event from "./../helpers/Event";
 
 /**
  * The cards markers manager
  */
-class CardMarkersManager {
+class CardMarkersManager extends Event {
 
   /**
    * @constructor
@@ -13,12 +14,21 @@ class CardMarkersManager {
    * @param {Pointer} pointer in three.js scene
    */
   constructor(args) {
-    this.data = args.data;
+    super();
+    this.eventsList = ["click", "hover"];
+
+    this.cards = args.cards;
     this.scene = args.scene;
     this.pointer = args.pointer;
+    this.textures = args.textures;
 
     this.markers = [];
     this.gridMarkers = Array.from({length: Math.pow(config.markers.grid.size, 2)}, e => Array());
+
+    // marker selects in render near pointer
+    this.markersSelection = [];
+    this.prevMarkersSelection = [];
+
 
     this.generateMarkers();
     this.generateMarkersGrid();
@@ -29,30 +39,31 @@ class CardMarkersManager {
    * to three group
    */
   generateMarkers() {
-    let cardMarker;
 
     // create group
     this.group = new THREE.Group();
     this.group.name = 'Card markers';
 
     // generate markers
-    this.data.forEach(data => {
+    this.cards.forEach(card => {
 
-      cardMarker = new CardMarker({
-        cardData: data
-      });
+      // init marker
+      card.marker.init(this.textures);
 
       // add to group
-      this.group.add(cardMarker.mesh);
+      this.group.add(card.marker.mesh);
 
       // add to markers array
-      this.markers.push(cardMarker);
+      this.markers.push(card.marker);
 
     });
+
+    // add group to scene
+    this.scene.add(this.group);
   }
 
   /**
-   * Generate markers grid for optimised marker picking
+   * Generate markers grid for marker picking
    */
   generateMarkersGrid() {
 
@@ -90,8 +101,6 @@ class CardMarkersManager {
       this.gridMarkers[marker.grid.index - 1].push(marker);
     });
 
-    // add group to scene
-    this.scene.add(this.group);
   }
 
   /**
@@ -124,11 +133,12 @@ class CardMarkersManager {
       ...m[i - 1] || [],
       ...m[i] || [],
       ...m[i - 2] || [],
+      ...m[i - gSize] || [],
       ...m[i - gSize - 1] || [],
       ...m[i - gSize + 1] || [],
       ...m[i + gSize] || [],
-      ...m[i + gSize + 1] || [],
       ...m[i + gSize - 1] || [],
+      ...m[i + gSize + 1] || [],
     ];
   }
 
@@ -143,7 +153,7 @@ class CardMarkersManager {
    * update in THREE render
    * @param {boolean} mouseHasClick - click event triggered
    */
-  update(mouseHasClick) {
+  update(mouseHasClick, mouseHasMove) {
     // get pointer pos
     var pointerPos = new THREE.Vector2(this.pointer.group.position.x, this.pointer.group.position.z);
     // get pointer radius
@@ -156,35 +166,51 @@ class CardMarkersManager {
     if(currentIndex <= Math.pow(this.grid.size, 2)) {
 
       // Get hovered cells
-      var markerSelection = this.getCellsBloc(currentIndex);
+      this.markersSelection = this.getCellsBloc(currentIndex);
 
       // if selection contains markers
-      if(markerSelection.length > 0) {
+      if(this.markersSelection.length > 0) {
+
+
+        // visible false to previous markers
+        if(this.prevMarkersSelection !== this.markersSelection && this.prevMarkersSelection.length > 0) {
+          for ( var i = 0; i < this.prevMarkersSelection.length; i++ ) {
+            var marker = this.prevMarkersSelection[i];
+              marker.mesh.visible = false;
+          }
+        }
 
         this.hoveredMarker = null;
 
         // distance opacity
-        for ( var i = 0; i < markerSelection.length; i++ ) {
-          var marker = markerSelection[i];
+        for ( var i = 0; i < this.markersSelection.length; i++ ) {
+          var marker = this.markersSelection[i];
           var markerPos = new THREE.Vector2(marker.mesh.position.x, marker.mesh.position.z);
           var distance  = pointerPos.distanceTo(markerPos);
           var maxDistance = 150;
-          marker.mesh.material.opacity = THREE.Math.mapLinear(distance, 0, maxDistance, 1, 0);
+          //marker.mesh.material.opacity = THREE.Math.mapLinear(distance, 0, maxDistance, 1, 0);
+          marker.mesh.visible = true;
+          marker.uniforms.opacity.value = THREE.Math.mapLinear(distance, 0, maxDistance, 1, 0);
+
+          marker.pointerDistance = pointerPos.distanceTo(markerPos);
 
           // marker Selection
-          if(pointerPos.distanceTo(markerPos) < pointerRadius*2) {
+          if(marker.pointerDistance < pointerRadius*2) {
             this.hoveredMarker = marker;
           }
         }
 
+        if( mouseHasMove && this.markersSelection.length ) {
+          this.dispatch("hover", {
+            cards: this.markersSelection
+          })
+        }
+
+        // set prev markers selection
+        this.prevMarkersSelection = this.markersSelection;
+
         if(mouseHasClick && this.hoveredMarker) {
-          console.group('clicked marker');
-          console.log('hoveredMarker', this.hoveredMarker);
-          if(this.hoveredMarker.mesh.meta.title) {
-            console.log('title ', this.hoveredMarker.mesh.meta.title);
-          }
-          console.log('markerSelection: ', markerSelection);
-          console.groupEnd();
+          this.dispatch("click", { card: this.hoveredMarker.card });
         }
       }
     }

@@ -24,6 +24,7 @@ class Pointer {
     this.ring = new THREE.Mesh(geometryRing, material);
     this.disc = new THREE.Mesh(geometryDisc, material);
     this.group = new THREE.Group();
+    this.group.name = 'pointer';
     this.group.add(this.ring);
     this.group.add(this.disc);
 

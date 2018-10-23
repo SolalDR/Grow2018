@@ -114,7 +114,7 @@ class Map extends Event {
 
         this.floor = new THREE.Mesh(geometry, material);
 
-        textureLoader.load("/static/images/textures/map.png", (texture)=>{
+        textureLoader.load("/static/images/textures/map.jpg", (texture)=>{
           this.generateInfosMap(texture);
           this.testLoaded();
           if( config.heightmap.debug ){
@@ -169,7 +169,6 @@ class Map extends Event {
       this.floor.geometry.attributes.position.array[i*3 + 1] += infos[2]/255*config.heightmap.ratio - config.heightmap.ratio;
     }
 
-    console.log("Hello", this.floor);
     this.floor.geometry.computeVertexNormals();
   }
 
@@ -190,8 +189,6 @@ class Map extends Event {
     loader.load(
       "/static/meshes/map_drc/" + tile.obj_url,
       ( geometry ) => {
-
-        console.log(geometry);
         var material = new THREE.MeshPhongMaterial({
           emissive: new THREE.Color(config.colors.mapBuildingEmissive),
           color: new THREE.Color(config.colors.mapBuilding)

@@ -1,0 +1,21 @@
+.counter
+  position: absolute
+  top: 20px
+  right: 20px
+  transform: translateY(0)
+  transition:
+    property: transform, opacity
+    duration: $animation-duration
+    timing-function: ease
+
+  &--hidden
+    transform: translateY(-50px)
+    opacity: 0
+
+  &__label
+    padding: 8px 10px 5px
+    border: 2px solid black
+    font-weight: bold
+
+  &__count
+

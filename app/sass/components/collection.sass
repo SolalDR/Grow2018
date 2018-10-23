@@ -1,0 +1,41 @@
+$width: 60px
+
+$rat: 14/9
+$height: $width/$rat
+
+.collection
+  position: fixed
+  top: 0
+  right: 0
+  padding-top: 60px
+  z-index: 5
+
+  &--hidden
+    pointer-events: none
+
+  &__list
+    max-height: 100vh
+    overflow: scroll
+    height: 100vh
+    width: 14vh
+    position: fixed
+    right: 0
+    top: 0
+    padding-top: 80px
+    display: flex
+    flex-direction: column
+
+  &__item
+    height: $height
+    width: $width
+    position: relative
+    z-index: 999
+    overflow: hidden
+
+  &__img
+    position: absolute
+    top: 0
+    left: 0
+    width: $width*8
+    height: $height*8
+    z-index: 999

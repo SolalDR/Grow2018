@@ -2,12 +2,10 @@ import OrbitControls from "./helpers/OrbitControls.js";
 import FirstPersonControls from "./helpers/FirstPersonControls.js";
 import CustomControl from "./helpers/CustomControl.js";
 import Dat from "dat-gui";
-import { Stats } from "three-stats";
 import Clock from "./helpers/Clock.js";
 import config from "./config.js";
-import datas from "./../datas/datas.json";
 import monuments from "./../datas/monuments.json";
-import cleanDatas from "./../datas/data_sb_only.json";
+import datas from "./../datas/data_sb_only.json";
 import Card from "./components/Card.js";
 import CardsCloud from "./components/CardsCloud.js";
 import ImageUtil from "./helpers/ImageUtil.js";
@@ -18,8 +16,10 @@ import Bird from "./components/Bird.js";
 import Forest from "./components/Forest.js";
 import UI from "./components/UI.js";
 import Pointer from "./components/Pointer.js";
+import Water from "./components/Water.js";
 import CardMarkersManager from "./components/CardMarkersManager";
 import Monument from "./components/Monument";
+import Collection from "./components/Collection";
 
 /**
  * Main app object
@@ -40,9 +40,6 @@ export default class App {
     this.config = config;
     this.gui = new Dat.GUI();
     this.clock = new Clock();
-    this.stats = new Stats();
-    this.stats.showPanel( 1 ); // 0: fps, 1: ms, 2: mb, 3+: custom
-    document.body.appendChild( this.stats.dom );
 
     // Camera and control
     this.camera = new THREE.PerspectiveCamera( config.camera.fov, window.innerWidth / window.innerHeight, config.camera.near, config.camera.far );
@@ -64,7 +61,6 @@ export default class App {
 
     this.init();
     this.initControl();
-
 
     // export for three js extension
     window.scene = this.scene;
@@ -141,6 +137,10 @@ export default class App {
     // this.scene.add(this.cloud);
     this.pointer = new Pointer();
     this.scene.add(this.pointer.group);
+    this.collection = new Collection({ui: this.ui.collection});
+
+    // this.water = new Water();
+    // this.scene.add(this.water.mesh);
 
     this.map = new Map(this.scene, this.raycaster);
     this.map.on("map:load", ()=>{
@@ -156,7 +156,7 @@ export default class App {
       this.forest.on("load", ()=>{
         this.scene.add(this.forest.mesh);
       })
-    })
+    });
 
     this.generateCards();
     this.generateMonuments();
@@ -166,17 +166,16 @@ export default class App {
       pointer: this.pointer
     });
 
-
     // TODO: remove
-    this.ui.compass.targetPosition = this.cardMarkersManager.markers[0].mesh.position;
 
     AppGui.init(this);
 
-    this.ui.on("start", ()=>{
+    this.ui.on("intro:begin", ()=>{
       var target = new THREE.Vector3(0, 200, 0);
       this.controls.move({
         target: target,
-        duration: 5000
+        duration: 5000,
+        onFinish: () => { console.log("Hello end"); this.ui.dispatch("intro:end") }
       });
       this.controls.rotate({
         phi: this.controls.computedPhi(target.y),
@@ -193,15 +192,27 @@ export default class App {
 
   generateCards() {
     var cards = [], card;
-    var recto = new THREE.TextureLoader().load(
-      "/static/images/img_recto.jpg",
-      () => {
+    // var verso = new THREE.TextureLoader().load("/static/images/img_verso.jpg");
+    // var recto = new THREE.TextureLoader().load(
+    //   "/static/images/img_recto.jpg",
+    //   () => {
+    this.promiseLoadTextures(
+      [
+        '/static/images/img_verso.jpg',
+        '/static/images/img_recto.jpg'
+      ],
+      (textures) => {
+
+        console.log('textures loaded', textures);
+
+        var verso = textures[0];
+        var recto = textures[1];
 
         // Create canvas to read pixel information based on card's coords
         var canvas = document.createElement('canvas');
         canvas.width = recto.image.width;
         canvas.height = recto.image.height;
-        var ctx = canvas.getContext('2d')
+        var ctx = canvas.getContext('2d');
         ctx.drawImage(recto.image, 0, 0, recto.image.width, recto.image.height);
 
         // Instantiate all the cards
@@ -218,8 +229,26 @@ export default class App {
           camera: this.camera
         });
 
+        this.cardMarkersManager = new CardMarkersManager({
+          cards,
+          textures : {
+            recto: recto,
+            verso: verso
+          },
+          scene: this.scene,
+          pointer: this.pointer
+        });
+        this.cardMarkersManager.on("click", (event) => {
+          this.clickedOnMarker = true;
+          this.collection.addCard(event.card);
+        });
+        // this.cardMarkersManager.on("hover", (cards) => console.log(cards) );
+
         this.scene.add(this.cardsCloud.mesh);
         this.renderer.animate( this.render.bind(this) );
+
+        // set ui compass
+        this.ui.compass.targetPosition = this.cardMarkersManager.cards[0].marker.mesh.position;
       }
     );
   }
@@ -239,10 +268,9 @@ export default class App {
    * THREE.js raf
    */
   render() {
-    this.stats.begin();
     this.clock.update();
     this.ui.compass.update();
-    this.cardMarkersManager.update(this.mouseHasClick);
+    this.cardMarkersManager.update(this.mouseHasClick, this.mouseHasMove);
 
     // this.cloud.material.uniforms.u_time.value = this.clock.elapsed*0.001;
     // this.cloud.material.uniforms.needsUpdate = true;
@@ -257,7 +285,7 @@ export default class App {
       this.controls.update( this.clock.delta/1000 );
     }
 
-    if( this.mouseHasMove || this.mouseHasClick || (this.controls.movement && this.controls.movement.active) ){
+    if( !this.clickedOnMarker && (this.mouseHasMove || this.mouseHasClick || (this.controls.movement && this.controls.movement.active)) ){
       this.raycaster.setFromCamera( this.mouse, this.camera );
       var intersects = this.raycaster.intersectObjects( this.scene.children );
       intersects.find(intersect => {
@@ -272,14 +300,13 @@ export default class App {
 
     this.pointer.render(this.clock.elapsed);
     this.renderer.render( this.scene, this.camera );
-    this.stats.end();
     this.mouseHasMove = false;
     this.mouseHasClick = false;
+    this.clickedOnMarker = false;
   }
 
 
   // -----------------------------------------
-
 
   updateMousePosition( event ) {
     this.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
@@ -305,12 +332,45 @@ export default class App {
     }
   }
 
-
   onWindowResize() {
   	this.camera.aspect = window.innerWidth / window.innerHeight;
   	this.camera.updateProjectionMatrix();
   	this.renderer.setSize( window.innerWidth, window.innerHeight );
   }
 
+
+  /**
+   * THREE.TextureLoader promise for multiple textures
+   * @param {Array} imgUrls - textures images urls
+   * @param {Function} callback - callback when all textures loaded
+   */
+  promiseLoadTextures(imgUrls, callback) {
+
+    var imgPr = [];
+    var textures = [];
+    //var loader = new THREE.TextureLoader();
+
+    // Load textures
+    for (var i = 0; i < imgUrls.length; i++) {
+      var url = imgUrls[i];
+      imgPr.push(new Promise((resolve, reject) => {
+        var loader = new THREE.TextureLoader();
+        loader.setCrossOrigin( 'Anonymous');
+        var key = i;
+        var texture = loader.load( url, () => {
+          textures[key] = texture;
+          resolve();
+        });
+      }));
+    }
+
+    // Resolve textures loaded
+    Promise.all(imgPr).then(() => {
+      callback(textures);
+      this.texturesLoaded = true;
+    }).catch(function(errtextures) {
+      console.error(errtextures)
+    });
+  }
 
 }

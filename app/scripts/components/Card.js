@@ -1,4 +1,5 @@
 import config from "./../config.js";
+import CardMarker from "./CardMarker";
 
 /**
  * Logic model representing a single card
@@ -15,26 +16,27 @@ class Card {
    * @attribute author
    * @attribute year
    * @attribute rank
-   * @attribute year
+   * @attribute gpsCoords lat, ln of the card's photo position
    * @attribute isWorking Some images aren't working
+   * @attribute marker postcard marker thumb on 3d map
    * @attribute coords Get the coords in the sprite texture
    */
 	constructor(datas, args = {}) {
 		this.verso = null;
 		this.recto = null;
 		this.title = datas.title;
-		this.author = datas.author;
 		this.year = datas.year;
 		this.versoUrl = datas.img_verso;
 		this.rectoUrl = datas.img_recto;
 		this.rank = datas.img_rank - 1;
+    this.gpsCoords = datas.coords;
 		this.isWorking = datas.img_working;
-    this.latitude = null;
-    this.longitude = null;
 
 		this.onLoad = args.onLoad ? args.onLoad : false;
 
 		this.coords = this.computeCoords();
+
+    this.marker = new CardMarker(this);
 	}
 
 
@@ -43,8 +45,14 @@ class Card {
    * @return {Object} Return a vector2
    */
 	computeCoords() {
+    if( this.rank == 19 ){
+      console.log({
+        x: this.rank%config.cards.grid.size - 1,
+        y: Math.floor(this.rank/config.cards.grid.size)
+      })
+    }
 		return {
-			x: this.rank%config.cards.grid.size,
+			x: this.rank%config.cards.grid.size - 1,
 			y: Math.floor(this.rank/config.cards.grid.size)
 		}
 	}

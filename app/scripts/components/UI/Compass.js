@@ -9,6 +9,15 @@ class Compass extends Event {
     this.initEvents();
   }
 
+  get hidden() {
+    return this.element.classList.contains('compass--hidden');
+  }
+
+  set hidden(v) {
+    this.element.classList[v ? 'add' : 'remove']('compass--hidden');
+  }
+
+
   get width() {
     return this.elements.range.offsetWidth;
   }
@@ -48,13 +57,27 @@ class Compass extends Event {
       .setY(0);
   }
 
+  generateElements(){
+    var count = 21, element;
+    for(var i=0; i<count; i++){
+      element = document.createElement("span");
+      element.classList.add("compass__scale");
+      element.style.left = i*(100/(count-1))+"%"
+      this.elements.scaleContainer.appendChild(element);
+      this.elements.scales[i] = element;
+    }
+  }
+
   initElements(element) {
     this.element = element;
     this.elements = {
       range: this.element.querySelector('.compass__range'),
       north: this.element.querySelector('.compass__indicator--north'),
-      target: this.element.querySelector('.compass__indicator--target')
+      target: this.element.querySelector('.compass__indicator--target'),
+      scaleContainer: this.element.querySelector(".compass__scale-container"),
+      scales: []
     };
+    this.generateElements();
   }
 
   initEvents() {
