@@ -173,7 +173,9 @@ class CardMarkersManager {
         if(this.prevMarkersSelection !== this.markersSelection && this.prevMarkersSelection.length > 0) {
           for ( var i = 0; i < this.prevMarkersSelection.length; i++ ) {
             var marker = this.prevMarkersSelection[i];
+            if(!config.markers.debug) {
               marker.mesh.visible = false;
+            }
           }
         }
 
@@ -186,8 +188,10 @@ class CardMarkersManager {
           var distance  = pointerPos.distanceTo(markerPos);
           var maxDistance = 150;
           //marker.mesh.material.opacity = THREE.Math.mapLinear(distance, 0, maxDistance, 1, 0);
-          marker.mesh.visible = true;
-          marker.uniforms.opacity.value = THREE.Math.mapLinear(distance, 0, maxDistance, 1, 0);
+          if(!config.markers.debug) {
+            marker.mesh.visible = true;
+            marker.uniforms.opacity.value = THREE.Math.mapLinear(distance, 0, maxDistance, 1, 0);
+          }
 
           // marker Selection
           if(pointerPos.distanceTo(markerPos) < pointerRadius*2) {

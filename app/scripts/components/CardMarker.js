@@ -16,7 +16,7 @@ class CardMarker {
 	constructor(card) {
 		this.card = card;
 		this.refMarkersDatas = refMarkersDatas;
-		this.debug = true;
+		this.debug = config.markers.debug;
 	}
 
   /**
@@ -85,7 +85,9 @@ class CardMarker {
     };
 
     // render false
-    this.mesh.visible = false;
+    if(!this.debug) {
+      this.mesh.visible = false;
+    }
 
   }
 
