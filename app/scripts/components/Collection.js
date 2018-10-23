@@ -1,15 +1,22 @@
 class Collection {
 
   constructor({
-    cards = []
+    cards = [],
+    ui = null
   } = {}){
-    this.cards = cards;
+    this.ui = ui;
+    this.cards = {};
+    this.count = 0;
     this.storage = window.localStorage;
   }
 
   addCard(card){
-    this.cards.push(card);
-    this.saveStorage();
+    if(!this.cards[card.rank]) {
+      this.cards[card.rank] = card
+      this.ui.addCard(card);
+      this.count++;
+    }
+    this.ui.counter.count = this.count;
   }
 
   getStorage(){

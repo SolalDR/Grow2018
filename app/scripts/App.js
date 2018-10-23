@@ -124,8 +124,7 @@ export default class App {
     // this.scene.add(this.cloud);
     this.pointer = new Pointer();
     this.scene.add(this.pointer.group);
-
-    this.collection = new Collection();
+    this.collection = new Collection({ui: this.ui.collection});
 
     // this.water = new Water();
     // this.scene.add(this.water.mesh);
