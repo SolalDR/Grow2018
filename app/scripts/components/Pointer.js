@@ -9,7 +9,7 @@ class Pointer {
     this.disc;
     this.group;
     this.position;
-    this._hover = {};
+    this._hover = {intensity: 0};
     this._click = {intensity: 0};
     this.click;
     this.init();
@@ -38,11 +38,9 @@ class Pointer {
 
 
   set hover(value){
-    if( value === true ){
+    if(this._hover.status != MODE_ACTIVE && value === true ){
       this._hover.status = MODE_ACTIVE;
-      this._hover.start = Date.now();
-      this._hover.intensity = 0;
-    } else {
+    } else if( value === false ) {
       this._hover.status = MODE_ENDING;
     }
   }
@@ -81,12 +79,11 @@ class Pointer {
 
   render(time){
     if( this._hover.status === MODE_ACTIVE ){
-      this._hover.intensity = (Math.cos((time - this._hover.start)*0.005)/2 + 1)*0.5;
+      this._hover.intensity += (1 - this._hover.intensity) * 0.1
       this.updateRing();
     } else if(this._hover.status === MODE_ENDING) {
-      this._hover.intensity -= this._hover.intensity*0.1;
+      this._hover.intensity += (0 - this._hover.intensity) * 0.1
       this.updateRing();
-      if( Math.abs(this._hover.intensity) < 0.001 ) this._hover.status = MODE_STOPED;
     }
 
     if( this._click.status == MODE_STARTING ){

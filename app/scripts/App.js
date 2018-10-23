@@ -240,6 +240,13 @@ export default class App {
           this.clickedOnMarker = true;
           this.collection.addCard(event.card);
         });
+
+        this.cardMarkersManager.on("hover", ()=>{
+          this.pointer.hover = true;
+        })
+        this.cardMarkersManager.on("hover:end", ()=>{
+          this.pointer.hover = false;
+        })
         // this.cardMarkersManager.on("hover", (cards) => console.log(cards) );
 
         this.scene.add(this.cardsCloud.mesh);
