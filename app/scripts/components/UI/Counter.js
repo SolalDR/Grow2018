@@ -15,7 +15,6 @@ export default class Counter extends Event {
 
   set hidden(v) {
     this.element.classList[v ? 'add' : 'remove']('counter--hidden');
-    console.log(v, this.element.classList);
   }
 
   get count(){
