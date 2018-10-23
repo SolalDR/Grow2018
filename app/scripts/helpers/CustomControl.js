@@ -44,6 +44,11 @@ class CustomControl extends Event {
       curve: null
     }
 
+    this.look = {
+      active: false,
+      animation: null
+    }
+
     this.drag = {
       active: false,
       current: { speed: {x: 0, y: 0}, distance: {x: 0, y: 0}, clientX: null, clientY: null },
@@ -152,6 +157,43 @@ class CustomControl extends Event {
     return finalCurve;
   }
 
+  lookAt({
+    target = null,
+    speed = null,
+    duration = 1500,
+    onFinish = null
+  } = {}){
+
+    if( this.look.animation ) {
+      this.look.animation.stop();
+      this.look.animation = null;
+    }
+
+    var distance = this.camera.position.distanceTo(target);
+    var from = new THREE.Vector3(0, 0, -1)
+      .applyQuaternion(this.camera.quaternion)
+      .multiplyScalar(distance)
+      .add(this.camera.position)
+    var to = target.clone();
+    var diff = to.clone().sub(from);
+
+    this.look.animation = new Animation({
+      timingFunction: "easeInOutQuad",
+      from: 0,
+      to: 1,
+      speed: speed,
+      duration: duration,
+      onFinish: ()=>{
+        this.look.active = false;
+        if( onFinish ) onFinish();
+      },
+      onProgress: (advancement, value)=> {
+        this.camera.lookAt( from.clone().add( diff.clone().multiplyScalar(advancement) ) );
+      }
+    })
+
+    this.look.active = true;
+  }
 
   move({
     target = null,
@@ -232,14 +274,17 @@ class CustomControl extends Event {
       this.needUpdateRotation = true;
     }
 
+    if( this.look.animation !== null ){ this.look.animation.render(delta); }
+
     if( mouseHasChange && !this.movement.active ){
       this.needUpdateRotation = true
     }
 
-
     // Drag control
     if( this.drag.active ){
       if( this.movement.active ) this.movement.animation.stop();
+      if( this.look.active ) this.look.animation.stop();
+
       var thetaDelta = (this.drag.origin.clientX - this.mouse.x);
       this.theta = this.drag.origin.theta + thetaDelta*this.speed
       this.needUpdateRotation = true;
@@ -249,6 +294,8 @@ class CustomControl extends Event {
     // Scroll control
     if( this.velocity.y !== 0 ){
       if( this.movement.active ) this.movement.animation.stop();
+      if( this.look.active ) this.look.animation.stop();
+
       if( Math.abs(this.velocity.y) < 0.0001 ) 
         this.velocity.y = 0
       else

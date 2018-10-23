@@ -163,11 +163,6 @@ export default class App {
 
     this.generateCards();
     this.generateMonuments();
-    this.cardMarkersManager = new CardMarkersManager({
-      data: cleanDatas,
-      scene: this.scene,
-      pointer: this.pointer
-    });
 
     // TODO: remove
 
