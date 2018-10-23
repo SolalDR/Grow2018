@@ -5,7 +5,6 @@ export default {
     debug: false,
     ratio: 100
   },
-c
   colors: {
     background: "#EEEEEE",
     lightDirectionnal: "#ffffff",
