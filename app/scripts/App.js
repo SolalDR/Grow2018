@@ -5,7 +5,6 @@ import Dat from "dat-gui";
 import Clock from "./helpers/Clock.js";
 import config from "./config.js";
 import datas from "./../datas/data_sb_only.json";
-//import cleanDatas from "./../datas/data_sb_only.json";
 import Card from "./components/Card.js";
 import CardsCloud from "./components/CardsCloud.js";
 import ImageUtil from "./helpers/ImageUtil.js";
@@ -18,6 +17,7 @@ import UI from "./components/UI.js";
 import Pointer from "./components/Pointer.js";
 import Water from "./components/Water.js";
 import CardMarkersManager from "./components/CardMarkersManager";
+import Collection from "./components/Collection";
 
 /**
  * Main app object
@@ -125,6 +125,8 @@ export default class App {
     this.pointer = new Pointer();
     this.scene.add(this.pointer.group);
 
+    this.collection = new Collection();
+
     // this.water = new Water();
     // this.scene.add(this.water.mesh);
 
@@ -218,6 +220,11 @@ export default class App {
           scene: this.scene,
           pointer: this.pointer
         });
+        this.cardMarkersManager.on("click", (event) => {
+          this.clickedOnMarker = true;
+          this.collection.addCard(event.card);
+        });
+        // this.cardMarkersManager.on("hover", (cards) => console.log(cards) );
 
         this.scene.add(this.cardsCloud.mesh);
         this.renderer.animate( this.render.bind(this) );
@@ -237,9 +244,7 @@ export default class App {
   render() {
     this.clock.update();
     this.ui.compass.update();
-    this.cardMarkersManager.update(this.mouseHasClick, () => {
-      this.clickedOnMarker = true;
-    });
+    this.cardMarkersManager.update(this.mouseHasClick, this.mouseHasMove);
 
     // this.cloud.material.uniforms.u_time.value = this.clock.elapsed*0.001;
     // this.cloud.material.uniforms.needsUpdate = true;
