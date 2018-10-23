@@ -63,7 +63,7 @@ class CardsCloud {
     // For each card, generate random attributes & uv coords
     for(let i = 0; i < this.cards.length; i++) {
       coords[ i*2 ] = this.cards[i].coords.x
-      coords[ i*2 + 1 ] = 18 - this.cards[i].coords.y
+      coords[ i*2 + 1 ] = 7 - this.cards[i].coords.y
 
       ranks[ i ] = this.cards[i].rank;
       offsets [ i ] = this.distribution.random();

@@ -5,8 +5,8 @@ import Dat from "dat-gui";
 import { Stats } from "three-stats";
 import Clock from "./helpers/Clock.js";
 import config from "./config.js";
-import datas from "./../datas/datas.json";
-import cleanDatas from "./../datas/data_sb_only.json";
+import datas from "./../datas/data_sb_only.json";
+//import cleanDatas from "./../datas/data_sb_only.json";
 import Card from "./components/Card.js";
 import CardsCloud from "./components/CardsCloud.js";
 import ImageUtil from "./helpers/ImageUtil.js";
@@ -38,7 +38,7 @@ export default class App {
     this.gui = new Dat.GUI();
     this.clock = new Clock();
     this.stats = new Stats();
-    this.stats.showPanel( 1 ); // 0: fps, 1: ms, 2: mb, 3+: custom
+    this.stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
     document.body.appendChild( this.stats.dom );
 
     // Camera and control
@@ -137,17 +137,11 @@ export default class App {
       });
       this.birds.mesh.position.set(-40, 500, 100);
       this.scene.add(this.birds.mesh);
-    })
-
-    this.generateCards();
-    this.cardMarkersManager = new CardMarkersManager({
-      data: cleanDatas,
-      scene: this.scene,
-      pointer: this.pointer
     });
 
+    this.generateCards();
+
     // TODO: remove
-    this.ui.compass.targetPosition = this.cardMarkersManager.markers[0].mesh.position;
 
     AppGui.init(this);
 
@@ -172,15 +166,27 @@ export default class App {
 
   generateCards() {
     var cards = [], card;
-    var recto = new THREE.TextureLoader().load(
-      "/static/images/img_recto.jpg",
-      () => {
+    // var verso = new THREE.TextureLoader().load("/static/images/img_verso.jpg");
+    // var recto = new THREE.TextureLoader().load(
+    //   "/static/images/img_recto.jpg",
+    //   () => {
+    this.promiseLoadTextures(
+      [
+        '/static/images/img_verso.jpg',
+        '/static/images/img_recto.jpg'
+      ],
+      (textures) => {
+
+        console.log('textures loaded', textures);
+
+        var verso = textures[0];
+        var recto = textures[1];
 
         // Create canvas to read pixel information based on card's coords
         var canvas = document.createElement('canvas');
         canvas.width = recto.image.width;
         canvas.height = recto.image.height;
-        var ctx = canvas.getContext('2d')
+        var ctx = canvas.getContext('2d');
         ctx.drawImage(recto.image, 0, 0, recto.image.width, recto.image.height);
 
         // Instantiate all the cards
@@ -197,8 +203,21 @@ export default class App {
           camera: this.camera
         });
 
+        this.cardMarkersManager = new CardMarkersManager({
+          cards,
+          textures : {
+            recto: recto,
+            verso: verso
+          },
+          scene: this.scene,
+          pointer: this.pointer
+        });
+
         this.scene.add(this.cardsCloud.mesh);
         this.renderer.animate( this.render.bind(this) );
+
+        // set ui compass
+        this.ui.compass.targetPosition = this.cardMarkersManager.cards[0].marker.mesh.position;
       }
     );
   }
@@ -213,7 +232,9 @@ export default class App {
     this.stats.begin();
     this.clock.update();
     this.ui.compass.update();
-    this.cardMarkersManager.update(this.mouseHasClick);
+    this.cardMarkersManager.update(this.mouseHasClick, () => {
+      this.clickedOnMarker = true;
+    });
 
     // this.cloud.material.uniforms.u_time.value = this.clock.elapsed*0.001;
     // this.cloud.material.uniforms.needsUpdate = true;
@@ -228,7 +249,7 @@ export default class App {
       this.controls.update( this.clock.delta/1000 );
     }
 
-    if( this.mouseHasMove || this.mouseHasClick || (this.controls.movement && this.controls.movement.active) ){
+    if( !this.clickedOnMarker && (this.mouseHasMove || this.mouseHasClick || (this.controls.movement && this.controls.movement.active)) ){
       this.raycaster.setFromCamera( this.mouse, this.camera );
       var intersects = this.raycaster.intersectObjects( this.scene.children );
       for ( var i = 0; i < intersects.length; i++ ) {
@@ -247,11 +268,11 @@ export default class App {
     this.stats.end();
     this.mouseHasMove = false;
     this.mouseHasClick = false;
+    this.clickedOnMarker = false;
   }
 
 
   // -----------------------------------------
-
 
   updateMousePosition( event ) {
     this.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
@@ -277,12 +298,45 @@ export default class App {
     }
   }
 
-
   onWindowResize() {
   	this.camera.aspect = window.innerWidth / window.innerHeight;
   	this.camera.updateProjectionMatrix();
   	this.renderer.setSize( window.innerWidth, window.innerHeight );
   }
 
+
+  /**
+   * THREE.TextureLoader promise for multiple textures
+   * @param {Array} imgUrls - textures images urls
+   * @param {Function} callback - callback when all textures loaded
+   */
+  promiseLoadTextures(imgUrls, callback) {
+
+    var imgPr = [];
+    var textures = [];
+    //var loader = new THREE.TextureLoader();
+
+    // Load textures
+    for (var i = 0; i < imgUrls.length; i++) {
+      var url = imgUrls[i];
+      imgPr.push(new Promise((resolve, reject) => {
+        var loader = new THREE.TextureLoader();
+        loader.setCrossOrigin( 'Anonymous');
+        var key = i;
+        var texture = loader.load( url, () => {
+          textures[key] = texture;
+          resolve();
+        });
+      }));
+    }
+
+    // Resolve textures loaded
+    Promise.all(imgPr).then(() => {
+      callback(textures);
+      this.texturesLoaded = true;
+    }).catch(function(errtextures) {
+      console.error(errtextures)
+    });
+  }
 
 }
