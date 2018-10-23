@@ -309,13 +309,7 @@ class CustomControl extends Event {
         this.camera.position.y = this.boundaries.max.y;
       }
 
-      this.camera.far = Math.max(this.far, this.camera.position.y * 1.3);
 
-      if(this.scene.fog) {
-        this.scene.fog.far = this.camera.far;
-        this.scene.fog.near = this.camera.far - 300;
-      }
-      this.camera.updateProjectionMatrix();
       if(this.rotation.animation === null){
         this.phi = this.computedPhi();
       }
@@ -325,6 +319,13 @@ class CustomControl extends Event {
 
     // Apply rotations
     if( this.needUpdateRotation ){
+      this.camera.far = Math.min(2000, this.camera.position.y * 1.1 + 600) ;
+      if(this.scene.fog) {
+        this.scene.fog.far = this.camera.far;
+        this.scene.fog.near = this.camera.far - 300;
+      }
+      this.camera.updateProjectionMatrix();
+
       this.updateTarget();
     }
 
