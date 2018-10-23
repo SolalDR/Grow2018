@@ -16,8 +16,9 @@ vec3 transform( inout vec3 position, vec3 T, vec4 R, vec3 S ) {
     return position;
 }
 
-varying vec3 vPos;
 varying vec2 vUv;
+varying float fogDepth;
+
 void main() {
     vec3 pos = position;
 
@@ -26,9 +27,11 @@ void main() {
     if( position.x != 0. ) {
       newPosition.y = cos(u_time*4. + offset)*1.5;
     }
+
     newPosition.z = mod(newPosition.z + u_time*speed, u_zmax - u_zmin);
     transform( newPosition, newTranslation, rotation, scale );
-    gl_Position = projectionMatrix * modelViewMatrix * vec4( newPosition, 1.0 );
-    vPos = pos;
+    vec4 mvPosition = modelViewMatrix * vec4( newPosition, 1.0 );
+    gl_Position = projectionMatrix * mvPosition;
     vUv = uv;
+    fogDepth = -mvPosition.z;
 }

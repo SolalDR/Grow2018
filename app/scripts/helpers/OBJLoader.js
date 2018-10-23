@@ -18,7 +18,7 @@ OBJLoader.prototype = {
 
     var scope = this;
 
-    var loader = new THREE.XHRLoader( scope.manager );
+    var loader = new THREE.FileLoader( scope.manager );
     loader.setPath( this.path );
     loader.load( url, function ( text ) {
 
@@ -385,7 +385,7 @@ OBJLoader.prototype = {
 
       }
 
-      material.shading = object.material.smooth ? THREE.SmoothShading : THREE.FlatShading;
+      material.flatShading = !object.material.smooth;
 
       var mesh = new THREE.Mesh( buffergeometry, material );
       mesh.name = object.name;

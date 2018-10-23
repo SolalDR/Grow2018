@@ -2,7 +2,6 @@ import OrbitControls from "./helpers/OrbitControls.js";
 import FirstPersonControls from "./helpers/FirstPersonControls.js";
 import CustomControl from "./helpers/CustomControl.js";
 import Dat from "dat-gui";
-import { Stats } from "three-stats";
 import Clock from "./helpers/Clock.js";
 import config from "./config.js";
 import datas from "./../datas/data_sb_only.json";
@@ -14,8 +13,10 @@ import Map from "./components/Map.js";
 import CloudMaterial from "./components/CloudMaterial.js";
 import AppGui from "./AppGui.js";
 import Bird from "./components/Bird.js";
+import Forest from "./components/Forest.js";
 import UI from "./components/UI.js";
 import Pointer from "./components/Pointer.js";
+import Water from "./components/Water.js";
 import CardMarkersManager from "./components/CardMarkersManager";
 
 /**
@@ -37,9 +38,6 @@ export default class App {
     this.config = config;
     this.gui = new Dat.GUI();
     this.clock = new Clock();
-    this.stats = new Stats();
-    this.stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
-    document.body.appendChild( this.stats.dom );
 
     // Camera and control
     this.camera = new THREE.PerspectiveCamera( config.camera.fov, window.innerWidth / window.innerHeight, config.camera.near, config.camera.far );
@@ -61,7 +59,6 @@ export default class App {
 
     this.init();
     this.initControl();
-
 
     // export for three js extension
     window.scene = this.scene;
@@ -128,15 +125,23 @@ export default class App {
     this.pointer = new Pointer();
     this.scene.add(this.pointer.group);
 
-    this.map = new Map(this.scene);
-    this.map.on("floor:load", ()=>{
+    // this.water = new Water();
+    // this.scene.add(this.water.mesh);
+
+    this.map = new Map(this.scene, this.raycaster);
+    this.map.on("map:load", ()=>{
       this.birds = new Bird({
-        count: 100,
+        count: 200,
         bbox: this.map.bbox,
         scale: 4
       });
-      this.birds.mesh.position.set(-40, 500, 100);
+      this.birds.mesh.position.set(-40, 400, 100);
       this.scene.add(this.birds.mesh);
+
+      this.forest = new Forest({ map: this.map })
+      this.forest.on("load", ()=>{
+        this.scene.add(this.forest.mesh);
+      })
     });
 
     this.generateCards();
@@ -145,11 +150,12 @@ export default class App {
 
     AppGui.init(this);
 
-    this.ui.on("start", ()=>{
+    this.ui.on("intro:begin", ()=>{
       var target = new THREE.Vector3(0, 200, 0);
       this.controls.move({
         target: target,
-        duration: 5000
+        duration: 5000,
+        onFinish: () => { console.log("Hello end"); this.ui.dispatch("intro:end") }
       });
       this.controls.rotate({
         phi: this.controls.computedPhi(target.y),
@@ -229,7 +235,6 @@ export default class App {
    * THREE.js raf
    */
   render() {
-    this.stats.begin();
     this.clock.update();
     this.ui.compass.update();
     this.cardMarkersManager.update(this.mouseHasClick, () => {
@@ -252,20 +257,18 @@ export default class App {
     if( !this.clickedOnMarker && (this.mouseHasMove || this.mouseHasClick || (this.controls.movement && this.controls.movement.active)) ){
       this.raycaster.setFromCamera( this.mouse, this.camera );
       var intersects = this.raycaster.intersectObjects( this.scene.children );
-      for ( var i = 0; i < intersects.length; i++ ) {
-        if( intersects[i].object.name == "floor") {
-          if( config.control.type == config.control.CUSTOM && this.mouseHasClick ) {
-            this.controls.onMouseClick( intersects[i] );
-          }
-          this.pointer.move(intersects[i].point);
-          break;
+      intersects.find(intersect => {
+        if( intersect.object.name !== 'floor' ) return false;
+        if( config.control.type == config.control.CUSTOM && this.mouseHasClick ) {
+          this.controls.onMouseClick( intersect );
         }
-      }
+        this.pointer.move( intersect.point );
+        return true;
+      });
     }
 
     this.pointer.render(this.clock.elapsed);
     this.renderer.render( this.scene, this.camera );
-    this.stats.end();
     this.mouseHasMove = false;
     this.mouseHasClick = false;
     this.clickedOnMarker = false;
