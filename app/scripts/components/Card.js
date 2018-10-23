@@ -45,8 +45,14 @@ class Card {
    * @return {Object} Return a vector2
    */
 	computeCoords() {
+    if( this.rank == 19 ){
+      console.log({
+        x: this.rank%config.cards.grid.size - 1,
+        y: Math.floor(this.rank/config.cards.grid.size)
+      })
+    }
 		return {
-			x: this.rank%config.cards.grid.size,
+			x: this.rank%config.cards.grid.size - 1,
 			y: Math.floor(this.rank/config.cards.grid.size)
 		}
 	}
