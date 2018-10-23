@@ -2,7 +2,8 @@ class Collection {
 
   constructor({
     cards = []
-  }){
+  } = {}){
+    this.cards = cards;
     this.storage = window.localStorage;
   }
 
@@ -17,7 +18,7 @@ class Collection {
 
   saveStorage(){
     var datas = [];
-    this.cards.forEach(card => datas.push(card.ID));
+    this.cards.forEach(card => datas.push(card.rank));
     this.storage.setItem("cards", JSON.parse(datas))
   }
 

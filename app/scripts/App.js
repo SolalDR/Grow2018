@@ -220,9 +220,9 @@ export default class App {
           scene: this.scene,
           pointer: this.pointer
         });
-        this.cardMarkersManager.on("click", (card) => {
+        this.cardMarkersManager.on("click", (event) => {
           this.clickedOnMarker = true;
-          this.collection.addCard(card);
+          this.collection.addCard(event.card);
         });
         // this.cardMarkersManager.on("hover", (cards) => console.log(cards) );
 
