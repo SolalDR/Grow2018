@@ -16,6 +16,7 @@ class CardMarker {
 	constructor(card) {
 		this.card = card;
 		this.refMarkersDatas = refMarkersDatas;
+    this.pointerDistance = null;
 		this.debug = true;
 	}
 

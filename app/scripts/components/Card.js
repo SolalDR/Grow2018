@@ -22,7 +22,6 @@ class Card {
    * @attribute coords Get the coords in the sprite texture
    */
 	constructor(datas, args = {}) {
-    this.id = datas.ID;
 		this.verso = null;
 		this.recto = null;
 		this.title = datas.title;

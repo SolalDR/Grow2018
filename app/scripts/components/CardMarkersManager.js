@@ -1,10 +1,11 @@
 import config from "./../config.js";
 import CardMarker from "./CardMarker";
+import Event from "./../helpers/Event";
 
 /**
  * The cards markers manager
  */
-class CardMarkersManager {
+class CardMarkersManager extends Event {
 
   /**
    * @constructor
@@ -13,6 +14,9 @@ class CardMarkersManager {
    * @param {Pointer} pointer in three.js scene
    */
   constructor(args) {
+    super();
+    this.eventsList = ["click", "hover"];
+
     this.cards = args.cards;
     this.scene = args.scene;
     this.pointer = args.pointer;
@@ -148,9 +152,8 @@ class CardMarkersManager {
   /**
    * update in THREE render
    * @param {boolean} mouseHasClick - click event triggered
-   * @param {function} markerClickCallback - callback on click if target marker
    */
-  update(mouseHasClick, markerClickCallback) {
+  update(mouseHasClick, mouseHasMove) {
     // get pointer pos
     var pointerPos = new THREE.Vector2(this.pointer.group.position.x, this.pointer.group.position.z);
     // get pointer radius
@@ -189,24 +192,25 @@ class CardMarkersManager {
           marker.mesh.visible = true;
           marker.uniforms.opacity.value = THREE.Math.mapLinear(distance, 0, maxDistance, 1, 0);
 
+          marker.pointerDistance = pointerPos.distanceTo(markerPos);
+
           // marker Selection
-          if(pointerPos.distanceTo(markerPos) < pointerRadius*2) {
+          if(marker.pointerDistance < pointerRadius*2) {
             this.hoveredMarker = marker;
           }
+        }
+
+        if( mouseHasMove && this.markersSelection.length ) {
+          this.dispatch("hover", {
+            cards: this.markersSelection
+          })
         }
 
         // set prev markers selection
         this.prevMarkersSelection = this.markersSelection;
 
         if(mouseHasClick && this.hoveredMarker) {
-          console.group('clicked marker');
-          console.log('hoveredMarker', this.hoveredMarker);
-          if(this.hoveredMarker.mesh.meta.title) {
-            console.log('title ', this.hoveredMarker.mesh.meta.title);
-          }
-          console.groupEnd();
-
-          markerClickCallback();
+          this.dispatch("click", { card: this.hoveredMarker.card });
         }
       }
     }
