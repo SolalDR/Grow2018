@@ -9,7 +9,7 @@ export default {
 
     colors.addColor(c.colors, "background").onChange( (value) => {
       app.scene.background = new THREE.Color(value)
-      app.scene.fog.color = new THREE.Color(value)
+      if(app.scene.for) app.scene.fog.color = new THREE.Color(value)
     });
 
     colors.addColor(c.colors, "lightDirectionnal").onChange( (value) => app.directionalLight.color = new THREE.Color(value));

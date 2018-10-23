@@ -1,5 +1,6 @@
 import Animation from "./Animation.js"
 import Event from "./Event.js";
+import config from "../config.js";
 
 class CustomControl extends Event {
 
@@ -26,6 +27,7 @@ class CustomControl extends Event {
     this.mouse = mouse;
     this.enabled = true;
     this.dragging = false;
+    this.far = camera.far;
 
     this.rotation = {
       min: - THREE.Math.degToRad(minAngle) - Math.PI/2,
@@ -93,9 +95,10 @@ class CustomControl extends Event {
     var theta = this.theta + this.mouse.x/50;
 
     var targetPosition = new THREE.Vector3();
-    targetPosition.x = this.camera.position.x + 100 * Math.sin( phi ) * Math.cos( theta );
-    targetPosition.y = this.camera.position.y + 100 * Math.cos( phi );
-    targetPosition.z = this.camera.position.z + 100 * Math.sin( phi ) * Math.sin( theta );
+    var factor = config.control.boundaries.maximum.y/config.control.boundaries.minimum.y*10;
+    targetPosition.x = this.camera.position.x + factor * Math.sin( phi ) * Math.cos( theta );
+    targetPosition.y = this.camera.position.y + factor * Math.cos( phi );
+    targetPosition.z = this.camera.position.z + factor * Math.sin( phi ) * Math.sin( theta );
     this.target = targetPosition;
   }
 
@@ -259,9 +262,12 @@ class CustomControl extends Event {
         this.camera.position.y = this.boundaries.max.y;
       }
 
-      this.camera.far = Math.max(1000, this.camera.position.y * 1.3);
-      this.scene.fog.far = this.camera.far;
-      this.scene.fog.near = this.camera.far - 300;
+      this.camera.far = Math.max(this.far, this.camera.position.y * 1.3);
+
+      if(this.scene.fog) {
+        this.scene.fog.far = this.camera.far;
+        this.scene.fog.near = this.camera.far - 300;
+      }
       this.camera.updateProjectionMatrix();
       if(this.rotation.animation === null){
         this.phi = this.computedPhi();

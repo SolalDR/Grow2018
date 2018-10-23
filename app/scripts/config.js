@@ -26,14 +26,14 @@ export default {
     theta: 0,
     fov: 45 ,
     near: 10,
-    far: 1500
+    far: 10000
   },
 
   fog: {
     density: 0.0025,
     near: 800,
     far: 1200,
-    active: true
+    active: false
   },
 
   control: {
@@ -41,7 +41,29 @@ export default {
     ORBIT: 2,
     CUSTOM: 3,
     type: 3,
-    speed: 100
+    speed: 100,
+    boundaries: {
+      minimum: {
+        x: -1000,
+        y: 200,
+        z: -1000
+      },
+      maximum: {
+        x: 1000,
+        y: 5000,
+        z: 1000
+      },
+      // minimum: {
+      //   x: -1000,
+      //   y: 200,
+      //   z: -1000
+      // },
+      // maximum: {
+      //   x: 1000,
+      //   y: 2000,
+      //   z: 1000
+      // }
+    }
   },
 
   cards: {

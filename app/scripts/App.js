@@ -6,6 +6,7 @@ import { Stats } from "three-stats";
 import Clock from "./helpers/Clock.js";
 import config from "./config.js";
 import datas from "./../datas/datas.json";
+import monuments from "./../datas/monuments.json";
 import cleanDatas from "./../datas/data_sb_only.json";
 import Card from "./components/Card.js";
 import CardsCloud from "./components/CardsCloud.js";
@@ -18,6 +19,7 @@ import Forest from "./components/Forest.js";
 import UI from "./components/UI.js";
 import Pointer from "./components/Pointer.js";
 import CardMarkersManager from "./components/CardMarkersManager";
+import Monument from "./components/Monument";
 
 /**
  * Main app object
@@ -86,7 +88,18 @@ export default class App {
 
       case config.control.CUSTOM:
         this.controls = new CustomControl(this.camera, {
-          boundaries: new THREE.Box3(new THREE.Vector3(-1000, 200, -1000), new THREE.Vector3(1000, 2000, 1000)),
+          boundaries: new THREE.Box3(
+            new THREE.Vector3(
+              config.control.boundaries.minimum.x,
+              config.control.boundaries.minimum.y,
+              config.control.boundaries.minimum.z
+            ),
+            new THREE.Vector3(
+              config.control.boundaries.maximum.x,
+              config.control.boundaries.maximum.y,
+              config.control.boundaries.maximum.z
+            )
+          ),
           mouse: this.mouse,
           phi: config.camera.phi,
           scene: this.scene
@@ -146,11 +159,13 @@ export default class App {
     })
 
     this.generateCards();
+    this.generateMonuments();
     this.cardMarkersManager = new CardMarkersManager({
       data: cleanDatas,
       scene: this.scene,
       pointer: this.pointer
     });
+
 
     // TODO: remove
     this.ui.compass.targetPosition = this.cardMarkersManager.markers[0].mesh.position;
@@ -207,6 +222,14 @@ export default class App {
         this.renderer.animate( this.render.bind(this) );
       }
     );
+  }
+
+  generateMonuments() {
+    monuments.forEach(params => {
+      new Monument(params).load()
+        .then(monument => this.scene.add(monument.object))
+        .catch(error => { throw error; });
+    })
   }
 
 
