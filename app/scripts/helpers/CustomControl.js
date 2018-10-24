@@ -1,5 +1,6 @@
 import Animation from "./Animation.js"
 import Event from "./Event.js";
+import config from "../config.js";
 
 class CustomControl extends Event {
 
@@ -26,6 +27,7 @@ class CustomControl extends Event {
     this.mouse = mouse;
     this.enabled = true;
     this.dragging = false;
+    this.far = camera.far;
 
     this.rotation = {
       min: - THREE.Math.degToRad(minAngle) - Math.PI/2,
@@ -40,6 +42,11 @@ class CustomControl extends Event {
       active: false,
       animation: null,
       curve: null
+    }
+
+    this.look = {
+      active: false,
+      animation: null
     }
 
     this.drag = {
@@ -93,9 +100,10 @@ class CustomControl extends Event {
     var theta = this.theta + this.mouse.x/50;
 
     var targetPosition = new THREE.Vector3();
-    targetPosition.x = this.camera.position.x + 100 * Math.sin( phi ) * Math.cos( theta );
-    targetPosition.y = this.camera.position.y + 100 * Math.cos( phi );
-    targetPosition.z = this.camera.position.z + 100 * Math.sin( phi ) * Math.sin( theta );
+    var factor = config.control.boundaries.maximum.y/config.control.boundaries.minimum.y*10;
+    targetPosition.x = this.camera.position.x + factor * Math.sin( phi ) * Math.cos( theta );
+    targetPosition.y = this.camera.position.y + factor * Math.cos( phi );
+    targetPosition.z = this.camera.position.z + factor * Math.sin( phi ) * Math.sin( theta );
     this.target = targetPosition;
   }
 
@@ -149,6 +157,43 @@ class CustomControl extends Event {
     return finalCurve;
   }
 
+  lookAt({
+    target = null,
+    speed = null,
+    duration = 1500,
+    onFinish = null
+  } = {}){
+
+    if( this.look.animation ) {
+      this.look.animation.stop();
+      this.look.animation = null;
+    }
+
+    var distance = this.camera.position.distanceTo(target);
+    var from = new THREE.Vector3(0, 0, -1)
+      .applyQuaternion(this.camera.quaternion)
+      .multiplyScalar(distance)
+      .add(this.camera.position)
+    var to = target.clone();
+    var diff = to.clone().sub(from);
+
+    this.look.animation = new Animation({
+      timingFunction: "easeInOutQuad",
+      from: 0,
+      to: 1,
+      speed: speed,
+      duration: duration,
+      onFinish: ()=>{
+        this.look.active = false;
+        if( onFinish ) onFinish();
+      },
+      onProgress: (advancement, value)=> {
+        this.camera.lookAt( from.clone().add( diff.clone().multiplyScalar(advancement) ) );
+      }
+    })
+
+    this.look.active = true;
+  }
 
   move({
     target = null,
@@ -229,14 +274,17 @@ class CustomControl extends Event {
       this.needUpdateRotation = true;
     }
 
+    if( this.look.animation !== null ){ this.look.animation.render(delta); }
+
     if( mouseHasChange && !this.movement.active ){
       this.needUpdateRotation = true
     }
 
-
     // Drag control
     if( this.drag.active ){
       if( this.movement.active ) this.movement.animation.stop();
+      if( this.look.active ) this.look.animation.stop();
+
       var thetaDelta = (this.drag.origin.clientX - this.mouse.x);
       this.theta = this.drag.origin.theta + thetaDelta*this.speed
       this.needUpdateRotation = true;
@@ -246,6 +294,8 @@ class CustomControl extends Event {
     // Scroll control
     if( this.velocity.y !== 0 ){
       if( this.movement.active ) this.movement.animation.stop();
+      if( this.look.active ) this.look.animation.stop();
+
       if( Math.abs(this.velocity.y) < 0.0001 ) 
         this.velocity.y = 0
       else
@@ -259,10 +309,7 @@ class CustomControl extends Event {
         this.camera.position.y = this.boundaries.max.y;
       }
 
-      this.camera.far = Math.max(1000, this.camera.position.y * 1.3);
-      this.scene.fog.far = this.camera.far;
-      this.scene.fog.near = this.camera.far - 300;
-      this.camera.updateProjectionMatrix();
+
       if(this.rotation.animation === null){
         this.phi = this.computedPhi();
       }
@@ -272,6 +319,13 @@ class CustomControl extends Event {
 
     // Apply rotations
     if( this.needUpdateRotation ){
+      this.camera.far = Math.min(2000, this.camera.position.y * 1.1 + 600) ;
+      if(this.scene.fog) {
+        this.scene.fog.far = this.camera.far;
+        this.scene.fog.near = this.camera.far - 300;
+      }
+      this.camera.updateProjectionMatrix();
+
       this.updateTarget();
     }
 

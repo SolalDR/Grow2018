@@ -9,20 +9,27 @@ $height: $width/$rat
   right: 0
   padding-top: 60px
   z-index: 5
+  will-change: transform, opacity
+  transform: translateX(0)
+  opacity: 1
+  transition:
+    property: transform, opacity
+    duration: $animation-duration
+    timing-function: ease
 
   &--hidden
     pointer-events: none
+    transform: translateX(100px)
+    opacity: 0
 
   &__list
-    max-height: 100vh
+    max-height: calc(100vh - 50px)
     overflow: scroll
-    height: 100vh
-    width: 14vh
+    height: calc(100vh - 50px)
+    width: 95px
     position: fixed
     right: 0
-    top: 0
-    padding-top: 80px
-    display: flex
+    top: 50px
     flex-direction: column
 
   &__item
@@ -31,6 +38,7 @@ $height: $width/$rat
     position: relative
     z-index: 999
     overflow: hidden
+    margin: 10px 13px
 
   &__img
     position: absolute

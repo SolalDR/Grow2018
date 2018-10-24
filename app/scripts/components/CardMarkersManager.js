@@ -15,7 +15,7 @@ class CardMarkersManager extends Event {
    */
   constructor(args) {
     super();
-    this.eventsList = ["click", "hover"];
+    this.eventsList = ["click", "hover", "hover:end"];
 
     this.cards = args.cards;
     this.scene = args.scene;
@@ -46,7 +46,7 @@ class CardMarkersManager extends Event {
 
     // generate markers
     this.cards.forEach(card => {
-
+      console.log(card.isWorking)
       // init marker
       card.marker.init(this.textures);
 
@@ -201,14 +201,18 @@ class CardMarkersManager extends Event {
           // marker Selection
           if(marker.pointerDistance < pointerRadius*2) {
             this.hoveredMarker = marker;
+            this.dispatch("hover", {
+              card: this.hoveredMarker
+            })
           }
         }
 
-        if( mouseHasMove && this.markersSelection.length ) {
-          this.dispatch("hover", {
-            cards: this.markersSelection
+        if( !this.hoveredMarker ){
+          this.dispatch("hover:end", {
+            card: this.hoveredMarker
           })
         }
+
 
         // set prev markers selection
         this.prevMarkersSelection = this.markersSelection;

@@ -40,7 +40,29 @@ export default {
     ORBIT: 2,
     CUSTOM: 3,
     type: 3,
-    speed: 100
+    speed: 100,
+    boundaries: {
+      // minimum: {
+      //   x: -1000,
+      //   y: 200,
+      //   z: -1000
+      // },
+      // maximum: {
+      //   x: 1000,
+      //   y: 5000,
+      //   z: 1000
+      // },
+      minimum: {
+        x: -1000,
+        y: 200,
+        z: -1000
+      },
+      maximum: {
+        x: 1000,
+        y: 2000,
+        z: 1000
+      }
+    }
   },
 
   cards: {

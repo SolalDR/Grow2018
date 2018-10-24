@@ -4,6 +4,7 @@ import CustomControl from "./helpers/CustomControl.js";
 import Dat from "dat-gui";
 import Clock from "./helpers/Clock.js";
 import config from "./config.js";
+import monuments from "./../datas/monuments.json";
 import datas from "./../datas/data_sb_only.json";
 import Card from "./components/Card.js";
 import CardsCloud from "./components/CardsCloud.js";
@@ -17,6 +18,7 @@ import UI from "./components/UI.js";
 import Pointer from "./components/Pointer.js";
 import Water from "./components/Water.js";
 import CardMarkersManager from "./components/CardMarkersManager";
+import Monument from "./components/Monument";
 import Collection from "./components/Collection";
 
 /**
@@ -57,6 +59,9 @@ export default class App {
     if(config.fog.active) this.scene.fog = new THREE.Fog( this.scene.background, config.fog.near, config.fog.far );
     this.onWindowResize();
 
+    this.container.addEventListener("mousedown", this.onMouseDown.bind(this));
+    this.container.addEventListener("mouseup", this.onMouseUp.bind(this));
+
     this.init();
     this.initControl();
 
@@ -82,7 +87,18 @@ export default class App {
 
       case config.control.CUSTOM:
         this.controls = new CustomControl(this.camera, {
-          boundaries: new THREE.Box3(new THREE.Vector3(-1000, 200, -1000), new THREE.Vector3(1000, 2000, 1000)),
+          boundaries: new THREE.Box3(
+            new THREE.Vector3(
+              config.control.boundaries.minimum.x,
+              config.control.boundaries.minimum.y,
+              config.control.boundaries.minimum.z
+            ),
+            new THREE.Vector3(
+              config.control.boundaries.maximum.x,
+              config.control.boundaries.maximum.y,
+              config.control.boundaries.maximum.z
+            )
+          ),
           mouse: this.mouse,
           phi: config.camera.phi,
           scene: this.scene
@@ -146,6 +162,7 @@ export default class App {
     });
 
     this.generateCards();
+    this.generateMonuments();
 
     // TODO: remove
 
@@ -223,6 +240,13 @@ export default class App {
           this.clickedOnMarker = true;
           this.collection.addCard(event.card);
         });
+
+        this.cardMarkersManager.on("hover", ()=>{
+          this.pointer.hover = true;
+        })
+        this.cardMarkersManager.on("hover:end", ()=>{
+          this.pointer.hover = false;
+        })
         // this.cardMarkersManager.on("hover", (cards) => console.log(cards) );
 
         this.scene.add(this.cardsCloud.mesh);
@@ -232,6 +256,14 @@ export default class App {
         this.ui.compass.targetPosition = this.cardMarkersManager.cards[0].marker.mesh.position;
       }
     );
+  }
+
+  generateMonuments() {
+    monuments.forEach(params => {
+      new Monument(params).load()
+        .then(monument => this.scene.add(monument.object))
+        .catch(error => { throw error; });
+    })
   }
 
 
@@ -288,6 +320,7 @@ export default class App {
   }
 
   onMouseDown( event ){
+    if( event.target.nodeName != "CANVAS" ) return;
     this.pointer.click = true;
     if( config.control.type == config.control.CUSTOM ) {
       this.controls.onMouseDown(event);
@@ -296,6 +329,7 @@ export default class App {
   }
 
   onMouseUp( event ){
+    if( event.target.nodeName != "CANVAS" ) return;
     this.pointer.click = false;
     if( config.control.type == config.control.CUSTOM ) {
       this.controls.onMouseDown(event);
