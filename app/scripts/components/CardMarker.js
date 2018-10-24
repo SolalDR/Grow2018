@@ -2,6 +2,7 @@ import config from "./../config.js";
 import refMarkersDatas from "./../../datas/refMarkers.json";
 import vertexShader from "./../../glsl/cardMarker.vert";
 import fragmentShader from "./../../glsl/cardMarker.frag";
+import BufferGeometryUtils from "../helpers/BufferGeometryUtils";
 
 /**
  * Card Marker object on map
@@ -18,6 +19,7 @@ class CardMarker {
 		this.refMarkersDatas = refMarkersDatas;
 		this.debug = config.markers.debug;
     this.pointerDistance = null;
+    this.startOpacity = this.debug ? 1.0 :  0.0;
 
 
 	}
@@ -38,29 +40,20 @@ class CardMarker {
   generateMesh(textures) {
 
     // Generate instance geometry
-    var rectoGeometry = new THREE.PlaneGeometry( 40, 40/config.cards.ratio);
-    var versoGeometry = new THREE.PlaneGeometry( 40, 40/config.cards.ratio);
+    var rectoGeometry = new THREE.PlaneBufferGeometry( 40, 40/config.cards.ratio);
+    var versoGeometry = new THREE.PlaneBufferGeometry( 40, 40/config.cards.ratio);
     versoGeometry.rotateY(Math.PI);
     versoGeometry.computeVertexNormals();
 
-    // Create mesh
-    var rectoMesh = new THREE.Mesh(rectoGeometry);
-    var versoMesh = new THREE.Mesh(versoGeometry);
-
     // Create a geomatry with both sides merged
-    var geometry = new THREE.Geometry();
-    rectoMesh.updateMatrix(); // as needed
-    geometry.merge(rectoMesh.geometry, rectoMesh.matrix);
-
-    versoMesh.updateMatrix(); // as needed
-    geometry.merge(versoMesh.geometry, versoMesh.matrix);
+    var geometry =  BufferGeometryUtils.merge([rectoGeometry, versoGeometry]);
 
     // Setup uniforms
     this.uniforms = {
       img_recto: {type: "t", value: textures.recto },
       img_verso: {type: "t", value: textures.verso },
       coords: { type: 'v2', value: this.card.coords },
-      opacity: { type: 'f', value: 0.0},
+      opacity: { type: 'f', value: this.startOpacity},
     };
 
     // Shader Material
@@ -79,8 +72,6 @@ class CardMarker {
     // set position
     this.mesh.position.y = config.markers.elevation;
 
-
-
     // set data
     this.mesh.name = 'marker - ' + this.card.title;
     this.mesh.meta = {
@@ -91,26 +82,12 @@ class CardMarker {
     if(!this.debug) {
       this.mesh.visible = false;
     }
-
   }
 
   /**
    * Set x, y position from gps coordinates
    */
   setPositionCoords() {
-
-    // DEBUG CARD / TODO: remove
-    if(this.card.rank === 1 && this.debug) {
-      //var debugMarker = this.mesh.clone();
-      console.log(this.card.title, this.card.rank, this.card.coords);
-      this.mesh.position.set(250, 80, 20);
-      this.mesh.rotation.set(1.5, 1.4, 0);
-      return;
-    } else {
-      this.mesh.rotation.set(1.5, 0, 0);
-    }
-
-
     // map from latitude to x
     this.mesh.position.x = THREE.Math.mapLinear(
       this.card.gpsCoords.latitude,

@@ -11,7 +11,7 @@ export default {
     lightPointer: "#ffffff",
     mapBuilding: "#ffffff",
     mapBuildingEmissive: "#CCCCCC",
-    mapFloor: "#6b6464", // #6b6464
+    mapFloor: "#6b6464",
     mapFloorEmissive: "#CCCCCC"
   },
 

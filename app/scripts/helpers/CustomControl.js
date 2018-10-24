@@ -65,6 +65,10 @@ class CustomControl extends Event {
     window.addEventListener("mousedown", this.onMouseDown.bind(this));
     window.addEventListener("mouseup", this.onMouseUp.bind(this));
     window.addEventListener("mousemove", this.onMouseMove.bind(this));
+
+    // DEBUG CAMERA MOVE
+
+    window.customCtrl = this;
   }
 
   set minRotation(value){

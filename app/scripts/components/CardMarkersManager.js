@@ -46,7 +46,7 @@ class CardMarkersManager extends Event {
 
     // generate markers
     this.cards.forEach(card => {
-      console.log(card.isWorking)
+
       // init marker
       card.marker.init(this.textures);
 
@@ -173,10 +173,10 @@ class CardMarkersManager extends Event {
 
 
         // visible false to previous markers
-        if(this.prevMarkersSelection !== this.markersSelection && this.prevMarkersSelection.length > 0) {
-          for ( var i = 0; i < this.prevMarkersSelection.length; i++ ) {
-            var marker = this.prevMarkersSelection[i];
-            if(!config.markers.debug) {
+        if(!config.markers.debug) {
+          if(this.prevMarkersSelection !== this.markersSelection && this.prevMarkersSelection.length > 0) {
+            for ( var i = 0; i < this.prevMarkersSelection.length; i++ ) {
+              var marker = this.prevMarkersSelection[i];
               marker.mesh.visible = false;
             }
           }

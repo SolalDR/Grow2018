@@ -20,6 +20,7 @@ import Water from "./components/Water.js";
 import CardMarkersManager from "./components/CardMarkersManager";
 import Monument from "./components/Monument";
 import Collection from "./components/Collection";
+import promiseLoadTextures from "./helpers/promiseLoadTextures";
 
 /**
  * Main app object
@@ -67,7 +68,6 @@ export default class App {
 
     // export for three js extension
     window.scene = this.scene;
-    window.THREE = THREE;
   }
 
 
@@ -190,18 +190,13 @@ export default class App {
 
   generateCards() {
     var cards = [], card;
-    // var verso = new THREE.TextureLoader().load("/static/images/img_verso.jpg");
-    // var recto = new THREE.TextureLoader().load(
-    //   "/static/images/img_recto.jpg",
-    //   () => {
-    this.promiseLoadTextures(
+
+    promiseLoadTextures(
       [
         '/static/images/img_verso.jpg',
         '/static/images/img_recto.jpg'
       ],
       (textures) => {
-
-        console.log('textures loaded', textures);
 
         var verso = textures[0];
         var recto = textures[1];
@@ -254,6 +249,9 @@ export default class App {
 
         // set ui compass
         this.ui.compass.targetPosition = this.cardMarkersManager.cards[0].marker.mesh.position;
+
+        // debug cards
+        window.cards = cards;
       }
     );
   }
@@ -343,41 +341,6 @@ export default class App {
   	this.camera.aspect = window.innerWidth / window.innerHeight;
   	this.camera.updateProjectionMatrix();
   	this.renderer.setSize( window.innerWidth, window.innerHeight );
-  }
-
-
-  /**
-   * THREE.TextureLoader promise for multiple textures
-   * @param {Array} imgUrls - textures images urls
-   * @param {Function} callback - callback when all textures loaded
-   */
-  promiseLoadTextures(imgUrls, callback) {
-
-    var imgPr = [];
-    var textures = [];
-    //var loader = new THREE.TextureLoader();
-
-    // Load textures
-    for (var i = 0; i < imgUrls.length; i++) {
-      var url = imgUrls[i];
-      imgPr.push(new Promise((resolve, reject) => {
-        var loader = new THREE.TextureLoader();
-        loader.setCrossOrigin( 'Anonymous');
-        var key = i;
-        var texture = loader.load( url, () => {
-          textures[key] = texture;
-          resolve();
-        });
-      }));
-    }
-
-    // Resolve textures loaded
-    Promise.all(imgPr).then(() => {
-      callback(textures);
-      this.texturesLoaded = true;
-    }).catch(function(errtextures) {
-      console.error(errtextures)
-    });
   }
 
 }
