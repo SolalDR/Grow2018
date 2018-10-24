@@ -17,7 +17,6 @@ class Compass extends Event {
     this.element.classList[v ? 'add' : 'remove']('compass--hidden');
   }
 
-
   get width() {
     return this.elements.range.offsetWidth;
   }
@@ -40,17 +39,27 @@ class Compass extends Event {
     this.elements.target.style.transform = `translateX(${(v + 1)/2*this.width}px)`;
   }
 
-  get northVector() {
-    return this.constructor.northVector;
+  get targetCard(){
+    return this._card;
   }
 
-  get lookingVector() {
+  set targetCard(v){
+    this._card = v;
+    console.log(this._card)
+    this.targetPosition = this._card.marker.mesh.position;
+  }
+
+  get northDirection() {
+    return this.constructor.northDirection;
+  }
+
+  get lookingDirection() {
     return new THREE.Vector3(0, 0, -1)
       .applyEuler(this.camera.rotation, this.camera.rotation.order)
       .setY(0);
   }
 
-  get targetVector() {
+  get targetDirection() {
     return this.targetPosition
       .clone()
       .sub(this.camera.position)
@@ -85,10 +94,10 @@ class Compass extends Event {
   }
 
   update() {
-    var lookingVector = this.lookingVector;
+    var lookingDirection = this.lookingDirection;
 
-    this.north = -this.constructor.angle(lookingVector, this.northVector)/Math.PI;
-    this.target = -this.constructor.angle(lookingVector, this.targetVector)/Math.PI;
+    this.north = -this.constructor.angle(lookingDirection, this.northDirection)/Math.PI;
+    this.target = -this.constructor.angle(lookingDirection, this.targetDirection)/Math.PI;
   }
 
   static angle(reference, vector) {
@@ -102,6 +111,6 @@ class Compass extends Event {
   }
 }
 
-Compass.northVector = new THREE.Vector3(-1, 0, 0);
+Compass.northDirection = new THREE.Vector3(-1, 0, 0);
 
 export default Compass;

@@ -1,7 +1,6 @@
 import Event from "./../../helpers/Event.js";
 import Counter from "./Counter";
 
-
 export default class Collection extends Event {
 
   constructor(element) {
@@ -20,7 +19,7 @@ export default class Collection extends Event {
     this.element.classList[v ? 'add' : 'remove']('collection--hidden');
   }
 
-  addCard(card){
+  addCardElement(card){
     var step = 100/8;
     var width = 60;
     var height = 60/(14/9);
@@ -31,18 +30,18 @@ export default class Collection extends Event {
     var imgElement = document.createElement("img");
     imgElement.classList.add("collection__img");
     imgElement.src = "/static/images/img_recto.jpg";
-    // imgElement.style.transform = `translateX(${-card.coords.x*step}%) translateY(${-(card.coords.y - 1)*step}%)`;
     imgElement.style.top = -card.coords.y*height+"px";
     imgElement.style.left = -card.coords.x*width+"px";
-
-    console.log(card.coords, card)
 
     element.appendChild(imgElement);
 
     this.elements.list.appendChild(element);
-
-    this.cards.push(card);
     this.elements.cards.push(element);
+  }
+
+  addCard(card){
+    this.addCardElement(card);
+    this.cards.push(card);
   }
 
   initElements(element) {

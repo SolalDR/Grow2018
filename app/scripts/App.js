@@ -140,7 +140,6 @@ export default class App {
     // this.scene.add(this.cloud);
     this.pointer = new Pointer();
     this.scene.add(this.pointer.group);
-    this.collection = new Collection({ui: this.ui.collection});
 
     // this.water = new Water();
     // this.scene.add(this.water.mesh);
@@ -222,6 +221,11 @@ export default class App {
           camera: this.camera
         });
 
+        this.collection = new Collection({
+          ui: this.ui.collection,
+          cards: cards
+        });
+
         this.cardMarkersManager = new CardMarkersManager({
           cards,
           textures : {
@@ -231,6 +235,14 @@ export default class App {
           scene: this.scene,
           pointer: this.pointer
         });
+
+        // set ui compass
+        this.ui.compass.targetCard = this.collection.getRandomTarget();
+        this.collection.on("addCard", ()=>{
+          this.ui.compass.targetCard = this.collection.getRandomTarget();
+        })
+
+
         this.cardMarkersManager.on("click", (event) => {
           this.clickedOnMarker = true;
           this.collection.addCard(event.card);
@@ -246,12 +258,6 @@ export default class App {
 
         this.scene.add(this.cardsCloud.mesh);
         this.renderer.animate( this.render.bind(this) );
-
-        // set ui compass
-        this.ui.compass.targetPosition = this.cardMarkersManager.cards[0].marker.mesh.position;
-
-        // debug cards
-        window.cards = cards;
       }
     );
   }

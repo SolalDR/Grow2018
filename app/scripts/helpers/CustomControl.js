@@ -165,7 +165,8 @@ class CustomControl extends Event {
     target = null,
     speed = null,
     duration = 1500,
-    onFinish = null
+    onFinish = null,
+    timingFunction = "easeInOutQuad"
   } = {}){
 
     if( this.look.animation ) {
@@ -182,7 +183,7 @@ class CustomControl extends Event {
     var diff = to.clone().sub(from);
 
     this.look.animation = new Animation({
-      timingFunction: "easeInOutQuad",
+      timingFunction: timingFunction,
       from: 0,
       to: 1,
       speed: speed,
