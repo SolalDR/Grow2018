@@ -1,7 +1,6 @@
 import config from "./../config.js";
 import CardMarker from "./CardMarker";
 import Event from "./../helpers/Event";
-import CustomControl from "../helpers/CustomControl";
 
 /**
  * The cards markers manager
@@ -47,7 +46,7 @@ class CardMarkersManager extends Event {
 
     // generate markers
     this.cards.forEach(card => {
-
+      console.log(card.isWorking);
       // init marker
       card.marker.init(this.textures);
 

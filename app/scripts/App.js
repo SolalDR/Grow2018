@@ -118,6 +118,12 @@ export default class App {
    * Instantiate content & display
    */
   init(){
+
+    // Hide intro if config set invisible
+    if(!config.intro.active) {
+      this.hidePreIntro();
+    }
+
     this.ui = new UI(this);
 
     this.directionalLight = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
@@ -216,7 +222,7 @@ export default class App {
 
         this.ui.intro.hidden = false;
 
-        //this.hidePreIntro();
+        console.log('content loaded');
       }
     );
   }
@@ -239,7 +245,6 @@ export default class App {
     this.clock.update();
     this.ui.compass.update();
     this.cardMarkersManager.update(this.mouseHasClick, this.mouseHasMove);
-
 
     // this.cloud.material.uniforms.u_time.value = this.clock.elapsed*0.001;
     // this.cloud.material.uniforms.needsUpdate = true;
@@ -309,10 +314,10 @@ export default class App {
   	this.renderer.setSize( window.innerWidth, window.innerHeight );
   }
 
+  // TODO: refacto in intro
   hidePreIntro() {
     const preIntro = document.querySelector('.pre-intro');
-    //const preIntroLastText = preIntro.querySelector('.pre-intro__text.one');
-    preIntro.classList.add('pre-intro--hidden');
+    preIntro.style.display = 'none';
   }
 
 }

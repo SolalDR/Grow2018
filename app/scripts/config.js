@@ -1,5 +1,7 @@
 export default {
-
+  intro: {
+    active: true
+  },
   heightmap: {
     active: true,
     debug: false,

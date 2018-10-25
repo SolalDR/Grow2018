@@ -28,11 +28,11 @@ class CardMarker {
    */
 	init(textures) {
 	  this.generateMesh(textures);
-	  //if(this.card.position) {
+	  if(this.card.position) {
 	    this.setPosition();
-    // } else {
-    //   this.setPositionCoords();
-    // }
+    } else {
+      this.setPositionCoords();
+    }
   }
 
 
