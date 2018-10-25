@@ -118,9 +118,9 @@ class Forest extends Event {
       scale[ i*3 + 1 ] = 0.08;
       scale[ i*3 + 2 ] = 0.08;
 
-      color[ i*3 ] = trees[i][1][0]
-      color[ i*3 + 1 ] = trees[i][1][1]
-      color[ i*3 + 2 ] = trees[i][1][2]
+      color[ i*3 ] = trees[i][1][0];
+      color[ i*3 + 1 ] = trees[i][1][1];
+      color[ i*3 + 2 ] = trees[i][1][2];
 
       q.set(  ( Math.random() - .5 ) * 2, ( Math.random() - .5 ) * 2, ( Math.random() - .5 ) * 2, Math.random() * Math.PI );
       q.normalize();

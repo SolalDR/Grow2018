@@ -21,8 +21,10 @@ export default class Intro extends Event {
   }
 
   set hidden(v) {
-    this.element.classList[v ? 'add' : 'remove']('intro--hidden');
+    var className = this.hidding ? "intro--hidding" : "intro--hidden"
+    this.element.classList[v ? 'add' : 'remove'](className);
   }
+
 
   hide() {
     this.hidden = !(this.hidding = true);

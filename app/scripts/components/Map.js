@@ -16,7 +16,7 @@ class Map extends Event {
    */
   constructor(scene, raycaster){
     super();
-    this.eventsList = ["floor:load", "map:load"]
+    this.eventsList = ["floor:load", "map:load", "load"]
     this.datas = [
       {name: "", obj_url: "01.obj.drc", map_url: "ao_4k/01-4k.jpg" },
       {name: "", obj_url: "02.obj.drc", map_url: "ao_4k/02-4k.jpg" },
@@ -39,9 +39,13 @@ class Map extends Event {
   }
 
 
-  getInfosAtCoord(){
+  /**
+   * @TODO
+   * @param {Vector2} coords A latitude longitude object
+   * @return {Object}
+   */
+  getInfosAtCoord(coords){}
 
-  }
 
   getInfosAtPosition(vector){
     var cloneVector = vector.clone();
@@ -93,7 +97,6 @@ class Map extends Event {
       texture: texture
     }
 
-    this.dispatch("map:load");
   }
 
 
@@ -116,13 +119,16 @@ class Map extends Event {
 
         textureLoader.load("/static/images/textures/map.jpg", (texture)=>{
           this.generateInfosMap(texture);
-          this.testLoaded();
+
           if( config.heightmap.debug ){
             material.map = texture;
           }
           if(config.heightmap.active){
             this.computeHeightMap();
           }
+
+          this.testLoaded();
+          this.dispatch("map:load");
         });
 
 
@@ -135,8 +141,8 @@ class Map extends Event {
         this.floor.name = "floor";
 
         this.scene.add(this.floor);
-        this.testLoaded();
 
+        this.testLoaded();
         this.dispatch("floor:load");
     });
   }
@@ -174,6 +180,7 @@ class Map extends Event {
 
   testLoaded(){
     if( this.tiles.length == this.datas.length && this.infosMap && this.floor) {
+      this.dispatch("load");
       return true;
     }
     return false;

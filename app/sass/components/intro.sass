@@ -4,6 +4,7 @@
   justify-content: center
   text-align: center
 
+
   &--hidden
     display: none
 
@@ -24,6 +25,35 @@
     opacity: 1
     transform: translateY(0)
     transition-delay: .4s
+
+  &__loading, &__start
+    transition: .6s ease-in
+    opacity: 1
+    transition-delay: 0
+    pointer-events: none
+
+  &__loading
+    position: absolute
+    top: 0
+    left: 50%
+    transform: translateX(-50%)
+    text-transform: uppercase
+    letter-spacing: 5px
+    font-size: 12px
+
+  // &__start
+  //   transform: translateY(20px)
+  //   opacity: 0
+
+  &--loaded
+    .intro__start
+      opacity: 1
+      pointer-events: all
+      transform: translateY(0)
+    .intro__loading
+      opacity: 0
+      pointer-events: none
+      transform: translateY(-20px)
 
 
   &--hidding

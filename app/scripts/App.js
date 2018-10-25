@@ -120,72 +120,40 @@ export default class App {
   init(){
     this.ui = new UI(this);
 
-    // Generic light
     this.directionalLight = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
-
     this.directionalLight = new THREE.DirectionalLight( new THREE.Color(config.colors.lightDirectionnal), 0.18 );
     this.directionalLight.position.y = 1000;
-    this.scene.add(this.directionalLight);
-
-    // Point light
     this.pointerLight = new THREE.PointLight( new THREE.Color(config.colors.lightPointer), 0.2 );
     this.pointerLight.position.y = 100;
-    this.scene.add(this.pointerLight);
-
-
-    // this.cloud = new THREE.Mesh(new THREE.PlaneGeometry(this.camera.far, this.camera.far, 2, 2), new CloudMaterial());
-    // this.cloud.rotation.x = -Math.PI/2
-    // this.cloud.position.y = 200
-    // CloudMaterial.generateGui("Cloud1", this.gui, this.cloud);
-    // this.scene.add(this.cloud);
     this.pointer = new Pointer();
-    this.scene.add(this.pointer.group);
-
-    // this.water = new Water();
-    // this.scene.add(this.water.mesh);
 
     this.map = new Map(this.scene, this.raycaster);
-    this.map.on("map:load", ()=>{
+    this.map.on("load", ()=>{
       this.birds = new Bird({
         count: 200,
         bbox: this.map.bbox,
         scale: 4
       });
       this.birds.mesh.position.set(-40, 400, 100);
-      this.scene.add(this.birds.mesh);
 
+      // Forest
       this.forest = new Forest({ map: this.map })
       this.forest.on("load", ()=>{
-        this.scene.add(this.forest.mesh);
+        this.generateCards();
+        this.generateMonuments();
       })
     });
 
-    this.generateCards();
-    this.generateMonuments();
-
-    // TODO: remove
-
-    AppGui.init(this);
-
     this.ui.on("intro:begin", ()=>{
       var target = new THREE.Vector3(0, 200, 0);
-      this.controls.move({
-        target: target,
-        duration: 5000,
-        onFinish: () => { console.log("Hello end"); this.ui.dispatch("intro:end") }
-      });
-      this.controls.rotate({
-        phi: this.controls.computedPhi(target.y),
-        duration: 5000,
-        onFinish: ()=>{
-          this.controls.enabled = true;
-        }
-      });
-
+      this.controls.move({ target: target, duration: 5000, onFinish: () => this.ui.dispatch("intro:end") });
+      this.controls.rotate({ phi: this.controls.computedPhi(target.y), duration: 5000, onFinish: () => this.controls.enabled = true });
       this.cardsCloud.fall();
     });
-  }
 
+
+    AppGui.init(this);
+  }
 
   generateCards() {
     var cards = [], card;
@@ -215,16 +183,8 @@ export default class App {
           if( card.isWorking ) cards.push(card);
         });
 
-        this.cardsCloud = new CardsCloud({
-          cards,
-          gui: this.gui,
-          camera: this.camera
-        });
-
-        this.collection = new Collection({
-          ui: this.ui.collection,
-          cards: cards
-        });
+        this.cardsCloud = new CardsCloud({ cards, gui: this.gui, camera: this.camera });
+        this.collection = new Collection({ ui: this.ui.collection, cards: cards });
 
         this.cardMarkersManager = new CardMarkersManager({
           cards,
@@ -238,26 +198,23 @@ export default class App {
 
         // set ui compass
         this.ui.compass.targetCard = this.collection.getRandomTarget();
-        this.collection.on("addCard", ()=>{
-          this.ui.compass.targetCard = this.collection.getRandomTarget();
-        })
-
-
+        this.collection.on("addCard", () => this.ui.compass.targetCard = this.collection.getRandomTarget());
+        this.cardMarkersManager.on("hover", () => this.pointer.hover = true );
+        this.cardMarkersManager.on("hover:end", () => this.pointer.hover = false );
         this.cardMarkersManager.on("click", (event) => {
           this.clickedOnMarker = true;
           this.collection.addCard(event.card);
         });
 
-        this.cardMarkersManager.on("hover", ()=>{
-          this.pointer.hover = true;
-        })
-        this.cardMarkersManager.on("hover:end", ()=>{
-          this.pointer.hover = false;
-        })
-        // this.cardMarkersManager.on("hover", (cards) => console.log(cards) );
-
         this.scene.add(this.cardsCloud.mesh);
+        this.scene.add(this.directionalLight);
+        this.scene.add(this.pointerLight);
+        this.scene.add(this.pointer.group);
+        this.scene.add(this.birds.mesh);
+        this.scene.add(this.forest.mesh);
         this.renderer.animate( this.render.bind(this) );
+
+        this.ui.intro.hidden = false;
       }
     );
   }
