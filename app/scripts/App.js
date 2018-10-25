@@ -208,8 +208,16 @@ export default class App {
         this.cardMarkersManager.on("hover", () => this.pointer.hover = true );
         this.cardMarkersManager.on("hover:end", () => this.pointer.hover = false );
         this.cardMarkersManager.on("click", (event) => {
+          const cardPos = event.card.marker.mesh.position;
           this.clickedOnMarker = true;
           this.collection.addCard(event.card);
+          this.controls.lookAt({
+            target: cardPos,
+            duration: 3000,
+            onFinish: () => {
+              console.log('anim to card ended');
+            }
+          });
         });
 
         this.scene.add(this.cardsCloud.mesh);
