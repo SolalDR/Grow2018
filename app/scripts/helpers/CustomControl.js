@@ -324,7 +324,7 @@ class CustomControl extends Event {
 
     // Apply rotations
     if( this.needUpdateRotation ){
-      this.camera.far = Math.min(2000, this.camera.position.y * 1.1 + 600) ;
+      if(config.control.far) this.camera.far = Math.min(2000, this.camera.position.y * 1.1 + 600) ;
       if(this.scene.fog) {
         this.scene.fog.far = this.camera.far;
         this.scene.fog.near = this.camera.far - 300;

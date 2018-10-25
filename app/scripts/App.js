@@ -152,8 +152,12 @@ export default class App {
 
     this.ui.on("intro:begin", ()=>{
       var target = new THREE.Vector3(0, 200, 0);
-      this.controls.move({ target: target, duration: 5000, onFinish: () => this.ui.dispatch("intro:end") });
-      this.controls.rotate({ phi: this.controls.computedPhi(target.y), duration: 5000, onFinish: () => this.controls.enabled = true });
+
+      if(this.config.control.type === this.config.control.CUSTOM) {
+        this.controls.move({ target: target, duration: 5000, onFinish: () => this.ui.dispatch("intro:end") });
+        this.controls.rotate({ phi: this.controls.computedPhi(target.y), duration: 5000, onFinish: () => this.controls.enabled = true });
+      }
+
       this.cardsCloud.fall();
     });
 
@@ -236,10 +240,13 @@ export default class App {
   }
 
   generateMonuments() {
-    monuments.forEach(params => {
-      new Monument(params).load()
+    this.monuments = monuments.map(params => {
+      var monument = new Monument(params);
+      monument.load()
         .then(monument => this.scene.add(monument.object))
         .catch(error => { throw error; });
+
+      return monument;
     })
   }
 

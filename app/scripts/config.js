@@ -43,17 +43,8 @@ export default {
     CUSTOM: 3,
     type: 3,
     speed: 100,
+    far: true,
     boundaries: {
-      // minimum: {
-      //   x: -1000,
-      //   y: 200,
-      //   z: -1000
-      // },
-      // maximum: {
-      //   x: 1000,
-      //   y: 5000,
-      //   z: 1000
-      // },
       minimum: {
         x: -1000,
         y: 200,
