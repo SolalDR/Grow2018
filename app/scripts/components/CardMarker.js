@@ -74,6 +74,9 @@ class CardMarker {
     // set position
     this.mesh.position.y = config.markers.elevation;
 
+    // Invert 
+    this.mesh.rotation.z = Math.PI;
+
     // set data
     this.mesh.name = (this.card.rank + 2) + ' - marker - ' + this.card.title;
     this.mesh.meta = {

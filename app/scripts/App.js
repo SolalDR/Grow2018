@@ -20,7 +20,7 @@ import Water from "./components/Water.js";
 import CardMarkersManager from "./components/CardMarkersManager";
 import Monument from "./components/Monument";
 import Collection from "./components/Collection";
-import promiseLoadTextures from "./helpers/promiseLoadTextures";
+import promiseLoadTextures from "./helpers/PromiseLoadTextures";
 
 /**
  * Main app object
