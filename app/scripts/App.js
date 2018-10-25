@@ -215,6 +215,8 @@ export default class App {
         this.renderer.animate( this.render.bind(this) );
 
         this.ui.intro.hidden = false;
+
+        //this.hidePreIntro();
       }
     );
   }
@@ -237,6 +239,7 @@ export default class App {
     this.clock.update();
     this.ui.compass.update();
     this.cardMarkersManager.update(this.mouseHasClick, this.mouseHasMove);
+
 
     // this.cloud.material.uniforms.u_time.value = this.clock.elapsed*0.001;
     // this.cloud.material.uniforms.needsUpdate = true;
@@ -304,6 +307,12 @@ export default class App {
   	this.camera.aspect = window.innerWidth / window.innerHeight;
   	this.camera.updateProjectionMatrix();
   	this.renderer.setSize( window.innerWidth, window.innerHeight );
+  }
+
+  hidePreIntro() {
+    const preIntro = document.querySelector('.pre-intro');
+    //const preIntroLastText = preIntro.querySelector('.pre-intro__text.one');
+    preIntro.classList.add('pre-intro--hidden');
   }
 
 }

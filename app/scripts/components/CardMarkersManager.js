@@ -1,6 +1,7 @@
 import config from "./../config.js";
 import CardMarker from "./CardMarker";
 import Event from "./../helpers/Event";
+import CustomControl from "../helpers/CustomControl";
 
 /**
  * The cards markers manager

@@ -20,8 +20,6 @@ class CardMarker {
 		this.debug = config.markers.debug;
     this.pointerDistance = null;
     this.startOpacity = this.debug ? 1.0 :  0.0;
-
-
 	}
 
   /**
@@ -30,7 +28,11 @@ class CardMarker {
    */
 	init(textures) {
 	  this.generateMesh(textures);
-	  this.setPositionCoords();
+	  //if(this.card.position) {
+	    this.setPosition();
+    // } else {
+    //   this.setPositionCoords();
+    // }
   }
 
 
@@ -73,7 +75,7 @@ class CardMarker {
     this.mesh.position.y = config.markers.elevation;
 
     // set data
-    this.mesh.name = 'marker - ' + this.card.title;
+    this.mesh.name = (this.card.rank + 2) + ' - marker - ' + this.card.title;
     this.mesh.meta = {
       title: this.card.title
     };
@@ -81,6 +83,18 @@ class CardMarker {
     // render false
     if(!this.debug) {
       this.mesh.visible = false;
+    }
+  }
+
+  setRotation() {
+    if(this.card.rotation) {
+      this.mesh.rotation.set(this.card.rotation);
+    }
+  }
+
+  setPosition() {
+    if(this.card.position) {
+      this.mesh.position.set(this.card.position);
     }
   }
 

@@ -30,6 +30,8 @@ class Card {
 		this.rectoUrl = datas.img_recto;
 		this.rank = datas.img_rank - 1;
     this.gpsCoords = datas.coords;
+    this.position = datas.position;
+    this.rotation = datas.rotation;
 		this.isWorking = datas.img_working;
 
 		this.onLoad = args.onLoad ? args.onLoad : false;
@@ -45,14 +47,8 @@ class Card {
    * @return {Object} Return a vector2
    */
 	computeCoords() {
-    if( this.rank == 19 ){
-      console.log({
-        x: this.rank%config.cards.grid.size - 1,
-        y: Math.floor(this.rank/config.cards.grid.size)
-      })
-    }
 		return {
-			x: this.rank%config.cards.grid.size - 1,
+			x: this.rank%config.cards.grid.size,
 			y: Math.floor(this.rank/config.cards.grid.size)
 		}
 	}
