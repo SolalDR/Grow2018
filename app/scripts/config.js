@@ -47,7 +47,7 @@ export default {
     boundaries: {
       minimum: {
         x: -1000,
-        y: 200,
+        y: 80,
         z: -1000
       },
       maximum: {
@@ -102,7 +102,7 @@ export default {
   },
 
   markers: {
-    elevation: 45,
+    elevation: 60,
     debug: false,
     refs: {
       topLeft: {
