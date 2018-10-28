@@ -119,11 +119,6 @@ export default class App {
    */
   init(){
 
-    // Hide intro if config set invisible
-    if(!config.intro.active) {
-      this.hidePreIntro();
-    }
-
     this.ui = new UI(this);
 
     this.directionalLight = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
@@ -244,7 +239,9 @@ export default class App {
         this.scene.add(this.forest.mesh);
         this.renderer.animate( this.render.bind(this) );
 
-        this.ui.intro.hidden = false;
+        this.ui.intro.on("pre-intro:end", () => {
+          this.ui.intro.hidden = false;
+        });
 
         console.log('content loaded');
       }
@@ -339,12 +336,6 @@ export default class App {
   	this.camera.aspect = window.innerWidth / window.innerHeight;
   	this.camera.updateProjectionMatrix();
   	this.renderer.setSize( window.innerWidth, window.innerHeight );
-  }
-
-  // TODO: refacto in intro
-  hidePreIntro() {
-    const preIntro = document.querySelector('.pre-intro');
-    preIntro.style.display = 'none';
   }
 
 }

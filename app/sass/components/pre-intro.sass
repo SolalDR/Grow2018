@@ -1,3 +1,12 @@
+$itemAnimDuration: 10s
+$itemAnimDelay: $itemAnimDuration / 1.38
+
+.screen
+  position: fixed
+  height: 100vh
+  width: 100%
+  overflow: hidden
+
 .pre-intro
   top: 0
   left: 0
@@ -11,8 +20,7 @@
   background-position: 0 -100%, 0 0
   background-repeat: no-repeat
   text-align: center
-  animation: 30s weather linear, 1s hide ease-out
-  animation-delay: 5s, 25s
+  animation: 0.6s hide-pre-intro ease-out #{$itemAnimDuration + $itemAnimDelay * 3}
   animation-fill-mode: forwards
   overflow: hidden
   transition: opacity 0.6s ease-out, visibility 0.6s ease-out
@@ -21,118 +29,79 @@
   opacity: 0
   visibility: hidden
 
-@keyframes weather
-  0%
-    background-position: 0 -100%, 0 0
-
-  100%
-    background-position: 0 50%, 0 0
-
-.pre-intro__item
-  text-align: center
+.pre-intro__content
   position: absolute
-  height: 90px
-  margin-top: 20px
-  max-width: 540px
-  width: 100%
   top: 50%
   left: 50%
-  transform: translate(-50%, -50%)
-
-.pre-intro__text
-  position: absolute
-  top: 0
-  left: 0
-  right: 0
-  bottom: 0
-  max-width: 100%
-  margin: 0 auto
-  z-index: 1
+  transform: translate(-50%,-50%)
+  width: 800px
+  margin: 0 auto 50px
+  display: block
   font-size: 1.6rem
-  line-height: 1.1em
-  color: #e3e4e6
-  margin: auto
-  height: 100%
-  color: white
   text-align: center
-  -webkit-background-clip: text
-  -webkit-text-fill-color: transparent
-  background-image: radial-gradient(white, transparent 50%)
-  background-size: 220% 220%
-  background-position: -100% center
-  background-repeat: no-repeat
-  //transition: 4s
-  transform-origin: center center
-  transform: scale(0.5, 0.5)
-  animation-fill-mode: forwards
-  animation: 8s intro linear
-  transform: translate3d(0, 0, 0)
 
-.pre-intro__text.one
-  opacity: 1
-  animation: 8s intro linear 1s, 1s opacity cubic-bezier(0.4, 0.01, 0.165, 0.99)
 
-.pre-intro__text.two
-  animation-delay: 4s
-  animation-duration: 10.5s
+.pre-intro__item-bg
+  transform: scale(1, 1) translate3D(-100%, 0, 0)
+  animation: $itemAnimDuration bg-intro linear
+  &.one
+    animation: $itemAnimDuration bg-intro linear 0.5s, 0.5s fade-in
+  &.two
+    animation-delay: $itemAnimDelay
+  &.three
+    animation-delay: #{$itemAnimDelay * 2}
+  &.four
+    animation-delay: #{$itemAnimDelay * 3}
 
-.pre-intro__text.three
-  animation-delay: 10s
-  animation-duration: 10.5s
+//.pre-intro__item-text
+//  animation: $itemAnimDuration text-scale linear
+//  transform: translateZ(0)
+//  backface-visibility: hidden
+//  perspective: 1000
+//  transform-origin: center
+//  &.two
+//    animation-delay: $itemAnimDelay
+//  &.three
+//    animation-delay: #{$itemAnimDelay * 2}
+//  &.four
+//    animation-delay: #{$itemAnimDelay * 3}
 
-.pre-intro__text.four
-  animation: 8s intro-end 15s linear
-  animation-fill-mode: forwards
-  opacity: 0
-  transform: scale(1, 1)
+.text--line tspan
+  baseline-shift: 0.5em
 
-@keyframes intro
+
+@keyframes bg-intro
   0%
-    background-position: -100% center
-    transform: scale(0.9, 0.9)
+    transform: translate3D(-100%, 0, 0)
+    animation-timing-function: cubic-bezier(0.4, 0.01, 0.165, 0.99)
 
   50%
-    background-position: center center
-    transform: scale(0.95, 0.95)
+    transform: translate3D(-10%, 0, 0)
 
   80%
-    background-position: center center
-    transform: scale(1, 1)
+    transform: translate3D(10%, 0, 0)
 
   100%
-    background-position: 150% center
-    transform: scale(1, 1)
+    transform: translate3D(100%, 0, 0)
+    animation-timing-function: ease-in
+
+//@keyframes text-scale
+//  0%
+//    transform: scale(0.9) translateZ(0)
+//  100%
+//    transform: scale(1) translateZ(0)
 
 
-@keyframes intro-end
-  0%
-    background-position: -100% center
-    opacity: 0
-
-  100%
-    background-position: center center
-    opacity: 1
-
-@keyframes opacity
-  0%
-    opacity: 0
-
-  100%
-    opacity: 1
-
-@keyframes hide
+@keyframes hide-pre-intro
   0%
     opacity: 1
     visibility: visible
-
   100%
     opacity: 0
     visibility: hidden
 
-
-@keyframes jittery
+@keyframes fade-in
   0%
-    transform: translateX(-1px) translateY(0.1px)
-
+    opacity: 0
   100%
-    transform: translateX(0px) translateY(0px)
+    opacity: 1
