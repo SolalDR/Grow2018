@@ -21,6 +21,7 @@ import CardMarkersManager from "./components/CardMarkersManager";
 import Monument from "./components/Monument";
 import Collection from "./components/Collection";
 import promiseLoadTextures from "./helpers/PromiseLoadTextures";
+import "./helpers/OBJExporter";
 
 /**
  * Main app object
@@ -225,7 +226,7 @@ export default class App {
           });
           this.controls.move({ target: targetPos, duration: 2000, onFinish: () => {
               console.log('anim to card ended');
-            } 
+            }
           });
         });
 
@@ -334,6 +335,12 @@ export default class App {
   	this.camera.aspect = window.innerWidth / window.innerHeight;
   	this.camera.updateProjectionMatrix();
   	this.renderer.setSize( window.innerWidth, window.innerHeight );
+  }
+
+  export(){
+    var exporter = new THREE.OBJExporter();
+    var result = exporter.parse(scene);
+
   }
 
 }
