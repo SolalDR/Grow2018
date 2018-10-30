@@ -169,6 +169,8 @@ class CustomControl extends Event {
     timingFunction = "easeInOutQuad"
   } = {}){
 
+    this.enabled = false;
+
     if( this.look.animation ) {
       this.look.animation.stop();
       this.look.animation = null;
@@ -195,7 +197,7 @@ class CustomControl extends Event {
       onProgress: (advancement, value)=> {
         this.camera.lookAt( from.clone().add( diff.clone().multiplyScalar(advancement) ) );
       }
-    })
+    });
 
     this.look.active = true;
   }

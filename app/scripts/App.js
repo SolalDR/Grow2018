@@ -213,22 +213,20 @@ export default class App {
           targetPos = targetPos.lerp(cardPos, 0.8);
           targetPos.y = config.control.boundaries.minimum.y;
           console.log(targetPos);
-          //targetPos.lerp(cameraPos,cardPos, 0.9);
 
           this.clickedOnMarker = true;
           this.collection.addCard(event.card);
-          // this.controls.lookAt({
-          //   target: cardPos,
-          //   duration: 3000,
-          //   onFinish: () => {
-          //     console.log('anim to card ended');
-          //   }
-          // });
+          this.controls.lookAt({
+            target: cardPos,
+            duration: 2000,
+            onFinish: () => {
+              console.log('anim to card ended');
+            }
+          });
           this.controls.move({ target: targetPos, duration: 2000, onFinish: () => {
               console.log('anim to card ended');
             } 
           });
-          this.controls.rotate({ phi: this.controls.computedPhi(targetPos.y), duration: 2000, onFinish: () => this.controls.enabled = true });
         });
 
         this.scene.add(this.cardsCloud.mesh);
