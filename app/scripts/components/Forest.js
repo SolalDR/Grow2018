@@ -4,7 +4,7 @@ import fragmentShader from "./../../glsl/forest.frag";
 import config from "./../config.js";
 import OBJLoader from "./../helpers/OBJLoader.js";
 import Event from "./../helpers/Event.js";
-
+import datas from "./../../datas/forest.json"
 
 /**
  * @class Represent vegetation
@@ -65,6 +65,9 @@ class Forest extends Event {
    * Generate Trees logic
    */
   generateTrees(){
+    if( !config.forest.generative ){
+      return datas;
+    }
     var count = Math.floor(this.map.diff.x*this.map.diff.z*this.density);
     var canvas = document.createElement("canvas");
     var ctx = canvas.getContext("2d");
@@ -84,6 +87,7 @@ class Forest extends Event {
       }
 
     }
+    console.log(trees);
     return trees;
   }
 
@@ -94,6 +98,7 @@ class Forest extends Event {
     // var geometry = this.generateInstanceGeometry();
     console.log(this.tree);
     var geometry = this.tree;
+
     var trees = this.generateTrees();
 
     this.geometry = new THREE.InstancedBufferGeometry().copy(geometry);
@@ -105,9 +110,9 @@ class Forest extends Event {
     var q = new THREE.Quaternion();
 
     for(let i = 0; i < trees.length; i++) {
-      translation[ i*3 ] = trees[i][0].x
-      translation[ i*3 + 1 ] = trees[i][0].y
-      translation[ i*3 + 2 ] = trees[i][0].z
+      translation[ i*3 ] = trees[i].x
+      translation[ i*3 + 1 ] = trees[i].y
+      translation[ i*3 + 2 ] = trees[i].z
 
       rotation[ i*4 ] = 0;
       rotation[ i*4 + 1 ] = 0;
@@ -118,15 +123,10 @@ class Forest extends Event {
       scale[ i*3 + 1 ] = 0.08;
       scale[ i*3 + 2 ] = 0.08;
 
-      color[ i*3 ] = trees[i][1][0];
-      color[ i*3 + 1 ] = trees[i][1][1];
-      color[ i*3 + 2 ] = trees[i][1][2];
-
       q.set(  ( Math.random() - .5 ) * 2, ( Math.random() - .5 ) * 2, ( Math.random() - .5 ) * 2, Math.random() * Math.PI );
       q.normalize();
     }
 
-    this.geometry.addAttribute( 'color', new THREE.InstancedBufferAttribute( color, 3, false, 1 ) );
     this.geometry.addAttribute( 'translation', new THREE.InstancedBufferAttribute( translation, 3, false, 1 ) );
     this.geometry.addAttribute( 'rotation', new THREE.InstancedBufferAttribute( rotation, 4, false, 1 ) );
     this.geometry.addAttribute( 'scale', new THREE.InstancedBufferAttribute( scale, 3, false, 1 ) );

@@ -3,9 +3,12 @@ export default {
     active: true
   },
   heightmap: {
-    active: true,
+    active: false,
     debug: false,
     ratio: 100
+  },
+  forest: {
+    generative: false
   },
   colors: {
     background: "#EEEEEE",

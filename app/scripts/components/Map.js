@@ -1,5 +1,4 @@
 import Event from "./../helpers/Event.js";
-import OBJLoader from "./../helpers/OBJLoader.js";
 import DRACOLoader from "./../helpers/DRACOLoader.js";
 import JSONLoader from "./../helpers/JSONLoader.js";
 import vertexShader from "./../../glsl/map.vert";
@@ -28,6 +27,10 @@ class Map extends Event {
       {name: "", obj_url: "08.obj.drc", map_url: "ao_4k/08-4k.jpg" },
     ];
 
+    DRACOLoader.setDecoderPath('/static/draco/');
+    DRACOLoader.setDecoderConfig({type: 'js'});
+    this.loader = new DRACOLoader();
+
     this.tiles = [];
     this.scene = scene;
     this.raycaster = raycaster;
@@ -37,14 +40,6 @@ class Map extends Event {
 
     this.generateFloor();
   }
-
-
-  /**
-   * @TODO
-   * @param {Vector2} coords A latitude longitude object
-   * @return {Object}
-   */
-  getInfosAtCoord(coords){}
 
 
   getInfosAtPosition(vector){
@@ -81,34 +76,49 @@ class Map extends Event {
 
 
   generateInfosMap(texture){
-    var canvas = document.createElement("canvas");
-    canvas.width = 4096;
-    canvas.height = 4096;
-    canvas.id = "debug-floor"
-    var ctx = canvas.getContext("2d");
-    var image = texture.image;
+    var textureLoader = new THREE.TextureLoader();
 
-    ctx.fillStyle = "rgb(200,0,0)";
+    textureLoader.load("/static/images/textures/map.jpg", (texture)=>{
+      var canvas = document.createElement("canvas");
+      canvas.width = 4096;
+      canvas.height = 4096;
+      canvas.id = "debug-floor"
+      var ctx = canvas.getContext("2d");
+      var image = texture.image;
 
-    ctx.drawImage(texture.image, 0, 0, image.width, image.height);
+      ctx.fillStyle = "rgb(200,0,0)";
 
-    this.infosMap = {
-      context: ctx,
-      texture: texture
-    }
+      ctx.drawImage(texture.image, 0, 0, image.width, image.height);
 
+      this.infosMap = {
+        context: ctx,
+        texture: texture
+      }
+
+      if( config.heightmap.debug ) this.floor.material.map = texture;
+      if(config.heightmap.active) this.computeHeightMap();
+      this.dispatch("map:load");
+
+    });
   }
 
+  /**
+   * Generate bounding box
+   */
+  generateBoundingBox(){
+    this.bbox = new THREE.Box3().setFromObject(this.floor);
+    this.diff = this.bbox.max.clone().sub(this.bbox.min);
+    this.ratioX = this.diff.z/this.diff.x;
+    this.ratioZ = this.diff.x/this.diff.z;
+    this.center = new THREE.Vector3();
+    this.bbox.getCenter(this.center);
+  }
 
   /**
    * Generate floor plane
    */
   generateFloor(){
-    var loader = new OBJLoader();
-    var textureLoader = new THREE.TextureLoader();
-    loader.load("/static/meshes/Sol.obj", (object)=>{
-
-        var geometry = object.children[0].geometry;
+    this.loader.load("/static/meshes/Sol.obj.drc", (geometry)=>{
         var material = new THREE.MeshPhongMaterial({
           emissive: new THREE.Color(config.colors.mapFloorEmissive),
           color: new THREE.Color(config.colors.mapFloor),
@@ -116,31 +126,11 @@ class Map extends Event {
         });
 
         this.floor = new THREE.Mesh(geometry, material);
-
-        textureLoader.load("/static/images/textures/map.jpg", (texture)=>{
-          this.generateInfosMap(texture);
-
-          if( config.heightmap.debug ){
-            material.map = texture;
-          }
-          if(config.heightmap.active){
-            this.computeHeightMap();
-          }
-
-          this.testLoaded();
-          this.dispatch("map:load");
-        });
-
-
-        this.bbox = new THREE.Box3().setFromObject(this.floor);
-        this.diff = this.bbox.max.clone().sub(this.bbox.min);
-        this.ratioX = this.diff.z/this.diff.x;
-        this.ratioZ = this.diff.x/this.diff.z;
-        this.center = new THREE.Vector3();
-        this.bbox.getCenter(this.center);
         this.floor.name = "floor";
-
         this.scene.add(this.floor);
+
+        this.generateInfosMap();
+        this.generateBoundingBox();
 
         this.testLoaded();
         this.dispatch("floor:load");
@@ -150,8 +140,6 @@ class Map extends Event {
 
   computeHeightMap(){
     var vertice = null, infos = null, mesh = null, uv = null;
-
-
     for(var i=0; i<this.tiles.length; i++){
       mesh = this.tiles[i].mesh;
       for(var j=0; j<mesh.geometry.attributes.position.count; j++){
@@ -179,7 +167,7 @@ class Map extends Event {
   }
 
   testLoaded(){
-    if( this.tiles.length == this.datas.length && this.infosMap && this.floor) {
+    if( this.tiles.length == this.datas.length && this.floor) {
       this.dispatch("load");
       return true;
     }
@@ -187,13 +175,9 @@ class Map extends Event {
   }
 
 
-  loadTileDRC(tile, onLoad) {
-    DRACOLoader.setDecoderPath('/static/draco/');
-    DRACOLoader.setDecoderConfig({type: 'js'}); // (Optional) Override detection of WASM support.
-
-    var loader = new DRACOLoader();
+  loadTileDRC(tile, onLoad) {;
     var textureLoader = new THREE.TextureLoader();
-    loader.load(
+    this.loader.load(
       "/static/meshes/map_drc/" + tile.obj_url,
       ( geometry ) => {
         var material = new THREE.MeshPhongMaterial({
@@ -212,37 +196,7 @@ class Map extends Event {
         mesh.geometry.verticesNeedUpdate = true;
         mesh.name = tile.name;
 
-        this.tiles.push({mesh: mesh});
-        this.scene.add( mesh );
-
-        this.testLoaded();
-      }
-    );
-  }
-
-  /**
-   * Load a tile and add it to mesh
-   */
-  loadTileOBJ(tile, onLoad){
-    var loader = new OBJLoader();
-    var textureLoader = new THREE.TextureLoader();
-    loader.load(
-      tile.obj_url,
-      ( object ) => {
-        var material = new THREE.MeshPhongMaterial({
-          emissive: new THREE.Color(config.colors.mapBuildingEmissive),
-          color: new THREE.Color(config.colors.mapBuilding)
-        });
-
-
-        var geometry = object.children[0].geometry;
-        var mesh = new THREE.Mesh(geometry, material);
-        mesh.frustrumCulled = true;
-        mesh.position.y += 20;
-        mesh.geometry.verticesNeedUpdate = true;
-        mesh.name = tile.name;
-
-        this.tiles.push({mesh: mesh});
+        this.tiles.push({mesh: mesh, tile: tile});
         this.scene.add( mesh );
 
         this.testLoaded();

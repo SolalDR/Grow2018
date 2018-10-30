@@ -242,7 +242,8 @@ export default class App {
           this.ui.intro.hidden = false;
         });
 
-        console.log('content loaded');
+
+        // this.export();
       }
     );
   }
@@ -339,8 +340,12 @@ export default class App {
 
   export(){
     var exporter = new THREE.OBJExporter();
-    var result = exporter.parse(scene);
-
+    this.map.tiles.forEach(tile => {
+      if( tile.tile.obj_url == "08.obj.drc" ){
+        var result = exporter.parse(tile.mesh);
+        document.body.innerHTML = result;
+      }
+    })
   }
 
 }
