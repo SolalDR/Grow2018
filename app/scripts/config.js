@@ -105,8 +105,8 @@ export default {
   },
 
   markers: {
-    elevation: 60,
     debug: false,
+    elevation: 60,
     refs: {
       topLeft: {
         x: -715 - 1300,

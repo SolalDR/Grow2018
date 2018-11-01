@@ -251,7 +251,6 @@ export default class App {
     // if currently has an active marker
     if(this.cardMarkersManager.activeMarker) return;
 
-    console.log('on card click');
     const tCard = event.card;
     const cardPos = tCard.marker.mesh.position;
     const cameraPos = this.camera.position.clone();
@@ -328,7 +327,6 @@ export default class App {
         this.controls.goBackTriggered = false;
 
         // make active marker fade away
-        console.log('marker fade away');
         this.cardMarkersManager.activeMarker.fadeAway({
           duration: 900,
           onFinish: () => {

@@ -113,7 +113,6 @@ class CardMarker {
     duration = null,
     onFinish = null
   } = {}){
-    console.log('fade away');
     this.fadingAway.active = true;
 
     if( this.fadingAway.animation ) {
@@ -144,14 +143,6 @@ class CardMarker {
    */
   setPositionCoords() {
 
-
-    // DEBUG CARD // TODO: temp
-    if(this.card.rank === 1) {
-      this.mesh.position.set(200, 80, 15);
-      this.mesh.rotation.set(Math.PI, Math.PI/3, 0);
-      return;
-    }
-
     // map from latitude to x
     this.mesh.position.x = THREE.Math.mapLinear(
       this.card.gpsCoords.latitude,
@@ -170,6 +161,9 @@ class CardMarker {
       config.markers.refs.topLeft.z
     );
 
+    if(config.markers.debug) {
+      this.setDebugCardPos();
+    }
   }
 
   /**
@@ -179,6 +173,18 @@ class CardMarker {
   render(delta) {
     if (this.fadingAway.animation !== null && !this.fadingAway.animation.ended) {
       this.fadingAway.animation.render(delta);
+    }
+  }
+
+
+  // TODO: temp method
+  /**
+   * make first card in front of camera on intro for debug
+   */
+  setDebugCardPos() {
+    if(this.card.rank === 1) {
+      this.mesh.position.set(200, 80, 15);
+      this.mesh.rotation.set(Math.PI, Math.PI/3, 0);
     }
   }
 }

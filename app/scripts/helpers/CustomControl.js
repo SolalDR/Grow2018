@@ -29,12 +29,10 @@ class CustomControl extends Event {
     this.enabled = true;
     this.mouseRotationEnabled = true;
     this.far = camera.far;
-
-    this._focusState = false;
-
-    // TODO: to refacto
     this.prevCameraPos = new THREE.Vector3(0, 0, 0);
     this.goBackTriggered = false;
+
+    this._focusState = false;
 
     this.rotation = {
       min: - THREE.Math.degToRad(minAngle) - Math.PI/2,
@@ -206,7 +204,6 @@ class CustomControl extends Event {
       duration: duration,
       onFinish: ()=>{
         this.look.active = false;
-        if( onFinish ) console.log(onFinish.toString());
         if( onFinish ) onFinish();
         // TODO: fix onfinish keep value from last method call
         onFinish = null;

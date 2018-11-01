@@ -164,7 +164,7 @@ class CardMarkersManager extends Event {
       // hide other markers
       for (let i = 0; i < this.markersSelection.length; i++) {
         if(this.markersSelection[i].uniforms.opacity.value > 0) {
-          this.markersSelection[i].uniforms.opacity.value -= 0.1;
+          this.markersSelection[i].uniforms.opacity.value -= 0.05;
         } else {
           this.markersSelection[i].mesh.visible = false;
         }

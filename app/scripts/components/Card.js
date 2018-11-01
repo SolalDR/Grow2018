@@ -6,7 +6,6 @@ import CardMarker from "./CardMarker";
  */
 class Card {
 
-  // TODO: /!\ update comments
   /**
    * @constructor
    * @param  {Object} datas The cards datas (from "/app/datas/datas.json")
@@ -14,33 +13,34 @@ class Card {
    * @attribute verso The verso images load from "/static/images/cards/..."
    * @attribute recto The recto images load from "/static/images/cards/..."
    * @attribute title Card title
-   * @attribute author
+   * @attribute versoUrl
+   * @attribute rectoURl
    * @attribute year
    * @attribute rank
    * @attribute gpsCoords lat, ln of the card's photo position
+   * @attribute position in scene pos (x, y, z)
+   * @attribute rotation in scene rotation (x, y, z)
    * @attribute isWorking Some images aren't working
-   * @attribute marker postcard marker thumb on 3d map
+   * @attribute collected is Card in added in Collection
+   * @attribute onLoad card loaded
    * @attribute coords Get the coords in the sprite texture
+   * @attribute marker postcard marker thumb on 3d map
    */
 	constructor(datas, args = {}) {
 		this.verso = null;
 		this.recto = null;
 		this.title = datas.title;
-		this.year = datas.year;
 		this.versoUrl = datas.img_verso;
 		this.rectoUrl = datas.img_recto;
+    this.year = datas.year;
 		this.rank = datas.img_rank - 1;
     this.gpsCoords = datas.coords;
     this.position = datas.position;
     this.rotation = datas.rotation;
 		this.isWorking = datas.img_working;
-
-		this.collected = false;
-
-		this.onLoad = args.onLoad ? args.onLoad : false;
-
+    this.onLoad = args.onLoad ? args.onLoad : false;
+    this.collected = false;
 		this.coords = this.computeCoords();
-
     this.marker = new CardMarker(this);
 	}
 
