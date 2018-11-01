@@ -142,8 +142,7 @@ export default class App {
       this.forest = new Forest({ map: this.map })
       this.forest.on("load", ()=>{
         this.generateCards();
-        // TODO: temp re-enable
-        //this.generateMonuments();
+        this.generateMonuments();
       })
     });
 
@@ -274,10 +273,9 @@ export default class App {
 
     // get distance and set duration from distance
     var dist = cameraPos.distanceTo( dirPos );
-    console.log('dist', dist);
 
     // set animation duration from distance from 1 to 5s
-    const camAnimDuration = THREE.Math.clamp(dist * 10, 800, 3500);
+    const camAnimDuration = THREE.Math.clamp(dist * 10, 800, 3000);
 
     // active state focus
     this.controls.focusState = true;

@@ -48,7 +48,7 @@ class CardMarkersManager extends Event {
 
     // generate markers
     this.cards.forEach(card => {
-      console.log(card.isWorking);
+
       // init marker
       card.marker.init(this.textures);
 
@@ -162,8 +162,13 @@ class CardMarkersManager extends Event {
     // if has active marker
     if(this.activeMarker) {
       // hide other markers
-      for (let i = 0; i < this.markersSelection; i++) {
-        this.markersSelection[i].visible = false;
+      for (let i = 0; i < this.markersSelection.length; i++) {
+        if(this.markersSelection[i].uniforms.opacity.value > 0) {
+          this.markersSelection[i].uniforms.opacity.value -= 0.1;
+        } else {
+          this.markersSelection[i].mesh.visible = false;
+        }
+
       }
 
       this.activeMarker.mesh.visible = true;
@@ -226,7 +231,6 @@ class CardMarkersManager extends Event {
 
           // marker Selection
           if(marker.pointerDistance < pointerRadius*2) {
-            console.log('hover');
             this.hoveredMarker = marker;
             this.dispatch("hover", {
               card: this.hoveredMarker

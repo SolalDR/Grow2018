@@ -132,7 +132,6 @@ class CardMarker {
         if( onFinish ) onFinish();
       },
       onProgress: (advancement, value)=> {
-        console.log('marker pos y' + this.mesh.position.y);
         this.mesh.position.y = value;
         this.mesh.rotation.z = Math.PI + advancement*2;
         this.uniforms.opacity.value  = 1 - advancement;
