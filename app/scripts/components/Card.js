@@ -6,6 +6,7 @@ import CardMarker from "./CardMarker";
  */
 class Card {
 
+  // TODO: /!\ update comments
   /**
    * @constructor
    * @param  {Object} datas The cards datas (from "/app/datas/datas.json")
@@ -33,6 +34,8 @@ class Card {
     this.position = datas.position;
     this.rotation = datas.rotation;
 		this.isWorking = datas.img_working;
+
+		this.collected = false;
 
 		this.onLoad = args.onLoad ? args.onLoad : false;
 

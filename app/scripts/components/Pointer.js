@@ -11,6 +11,7 @@ class Pointer {
     this.position;
     this._hover = {intensity: 0};
     this._click = {intensity: 0};
+    this._visible = true;
     this.click;
     this.init();
   }
@@ -54,6 +55,15 @@ class Pointer {
     }
   }
 
+  set visible(v) {
+    this._visible = v;
+    this.group.traverse( function ( object ) { object.visible = v; } );
+  }
+
+  get visible() {
+    return this._visible;
+  }
+
   updateRing(){
     this.ring.scale.x = this._hover.intensity + 1;
     this.ring.scale.y = this._hover.intensity + 1;
@@ -61,14 +71,6 @@ class Pointer {
 
   updateDisc(){
     this.disc.position.z = this._click.intensity*5;
-  }
-
-  display(){
-
-  }
-
-  hide(){
-
   }
 
   move(point){

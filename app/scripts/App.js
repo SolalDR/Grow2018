@@ -142,7 +142,8 @@ export default class App {
       this.forest = new Forest({ map: this.map })
       this.forest.on("load", ()=>{
         this.generateCards();
-        this.generateMonuments();
+        // TODO: temp re-enable
+        //this.generateMonuments();
       })
     });
 
@@ -208,26 +209,12 @@ export default class App {
         this.cardMarkersManager.on("hover", () => this.pointer.hover = true );
         this.cardMarkersManager.on("hover:end", () => this.pointer.hover = false );
         this.cardMarkersManager.on("click", (event) => {
-          const cardPos = event.card.marker.mesh.position;
-          const cameraPos = this.camera.position;
-          let targetPos = cameraPos.clone();
-          targetPos = targetPos.lerp(cardPos, 0.8);
-          targetPos.y = config.control.boundaries.minimum.y;
-          console.log(targetPos);
+          this.focusOnCard(event);
+        });
 
-          this.clickedOnMarker = true;
-          this.collection.addCard(event.card);
-          this.controls.lookAt({
-            target: cardPos,
-            duration: 2000,
-            onFinish: () => {
-              console.log('anim to card ended');
-            }
-          });
-          this.controls.move({ target: targetPos, duration: 2000, onFinish: () => {
-              console.log('anim to card ended');
-            }
-          });
+        // go back when focused on a card
+        this.controls.on('goBack', () => {
+          this.goBackToNavigation();
         });
 
         this.scene.add(this.cardsCloud.mesh);
@@ -238,12 +225,13 @@ export default class App {
         this.scene.add(this.forest.mesh);
         this.renderer.animate( this.render.bind(this) );
 
-        this.ui.intro.on("pre-intro:end", () => {
+        if(config.intro.active) {
+          this.ui.intro.on("pre-intro:end", () => {
+            this.ui.intro.hidden = false;
+          });
+        } else {
           this.ui.intro.hidden = false;
-        });
-
-
-        // this.export();
+        }
       }
     );
   }
@@ -259,6 +247,102 @@ export default class App {
     })
   }
 
+  focusOnCard(event) {
+
+    // if currently has an active marker
+    if(this.cardMarkersManager.activeMarker) return;
+
+    console.log('on card click');
+    const tCard = event.card;
+    const cardPos = tCard.marker.mesh.position;
+    const cameraPos = this.camera.position.clone();
+
+    // disable pointer hover mode
+    this.pointer.hover = false;
+
+    // set last camera pos
+    this.controls.prevCameraPos = cameraPos;
+
+    // set clicked card active
+    tCard.active = true;
+    this.cardMarkersManager.activeMarker = tCard.marker;
+
+    // get card direction point
+    var dirPos = new THREE.Vector3();
+    var direction = tCard.marker.mesh.getWorldDirection(dirPos);
+    dirPos = cardPos.clone().add(direction.multiplyScalar(-45));
+
+    // get distance and set duration from distance
+    var dist = cameraPos.distanceTo( dirPos );
+    console.log('dist', dist);
+
+    // set animation duration from distance from 1 to 5s
+    const camAnimDuration = THREE.Math.clamp(dist * 10, 800, 3500);
+
+    // active state focus
+    this.controls.focusState = true;
+
+    // clicked on marker
+    this.clickedOnMarker = true;
+
+    // add to collection
+    this.collection.addCard(tCard);
+    tCard.collected = true;
+
+
+    // animate camera position
+    this.controls.move({
+      target: dirPos,
+      duration: camAnimDuration,
+      onFinish: null
+    });
+
+    // animate camera lookAt
+    this.controls.lookAt({
+      target: cardPos,
+      duration: camAnimDuration,
+      onFinish: null
+    });
+  }
+
+  /**
+   * Set camera and controls back to map navigation
+   */
+  goBackToNavigation() {
+    console.log('goBackToNavigation');
+    // move back to last camera pos
+    this.controls.move({
+      target: this.controls.prevCameraPos,
+      duration: 1500,
+      onFinish: () => {
+        this.controls.prevCameraPos = null;
+      }
+    });
+
+    // keep look at on card
+    this.controls.lookAt({
+      target: this.cardMarkersManager.activeMarker.mesh.position,
+      duration: 1500,
+      onFinish: () =>  {
+        // remove focus state
+        this.controls.focusState = false;
+        // allow go back event to be init again
+        this.controls.goBackTriggered = false;
+
+        // make active marker fade away
+        console.log('marker fade away');
+        this.cardMarkersManager.activeMarker.fadeAway({
+          duration: 900,
+          onFinish: () => {
+            // reset active marker
+            this.cardMarkersManager.activeMarker = null;
+          }
+        });
+      }
+    });
+
+  }
+
 
   // -----------------------------------------
 
@@ -268,7 +352,7 @@ export default class App {
   render() {
     this.clock.update();
     this.ui.compass.update();
-    this.cardMarkersManager.update(this.mouseHasClick, this.mouseHasMove);
+    this.cardMarkersManager.update(this.mouseHasClick, this.mouseHasMove, this.clock.delta);
 
     // this.cloud.material.uniforms.u_time.value = this.clock.elapsed*0.001;
     // this.cloud.material.uniforms.needsUpdate = true;

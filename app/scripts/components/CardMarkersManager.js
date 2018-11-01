@@ -29,6 +29,8 @@ class CardMarkersManager extends Event {
     this.markersSelection = [];
     this.prevMarkersSelection = [];
 
+    // marker grid
+    this.activeMarker = null;
 
     this.generateMarkers();
     this.generateMarkersGrid();
@@ -152,8 +154,27 @@ class CardMarkersManager extends Event {
   /**
    * update in THREE render
    * @param {boolean} mouseHasClick - click event triggered
+   * @param {boolean} mouseHasMove - move event triggered
+   * @param delta {Number} three clock delta
    */
-  update(mouseHasClick, mouseHasMove) {
+  update(mouseHasClick, mouseHasMove, delta) {
+
+    // if has active marker
+    if(this.activeMarker) {
+      // hide other markers
+      for (let i = 0; i < this.markersSelection; i++) {
+        this.markersSelection[i].visible = false;
+      }
+
+      this.activeMarker.mesh.visible = true;
+      this.activeMarker.uniforms.opacity.value = 1;
+
+      // fade away
+      this.activeMarker.render(delta);
+
+      return;
+    }
+
     // get pointer pos
     var pointerPos = new THREE.Vector2(this.pointer.group.position.x, this.pointer.group.position.z);
     // get pointer radius
@@ -176,8 +197,8 @@ class CardMarkersManager extends Event {
         if(!config.markers.debug) {
           if(this.prevMarkersSelection !== this.markersSelection && this.prevMarkersSelection.length > 0) {
             for ( var i = 0; i < this.prevMarkersSelection.length; i++ ) {
-              var marker = this.prevMarkersSelection[i];
-              marker.mesh.visible = false;
+              var prevMarker = this.prevMarkersSelection[i];
+              prevMarker.mesh.visible = false;
             }
           }
         }
@@ -187,10 +208,15 @@ class CardMarkersManager extends Event {
         // distance opacity
         for ( var i = 0; i < this.markersSelection.length; i++ ) {
           var marker = this.markersSelection[i];
+
+          // if marker already collected skip
+          if(marker.card.collected) continue;
+
           var markerPos = new THREE.Vector2(marker.mesh.position.x, marker.mesh.position.z);
           var distance  = pointerPos.distanceTo(markerPos);
           var maxDistance = 150;
           //marker.mesh.material.opacity = THREE.Math.mapLinear(distance, 0, maxDistance, 1, 0);
+
           if(!config.markers.debug) {
             marker.mesh.visible = true;
             marker.uniforms.opacity.value = THREE.Math.mapLinear(distance, 0, maxDistance, 1, 0);
@@ -200,6 +226,7 @@ class CardMarkersManager extends Event {
 
           // marker Selection
           if(marker.pointerDistance < pointerRadius*2) {
+            console.log('hover');
             this.hoveredMarker = marker;
             this.dispatch("hover", {
               card: this.hoveredMarker

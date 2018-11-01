@@ -56,9 +56,12 @@ export default class Intro extends Event {
   }
 
   preIntroHidden() {
-    this.elements.preIntro.querySelector('.pre-intro').style.display = 'none';
+    this.elements.preIntro.style.display = 'none';
   }
 
+  /**
+   * On preintro panel hide, dispatch event preintro end
+   */
   preIntroEndEvent() {
     this.elements.preIntro.addEventListener("animationstart", (e) => {
       e.stopPropagation();

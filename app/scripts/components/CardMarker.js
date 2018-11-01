@@ -3,6 +3,7 @@ import refMarkersDatas from "./../../datas/refMarkers.json";
 import vertexShader from "./../../glsl/cardMarker.vert";
 import fragmentShader from "./../../glsl/cardMarker.frag";
 import BufferGeometryUtils from "../helpers/BufferGeometryUtils";
+import Animation from "../helpers/Animation";
 
 /**
  * Card Marker object on map
@@ -18,8 +19,14 @@ class CardMarker {
 		this.card = card;
 		this.refMarkersDatas = refMarkersDatas;
 		this.debug = config.markers.debug;
-    this.pointerDistance = null;
     this.startOpacity = this.debug ? 1.0 :  0.0;
+    this.pointerDistance = null;
+    this.active = false;
+
+    this.fadingAway = {
+      active: false,
+      animation: null
+    }
 	}
 
   /**
@@ -35,15 +42,16 @@ class CardMarker {
     }
   }
 
-
+  // TODO : refacto split for material, geometry and mesh
   /**
-   * Generate marker mesh
+   * Generate marker
+   * @param textures {Object}, sprite textures recto, verso for card
    */
   generateMesh(textures) {
 
     // Generate instance geometry
-    var rectoGeometry = new THREE.PlaneBufferGeometry( 40, 40/config.cards.ratio);
-    var versoGeometry = new THREE.PlaneBufferGeometry( 40, 40/config.cards.ratio);
+    var rectoGeometry = new THREE.PlaneBufferGeometry( 40, 40/config.cards.ratio, 1, 1);
+    var versoGeometry = new THREE.PlaneBufferGeometry( 40, 40/config.cards.ratio, 1, 1);
     versoGeometry.rotateY(Math.PI);
     versoGeometry.computeVertexNormals();
 
@@ -101,10 +109,50 @@ class CardMarker {
     }
   }
 
+  fadeAway({
+    duration = null,
+    onFinish = null
+  } = {}){
+    console.log('fade away');
+    this.fadingAway.active = true;
+
+    if( this.fadingAway.animation ) {
+      this.fadingAway.animation.stop();
+      this.fadingAway.animation = null;
+    }
+
+    this.fadingAway.animation = new Animation({
+      timingFunction: "easeInQuint",
+      from: this.mesh.position.y,
+      to: 600,
+      duration: duration,
+      onFinish: ()=>{
+        this.fadingAway.animation = null;
+        this.mesh.visible = false;
+        if( onFinish ) onFinish();
+      },
+      onProgress: (advancement, value)=> {
+        console.log('marker pos y' + this.mesh.position.y);
+        this.mesh.position.y = value;
+        this.mesh.rotation.z = Math.PI + advancement*2;
+        this.uniforms.opacity.value  = 1 - advancement;
+      }
+    });
+  }
+
   /**
    * Set x, y position from gps coordinates
    */
   setPositionCoords() {
+
+
+    // DEBUG CARD // TODO: temp
+    if(this.card.rank === 1) {
+      this.mesh.position.set(200, 80, 15);
+      this.mesh.rotation.set(Math.PI, Math.PI/3, 0);
+      return;
+    }
+
     // map from latitude to x
     this.mesh.position.x = THREE.Math.mapLinear(
       this.card.gpsCoords.latitude,
@@ -123,6 +171,16 @@ class CardMarker {
       config.markers.refs.topLeft.z
     );
 
+  }
+
+  /**
+   * render in THREE js raf
+   * @param delta {Number} - time
+   */
+  render(delta) {
+    if (this.fadingAway.animation !== null && !this.fadingAway.animation.ended) {
+      this.fadingAway.animation.render(delta);
+    }
   }
 }
 

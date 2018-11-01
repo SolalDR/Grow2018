@@ -17,7 +17,7 @@ class CustomControl extends Event {
   } = {} ){
 
     super();
-    this.eventsList = ["startMovement", "endMovement"]
+    this.eventsList = ["startMovement", "endMovement", "goBack"];
     this.camera = camera;
     this.scene = scene;
     this.velocity = new THREE.Vector3(0, 0, 0);
@@ -25,9 +25,16 @@ class CustomControl extends Event {
     this.ease = ease;
     this.boundaries = boundaries;
     this.mouse = mouse;
-    this.enabled = true;
     this.dragging = false;
+    this.enabled = true;
+    this.mouseRotationEnabled = true;
     this.far = camera.far;
+
+    this._focusState = false;
+
+    // TODO: to refacto
+    this.prevCameraPos = new THREE.Vector3(0, 0, 0);
+    this.goBackTriggered = false;
 
     this.rotation = {
       min: - THREE.Math.degToRad(minAngle) - Math.PI/2,
@@ -67,7 +74,6 @@ class CustomControl extends Event {
     window.addEventListener("mousemove", this.onMouseMove.bind(this));
 
     // DEBUG CAMERA MOVE
-
     window.customCtrl = this;
   }
 
@@ -87,6 +93,17 @@ class CustomControl extends Event {
 
   set target(vector){
     this.camera.lookAt(vector);
+  }
+
+  set focusState(v) {
+    this._focusState = v;
+    this.enabled = !v;
+    this.mouseRotationEnabled = !v;
+    this.movement.active = !v;
+  }
+
+  get focusState() {
+    return this._focusState;
   }
 
   computedPhi(height = this.camera.position.y) {
@@ -168,9 +185,6 @@ class CustomControl extends Event {
     onFinish = null,
     timingFunction = "easeInOutQuad"
   } = {}){
-
-    this.enabled = false;
-
     if( this.look.animation ) {
       this.look.animation.stop();
       this.look.animation = null;
@@ -192,7 +206,10 @@ class CustomControl extends Event {
       duration: duration,
       onFinish: ()=>{
         this.look.active = false;
+        if( onFinish ) console.log(onFinish.toString());
         if( onFinish ) onFinish();
+        // TODO: fix onfinish keep value from last method call
+        onFinish = null;
       },
       onProgress: (advancement, value)=> {
         this.camera.lookAt( from.clone().add( diff.clone().multiplyScalar(advancement) ) );
@@ -216,7 +233,7 @@ class CustomControl extends Event {
     }
 
     this.movement.animation = new Animation({
-      timingFunction: "easeInOutQuad",
+      timingFunction: "easeInOutQuart",
       from: 0,
       to: curve.getLength(),
       speed: speed,
@@ -224,6 +241,8 @@ class CustomControl extends Event {
       onFinish: ()=>{
         this.movement.active = false;
         if( onFinish ) onFinish();
+        // TODO: fix onfinish keep value from last method call
+        onFinish = null;
       },
       onProgress: (advancement, value)=> {
         var position = curve.getPoint(advancement, this.camera.position);
@@ -256,7 +275,7 @@ class CustomControl extends Event {
     }
 
     this.rotation.animation = new Animation({
-      timingFunction: "easeInOutQuad",
+      timingFunction: "easeInOutQuart",
       from: 0,
       to: 1,
       speed: speed,
@@ -271,7 +290,6 @@ class CustomControl extends Event {
       }
     });
   }
-
 
   update( mouseHasChange, delta ){
 
@@ -333,10 +351,24 @@ class CustomControl extends Event {
       }
       this.camera.updateProjectionMatrix();
 
-      this.updateTarget();
+      if(this.mouseRotationEnabled) {
+        this.updateTarget();
+      }
     }
 
     this.needUpdateRotation = false;
+  }
+
+  /**
+   * Init go back event when scoll up on focus state
+   */
+  initGoBackEvent(e) {
+    if ( !(!this.goBackTriggered && this.focusState && !this.movement.active) ) return;
+
+    if(e.deltaY > 0) {
+      this.dispatch('goBack');
+      this.goBackTriggered = true;
+    }
   }
 
 
@@ -344,6 +376,10 @@ class CustomControl extends Event {
 
 
   onMouseWheel( event ){
+    // go back event on focus stats
+    this.initGoBackEvent(event);
+
+    // move camera on y
     if(!this.enabled) return;
     this.velocity.y = event.deltaY/10;
   }
