@@ -77,13 +77,14 @@ export default class Intro extends Event {
    * display skip button on intro
    */
   displaySkipButton() {
-    console.log('displaySkipButton', this.elements.skipBtn);
     this.elements.skipBtn.classList.add('visible')
   }
 
+  /**
+   * on skip button clicked hide
+   */
   onSkipButtonClick() {
     this.elements.skipBtn.addEventListener("click", (e) => {
-      console.log('clicked on pre-intro end');
         this.elements.preIntro.classList.add('pre-intro--hidden');
         this.dispatch('pre-intro:end');
     }, false);
