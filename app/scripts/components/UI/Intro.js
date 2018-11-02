@@ -8,6 +8,7 @@ export default class Intro extends Event {
     this.initElements(element);
     this.initEvents();
     this.preIntroEndEvent();
+    this.onSkipButtonClick();
 
     // Hide pre-intro if config set invisible
     if(!config.intro.active) {
@@ -43,7 +44,8 @@ export default class Intro extends Event {
     this.element = element;
     this.elements = {
       start: this.element.querySelector('.intro__start'),
-      preIntro: document.body.querySelector('.pre-intro')
+      preIntro: document.body.querySelector('.pre-intro'),
+      skipBtn: document.getElementById('skip-btn')
     };
   }
 
@@ -68,6 +70,22 @@ export default class Intro extends Event {
       if(e.animationName === 'hide-pre-intro') {
         this.dispatch('pre-intro:end');
       }
+    }, false);
+  }
+
+  /**
+   * display skip button on intro
+   */
+  displaySkipButton() {
+    console.log('displaySkipButton', this.elements.skipBtn);
+    this.elements.skipBtn.classList.add('visible')
+  }
+
+  onSkipButtonClick() {
+    this.elements.skipBtn.addEventListener("click", (e) => {
+      console.log('clicked on pre-intro end');
+        this.elements.preIntro.classList.add('pre-intro--hidden');
+        this.dispatch('pre-intro:end');
     }, false);
   }
 }

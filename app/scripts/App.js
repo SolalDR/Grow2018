@@ -224,6 +224,10 @@ export default class App {
         this.scene.add(this.forest.mesh);
         this.renderer.animate( this.render.bind(this) );
 
+        // Display skip button
+        this.ui.intro.displaySkipButton();
+
+        // Display app intro on preintro end
         if(config.intro.active) {
           this.ui.intro.on("pre-intro:end", () => {
             this.ui.intro.hidden = false;
@@ -328,7 +332,7 @@ export default class App {
 
         // make active marker fade away
         this.cardMarkersManager.activeMarker.fadeAway({
-          duration: 900,
+          duration: 1200,
           onFinish: () => {
             // reset active marker
             this.cardMarkersManager.activeMarker = null;
