@@ -398,6 +398,7 @@ export default class App {
     this.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
     this.mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
     this.mouseHasMove = true;
+    this.mouseHasMoveSinceMouseDown = true;
   }
 
   onMouseDown( event ){
@@ -407,15 +408,16 @@ export default class App {
       this.controls.onMouseDown(event);
     }
     this.click = Date.now();
+    this.mouseHasMoveSinceMouseDown = false;
   }
 
   onMouseUp( event ){
     if( event.target.nodeName != "CANVAS" ) return;
     this.pointer.click = false;
     if( config.control.type == config.control.CUSTOM ) {
-      this.controls.onMouseDown(event);
+      this.controls.onMouseUp(event);
     }
-    if( Date.now() - this.click < 200 ) {
+    if( !this.mouseHasMoveSinceMouseDown ) {
       this.mouseHasClick = true;
     }
   }

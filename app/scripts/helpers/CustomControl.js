@@ -25,7 +25,6 @@ class CustomControl extends Event {
     this.ease = ease;
     this.boundaries = boundaries;
     this.mouse = mouse;
-    this.dragging = false;
     this.enabled = true;
     this.mouseRotationEnabled = true;
     this.far = camera.far;
@@ -69,7 +68,6 @@ class CustomControl extends Event {
     window.addEventListener("DOMMouseScroll", this.onMouseWheel.bind(this));
     window.addEventListener("mousedown", this.onMouseDown.bind(this));
     window.addEventListener("mouseup", this.onMouseUp.bind(this));
-    window.addEventListener("mousemove", this.onMouseMove.bind(this));
 
     // DEBUG CAMERA MOVE
     window.customCtrl = this;
@@ -383,10 +381,6 @@ class CustomControl extends Event {
 
   onMouseClick( intersect ){
     if( !this.enabled ) return;
-    if( this.dragging ) {
-      this.dragging = false;
-      return;
-    }
     var target = intersect.point;
     target.y = this.camera.position.y;
     this.move({target: target});
@@ -407,12 +401,6 @@ class CustomControl extends Event {
     this.drag.active = false;
     this.drag.current.clientX = null;
     this.drag.current.clientY = null;
-
-    setTimeout(() => { this.dragging = false }, 10);
-  }
-
-  onMouseMove() {
-    if(this.drag.active) this.dragging = true;
   }
 }
 
