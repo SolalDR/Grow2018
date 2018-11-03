@@ -146,6 +146,10 @@ export default class App {
       })
     });
 
+    this.map.on("heightmap:ready", ()=>{
+      // this.export();
+    })
+
     this.ui.on("intro:begin", ()=>{
       var target = new THREE.Vector3(0, 200, 0);
 
@@ -425,11 +429,10 @@ export default class App {
   export(){
     var exporter = new THREE.OBJExporter();
     this.map.tiles.forEach(tile => {
-      if( tile.tile.obj_url == "08.obj.drc" ){
+      if( tile.tile.obj_url == "06.obj.drc" ){
         var result = exporter.parse(tile.mesh);
         document.body.innerHTML = result;
       }
     })
   }
-
 }

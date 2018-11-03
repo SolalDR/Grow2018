@@ -36,7 +36,6 @@ class Forest extends Event {
       this.generateGeometry();
       this.generateMaterial();
       this.mesh = new THREE.Mesh(this.geometry, this.material);
-      this.mesh.position.set(0, 20, 0);
       this.mesh.frustumCulled = false;
       this.dispatch("load");
     })

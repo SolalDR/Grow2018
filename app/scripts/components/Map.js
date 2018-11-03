@@ -15,7 +15,7 @@ class Map extends Event {
    */
   constructor(scene, raycaster){
     super();
-    this.eventsList = ["floor:load", "map:load", "load"]
+    this.eventsList = ["floor:load", "map:load", "load", "heightmap:ready"]
     this.datas = [
       {name: "", obj_url: "01.obj.drc", map_url: "ao_4k/01-4k.jpg" },
       {name: "", obj_url: "02.obj.drc", map_url: "ao_4k/02-4k.jpg" },
@@ -24,7 +24,7 @@ class Map extends Event {
       {name: "", obj_url: "05.obj.drc", map_url: "ao_4k/05-4k.jpg" },
       {name: "", obj_url: "06.obj.drc", map_url: "ao_4k/06-4k.jpg" },
       {name: "", obj_url: "07.obj.drc", map_url: "ao_4k/07-4k.jpg" },
-      {name: "", obj_url: "08.obj.drc", map_url: "ao_4k/08-4k.jpg" },
+      {name: "", obj_url: "08.obj.drc", map_url: "ao_4k/08-4k.jpg" }
     ];
 
     DRACOLoader.setDecoderPath('/static/draco/');
@@ -39,6 +39,19 @@ class Map extends Event {
     });
 
     this.generateFloor();
+
+    this.on("floor:load", ()=>{
+      console.log("--------Floor load")
+    })
+
+    this.on("map:load", ()=>{
+      console.log("--------Map load")
+    })
+
+    this.on("load", ()=>{
+      console.log("--------Load")
+      if(config.heightmap.active) this.computeHeightMap();
+    })
   }
 
 
@@ -95,10 +108,9 @@ class Map extends Event {
         texture: texture
       }
 
-      if( config.heightmap.debug ) this.floor.material.map = texture;
-      if(config.heightmap.active) this.computeHeightMap();
-      this.dispatch("map:load");
+      this.testLoaded();
 
+      if( config.heightmap.debug ) this.floor.material.map = texture;
     });
   }
 
@@ -129,11 +141,11 @@ class Map extends Event {
         this.floor.name = "floor";
         this.scene.add(this.floor);
 
-        this.generateInfosMap();
         this.generateBoundingBox();
 
         this.testLoaded();
         this.dispatch("floor:load");
+        this.generateInfosMap();
     });
   }
 
@@ -161,14 +173,20 @@ class Map extends Event {
       ));
 
       this.floor.geometry.attributes.position.array[i*3 + 1] += infos[2]/255*config.heightmap.ratio - config.heightmap.ratio;
+
+        if(i%30 == 0){
+          console.log(this.floor.geometry.attributes.position.array[i*3 + 1]);
+        }
     }
 
     this.floor.geometry.computeVertexNormals();
+    this.dispatch("heightmap:ready");
   }
 
   testLoaded(){
-    if( this.tiles.length == this.datas.length && this.floor) {
+    if( this.tiles.length == this.datas.length && this.floor && this.infosMap ) {
       this.dispatch("load");
+
       return true;
     }
     return false;
@@ -185,14 +203,14 @@ class Map extends Event {
           color: new THREE.Color(config.colors.mapBuilding)
         });
 
-        textureLoader.load("/static/images/textures/"+tile.map_url, (texture)=>{
-          material.map = texture;
-        });
+        // textureLoader.load("/static/images/textures/"+tile.map_url, (texture)=>{
+        //   material.map = texture;
+        // });
 
         // var geometry = object.children[0].geometry;
         var mesh = new THREE.Mesh(geometry, material);
         mesh.frustrumCulled = true;
-        mesh.position.y += 20;
+        // mesh.position.y += 20;
         mesh.geometry.verticesNeedUpdate = true;
         mesh.name = tile.name;
 
