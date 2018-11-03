@@ -107,23 +107,24 @@ class Forest extends Event {
     var color = new Float32Array( trees.length * 3 );
 
     var q = new THREE.Quaternion();
+    var euler = new THREE.Euler();
 
     for(let i = 0; i < trees.length; i++) {
+      euler.y = Math.random()*2*Math.PI
+      q.setFromEuler(euler);
+
       translation[ i*3 ] = trees[i].x
       translation[ i*3 + 1 ] = trees[i].y
       translation[ i*3 + 2 ] = trees[i].z
 
-      rotation[ i*4 ] = 0;
-      rotation[ i*4 + 1 ] = 0;
-      rotation[ i*4 + 2 ] = 0;
-      rotation[ i*4 + 3 ] = 1;
+      rotation[ i*4 ] = q.x;
+      rotation[ i*4 + 1 ] = q.y;
+      rotation[ i*4 + 2 ] = q.z;
+      rotation[ i*4 + 3 ] = q.w;
 
       scale[ i*3 ] = 0.08;
       scale[ i*3 + 1 ] = 0.08;
       scale[ i*3 + 2 ] = 0.08;
-
-      q.set(  ( Math.random() - .5 ) * 2, ( Math.random() - .5 ) * 2, ( Math.random() - .5 ) * 2, Math.random() * Math.PI );
-      q.normalize();
     }
 
     this.geometry.addAttribute( 'translation', new THREE.InstancedBufferAttribute( translation, 3, false, 1 ) );
