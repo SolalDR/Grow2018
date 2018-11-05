@@ -20,6 +20,7 @@ import Water from "./components/Water.js";
 import CardMarkersManager from "./components/CardMarkersManager";
 import Monument from "./components/Monument";
 import Collection from "./components/Collection";
+import PostProcessing from "./components/PostProcessing.js";
 import promiseLoadTextures from "./helpers/PromiseLoadTextures";
 import "./helpers/OBJExporter";
 
@@ -60,6 +61,8 @@ export default class App {
     this.scene.background = new THREE.Color( config.colors.background );
     if(config.fog.active) this.scene.fog = new THREE.Fog( this.scene.background, config.fog.near, config.fog.far );
     this.onWindowResize();
+
+    //this.postProcessing = new PostProcessing(this.renderer, this.scene, this.camera);
 
     this.container.addEventListener("mousedown", this.onMouseDown.bind(this));
     this.container.addEventListener("mouseup", this.onMouseUp.bind(this));
@@ -386,6 +389,7 @@ export default class App {
 
     this.pointer.render(this.clock.elapsed);
     this.renderer.render( this.scene, this.camera );
+    //this.postProcessing.render();
     this.mouseHasMove = false;
     this.mouseHasClick = false;
     this.clickedOnMarker = false;
