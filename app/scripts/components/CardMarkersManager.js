@@ -168,7 +168,6 @@ class CardMarkersManager extends Event {
         } else {
           this.markersSelection[i].mesh.visible = false;
         }
-
       }
 
       this.activeMarker.mesh.visible = true;
@@ -244,10 +243,7 @@ class CardMarkersManager extends Event {
           })
         }
 
-
-        // set prev markers selection
         this.prevMarkersSelection = this.markersSelection;
-
         if(mouseHasClick && this.hoveredMarker) {
           this.dispatch("click", { card: this.hoveredMarker.card });
         }

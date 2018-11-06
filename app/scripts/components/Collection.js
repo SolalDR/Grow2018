@@ -24,7 +24,7 @@ class Collection extends Event {
 
   addCard(card){
     if(this.storedCards.indexOf(card.rank) < 0) {
-
+      card.collected = true;
       this.storedCards.push(card.rank);
       var index = this.targetsCards.indexOf(card.rank);
       this.targetsCards.splice(index, 1);

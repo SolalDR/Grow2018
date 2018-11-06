@@ -1,9 +1,11 @@
-import easing from "./Easing.js"
+import easing from "./Easing"
+import Event from "./Event"
 
-
-class Animation {
+export default class Animation extends Event {
 
   constructor(args){
+    super();
+    this.eventsList = ["start", "end", "progress"];
 
     this.start = false;
     this.ended = false;
@@ -21,39 +23,26 @@ class Animation {
     }
 
     this.timingFunction = args.timingFunction && easing[args.timingFunction] ? easing[args.timingFunction] : easing["linear"];
-
-    this.onProgress = args.onProgress;
-    this.onFinish =  args.onFinish;
-    this.onStart = args.onStart;
-
   }
-
-  stop(){
-    this.onFinish();
-  }
-
 
   render(delta){
     if( this.ended ) return;
     if( !this.isStart ){
       this.isStart = true;
-      if( this.onStart) this.onStart();
+      this.dispatch("start");
     }
 
     this.current += delta;
     this.advancement = this.timingFunction(Math.min(1., this.current/this.duration));
     var value = this.from + (this.to - this.from) * this.advancement;
 
-    if( this.onProgress ) this.onProgress(this.advancement, value, this);
+    this.dispatch("progress", { advancement: this.advancement, value, animation: this });
+
     if( this.advancement === 1 ) {
       this.ended = true;
-      if( this.onFinish ){
-        this.onFinish(this);
-      }
+      this.dispatch("end");
     }
 
     return this.advancement;
   }
 }
-
-export default Animation

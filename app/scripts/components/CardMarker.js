@@ -23,10 +23,7 @@ class CardMarker {
     this.pointerDistance = null;
     this.active = false;
 
-    this.fadingAway = {
-      active: false,
-      animation: null
-    }
+    this._fadingAway = null;
 	}
 
   /**
@@ -82,7 +79,7 @@ class CardMarker {
     // set position
     this.mesh.position.y = config.markers.elevation;
 
-    // Invert 
+    // Invert
     this.mesh.rotation.z = Math.PI;
     //this.mesh.rotation.x = 0.6;
 
@@ -110,33 +107,29 @@ class CardMarker {
     }
   }
 
-  fadeAway({
-    duration = null,
-    onFinish = null
-  } = {}){
-    this.fadingAway.active = true;
-
-    if( this.fadingAway.animation ) {
-      this.fadingAway.animation.stop();
-      this.fadingAway.animation = null;
-    }
-
-    this.fadingAway.animation = new Animation({
+  fadeAway({ duration = null, onFinish = null } = {}){
+    this._fadingAway = new Animation({
       timingFunction: "easeInQuint",
       from: this.mesh.position.y,
-      to: 600,
-      duration: duration,
-      onFinish: ()=>{
-        this.fadingAway.animation = null;
-        this.mesh.visible = false;
-        if( onFinish ) onFinish();
-      },
-      onProgress: (advancement, value)=> {
-        this.mesh.position.y = value;
-        this.mesh.rotation.z = Math.PI + advancement*2;
-        this.uniforms.opacity.value  = 1 - advancement;
-      }
+      to: 300,
+      duration: duration
     });
+
+    this._fadingAway.on("end", ()=>{
+      this._fadingAway = null;
+      this.mesh.visible = false;
+    })
+
+    if( onFinish ) this._fadingAway.on("end", onFinish.bind(this));
+
+    this._fadingAway.on("progress", (event)=> {
+      this.mesh.position.y = event.value;
+      this.mesh.rotation.x += event.advancement*2.5;
+      this.mesh.rotation.z += event.advancement*5;
+      this.uniforms.opacity.value  = 1 - event.advancement;
+    });
+
+    return this._fadingAway;
   }
 
   /**
@@ -172,8 +165,8 @@ class CardMarker {
    * @param delta {Number} - time
    */
   render(delta) {
-    if (this.fadingAway.animation !== null && !this.fadingAway.animation.ended) {
-      this.fadingAway.animation.render(delta);
+    if (this._fadingAway !== null) {
+      this._fadingAway.render(delta);
     }
   }
 

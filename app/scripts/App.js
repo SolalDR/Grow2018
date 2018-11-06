@@ -259,52 +259,12 @@ export default class App {
 
   // TODO: make a component CardView
   focusOnCard(event) {
-
-    // if currently has an active marker
     if(this.cardMarkersManager.activeMarker) return;
-
-    const tCard = event.card;
-    const cardPos = tCard.marker.mesh.position;
-    const cameraPos = this.camera.position.clone();
-    console.log('tCard', tCard);
-
-    // disable pointer hover mode
     this.pointer.hover = false;
-
-    // set last camera pos and angle
-    this.controls.prevCameraPos = cameraPos;
-    this.controls.prevTarget = this.controls.target;
-
-    // set clicked card active
-    tCard.active = true;
-    this.cardMarkersManager.activeMarker = tCard.marker;
-
-    // get card direction point
-    var targetPos = new THREE.Vector3();
-    var direction = tCard.marker.mesh.getWorldDirection(targetPos);
-    targetPos = cardPos.clone().add(direction.multiplyScalar(-45));
-
-    // active state focus
-    this.controls.focusState = true;
-
-    // clicked on marker
+    this.cardMarkersManager.activeMarker = event.card.marker;
+    this.controls.focus(event.card, this.cardMarkersManager);
     this.clickedOnMarker = true;
-
-    // add to collection
-    this.collection.addCard(tCard);
-    tCard.collected = true;
-
-
-    // animate camera position
-    this.controls.move({
-      target: targetPos
-    });
-
-    // animate camera lookAt
-    // look at apply rotation but does not update theta and phi
-    this.controls.lookAt({
-      target: cardPos
-    });
+    this.collection.addCard(event.card);
   }
 
   // TODO: add to comp cardView
@@ -344,7 +304,6 @@ export default class App {
         });
       }
     });
-
   }
 
 
@@ -358,9 +317,6 @@ export default class App {
     this.ui.compass.update();
     this.cardMarkersManager.update(this.mouseHasClick, this.mouseHasMove, this.clock.delta);
 
-    // this.cloud.material.uniforms.u_time.value = this.clock.elapsed*0.001;
-    // this.cloud.material.uniforms.needsUpdate = true;
-
     if(this.birds) this.birds.render(this.clock.elapsed/1000);
     this.cardsCloud.render(this.clock.elapsed);
     document.body.style.cursor = this.cardsCloud.pixelPicking.cardSelected ? 'pointer' : null;
@@ -372,12 +328,15 @@ export default class App {
     }
 
     if( !this.clickedOnMarker && (this.mouseHasMove || this.mouseHasClick || (this.controls.movement && this.controls.movement.active)) ){
+      if( this.mouseHasClick ){
+        this.controls.onMouseClick();
+      }
       this.raycaster.setFromCamera( this.mouse, this.camera );
       var intersects = this.raycaster.intersectObjects( this.map.floor.children );
       intersects.find(intersect => {
         if( !intersect.object.name.match("floor")) return false;
         if( config.control.type == config.control.CUSTOM && this.mouseHasClick ) {
-          this.controls.onMouseClick( intersect );
+          this.controls.onMouseCast( intersect );
         }
         this.pointer.move( intersect.point );
         return true;
@@ -385,12 +344,12 @@ export default class App {
     }
 
     this.pointer.render(this.clock.elapsed);
-    // this.renderer.render( this.scene, this.camera );
     this.postProcessing.render(this.scene, this.camera);
     this.mouseHasMove = false;
     this.mouseHasClick = false;
     this.clickedOnMarker = false;
   }
+
 
 
   // -----------------------------------------
@@ -420,6 +379,7 @@ export default class App {
     }
     if( !this.mouseHasMoveSinceMouseDown ) {
       this.mouseHasClick = true;
+      this.controls.onMouseClick(event);
     }
   }
 
