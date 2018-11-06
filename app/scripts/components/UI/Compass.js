@@ -45,7 +45,6 @@ class Compass extends Event {
 
   set targetCard(v){
     this._card = v;
-    console.log(this._card)
     this.targetPosition = this._card.marker.mesh.position;
   }
 
