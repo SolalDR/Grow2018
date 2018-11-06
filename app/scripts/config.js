@@ -1,6 +1,11 @@
 export default {
   postprocessing: {
-    active: false
+    active: true,
+    opacity: 0.7,
+    threshold: 1,
+    step: 0.007,
+    sigma: 1000,
+    color: "#ffffff"
   },
   intro: {
     active: true

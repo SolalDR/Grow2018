@@ -33,7 +33,5 @@ export default {
     // colors.addColor(config, "lightPointer").onChange( (value) => app.pointerLight.color = new THREE.Color(value));
     // colors.addColor(config, "lightPointer").onChange( (value) => app.pointerLight.color = new THREE.Color(value));
 
-
-
   }
 }

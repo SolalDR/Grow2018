@@ -60,7 +60,7 @@ export default class App {
     this.scene.background = new THREE.Color( config.colors.background );
     if(config.fog.active) this.scene.fog = new THREE.Fog( this.scene.background, config.fog.near, config.fog.far );
 
-    this.postProcessing = new PostProcessing(this.renderer);
+    this.postProcessing = new PostProcessing(this.renderer, this.gui);
     this.onWindowResize();
 
     this.container.addEventListener("mousedown", this.onMouseDown.bind(this));
