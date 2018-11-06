@@ -257,6 +257,7 @@ export default class App {
     })
   }
 
+  // TODO: make a component CardView
   focusOnCard(event) {
 
     // if currently has an active marker
@@ -265,24 +266,23 @@ export default class App {
     const tCard = event.card;
     const cardPos = tCard.marker.mesh.position;
     const cameraPos = this.camera.position.clone();
+    console.log('tCard', tCard);
 
     // disable pointer hover mode
     this.pointer.hover = false;
 
-    // set last camera pos
+    // set last camera pos and angle
     this.controls.prevCameraPos = cameraPos;
+    this.controls.prevTarget = this.controls.target;
 
     // set clicked card active
     tCard.active = true;
     this.cardMarkersManager.activeMarker = tCard.marker;
 
     // get card direction point
-    var dirPos = new THREE.Vector3();
-    var direction = tCard.marker.mesh.getWorldDirection(dirPos);
-    dirPos = cardPos.clone().add(direction.multiplyScalar(-45));
-
-    // get distance and set duration from distance
-    var dist = cameraPos.distanceTo( dirPos );
+    var targetPos = new THREE.Vector3();
+    var direction = tCard.marker.mesh.getWorldDirection(targetPos);
+    targetPos = cardPos.clone().add(direction.multiplyScalar(-45));
 
     // active state focus
     this.controls.focusState = true;
@@ -297,26 +297,26 @@ export default class App {
 
     // animate camera position
     this.controls.move({
-      target: dirPos,
-      onFinish: null
+      target: targetPos
     });
 
     // animate camera lookAt
+    // look at apply rotation but does not update theta and phi
     this.controls.lookAt({
-      target: cardPos,
-      onFinish: null
+      target: cardPos
     });
   }
 
+  // TODO: add to comp cardView
   /**
    * Set camera and controls back to map navigation
    */
   goBackToNavigation() {
-    console.log('goBackToNavigation');
+    console.log('go back to navigation state');
     // move back to last camera pos
     this.controls.move({
       target: this.controls.prevCameraPos,
-      duration: 1500,
+      timingFunction: "easeInOutQuad",
       onFinish: () => {
         this.controls.prevCameraPos = null;
       }
@@ -325,16 +325,18 @@ export default class App {
     // keep look at on card
     this.controls.lookAt({
       target: this.cardMarkersManager.activeMarker.mesh.position,
-      duration: 1500,
       onFinish: () =>  {
         // remove focus state
         this.controls.focusState = false;
         // allow go back event to be init again
         this.controls.goBackTriggered = false;
+        // update target
+        this.controls.target.copy(this.cardMarkersManager.activeMarker.mesh.position);
+
 
         // make active marker fade away
         this.cardMarkersManager.activeMarker.fadeAway({
-          duration: 1200,
+          duration: 1000,
           onFinish: () => {
             // reset active marker
             this.cardMarkersManager.activeMarker = null;

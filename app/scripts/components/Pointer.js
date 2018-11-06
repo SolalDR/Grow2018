@@ -57,6 +57,7 @@ class Pointer {
 
   set visible(v) {
     this._visible = v;
+    this.hover = v ? this._hover : v;
     this.group.traverse( function ( object ) { object.visible = v; } );
   }
 
@@ -80,6 +81,8 @@ class Pointer {
 
 
   render(time){
+    if(!this._visible) return;
+
     if( this._hover.status === MODE_ACTIVE ){
       this._hover.intensity += (1 - this._hover.intensity) * 0.1
       this.updateRing();

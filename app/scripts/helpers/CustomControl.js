@@ -30,6 +30,7 @@ class CustomControl extends Event {
     this.mouseRotationEnabled = true;
     this.far = camera.far;
     this.prevCameraPos = new THREE.Vector3(0, 0, 0);
+    this.prevTarget = null;
     this.goBackTriggered = false;
 
     this._focusState = false;
@@ -40,8 +41,6 @@ class CustomControl extends Event {
       animation: null
     }
 
-    var vector = camera.getWorldDirection();
-    var theta = Math.atan2(vector.x,vector.z);
 
     this.movement = {
       active: false,
@@ -60,8 +59,7 @@ class CustomControl extends Event {
       origin: { phi: 0, theta: 0, clientX: null, clientY: null }
     }
 
-    var target = this.camera.getWorldDirection();
-    this.theta = theta !== null ? theta : Math.atan2(target.x, target.z);
+    this.theta = theta !== null ? theta : this.computedTheta();
     this.phi = phi !== null ? phi: this.computedPhi();
     this.updateTarget();
 
@@ -69,9 +67,6 @@ class CustomControl extends Event {
     window.addEventListener("DOMMouseScroll", this.onMouseWheel.bind(this));
     window.addEventListener("mousedown", this.onMouseDown.bind(this));
     window.addEventListener("mouseup", this.onMouseUp.bind(this));
-
-    // DEBUG CAMERA MOVE
-    window.customCtrl = this;
   }
 
   set minRotation(value){
@@ -79,7 +74,7 @@ class CustomControl extends Event {
   }
 
   set maxRotation(value){
-    this.rotation.mac = - THREE.Math.degToRad(value) - Math.PI/2;
+    this.rotation.max = - THREE.Math.degToRad(value) - Math.PI/2;
   }
 
   get target() {
@@ -96,11 +91,14 @@ class CustomControl extends Event {
     this._focusState = v;
     this.enabled = !v;
     this.mouseRotationEnabled = !v;
-    this.movement.active = !v;
   }
 
   get focusState() {
     return this._focusState;
+  }
+
+  computedTheta(direction = this.camera.getWorldDirection()){
+    return Math.atan2(direction.x, direction.z);
   }
 
   computedPhi(height = this.camera.position.y) {
@@ -113,16 +111,19 @@ class CustomControl extends Event {
     );
   }
 
-  updateTarget(){
-    var phi = this.phi + this.mouse.y/50;
-    var theta = this.theta + this.mouse.x/50;
-
+  computeTarget(phi, theta){
     var targetPosition = new THREE.Vector3();
     var factor = config.control.boundaries.maximum.y/config.control.boundaries.minimum.y*10;
     targetPosition.x = this.camera.position.x + factor * Math.sin( phi ) * Math.cos( theta );
     targetPosition.y = this.camera.position.y + factor * Math.cos( phi );
     targetPosition.z = this.camera.position.z + factor * Math.sin( phi ) * Math.sin( theta );
-    this.target = targetPosition;
+    return targetPosition;
+  }
+
+  updateTarget(){
+    var phi = this.phi + this.mouse.y/50;
+    var theta = this.theta + this.mouse.x/50;
+    this.target = this.computeTarget(phi, theta);
   }
 
 
@@ -182,11 +183,13 @@ class CustomControl extends Event {
     onFinish = null,
     timingFunction = "easeInOutQuad"
   } = {}){
+
+    var onFinishCallback = onFinish !== null ? onFinish.bind(this) : null;
+
     if( this.look.animation ) {
       this.look.animation.stop();
       this.look.animation = null;
     }
-
     var distance = this.camera.position.distanceTo(target);
     var from = new THREE.Vector3(0, 0, -1)
       .applyQuaternion(this.camera.quaternion)
@@ -203,6 +206,7 @@ class CustomControl extends Event {
       duration: duration,
       onFinish: ()=>{
         this.look.active = false;
+        //if( onFinishCallback ) onFinishCallback();
         if( onFinish ) onFinish();
         // TODO: fix onfinish keep value from last method call
         onFinish = null;
@@ -356,15 +360,12 @@ class CustomControl extends Event {
   }
 
   /**
-   * Init go back event when scoll up on focus state
+   * Init go back event when click on focus state
    */
-  initGoBackEvent(e) {
-    if ( !(!this.goBackTriggered && this.focusState && !this.movement.active) ) return;
-
-    if(e.deltaY > 0) {
-      this.dispatch('goBack');
-      this.goBackTriggered = true;
-    }
+  initGoBackEvent() {
+    if ( !(!this.goBackTriggered && this.focusState) ) return;
+    this.dispatch('goBack');
+    this.goBackTriggered = true;
   }
 
 
@@ -372,15 +373,18 @@ class CustomControl extends Event {
 
 
   onMouseWheel( event ){
-    // go back event on focus stats
-    this.initGoBackEvent(event);
-
     // move camera on y
     if(!this.enabled) return;
     this.velocity.y = event.deltaY/10;
   }
 
   onMouseClick( intersect ){
+    // go back event on focus
+    if(this.focusState) {
+      this.initGoBackEvent();
+    }
+
+    // control
     if( !this.enabled ) return;
     var target = intersect.point;
     target.y = this.camera.position.y;

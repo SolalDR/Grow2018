@@ -208,6 +208,7 @@ class CardMarkersManager extends Event {
           }
         }
 
+        // reset hovered marker
         this.hoveredMarker = null;
 
         // distance opacity
@@ -220,7 +221,6 @@ class CardMarkersManager extends Event {
           var markerPos = new THREE.Vector2(marker.mesh.position.x, marker.mesh.position.z);
           var distance  = pointerPos.distanceTo(markerPos);
           var maxDistance = 150;
-          //marker.mesh.material.opacity = THREE.Math.mapLinear(distance, 0, maxDistance, 1, 0);
 
           if(!config.markers.debug) {
             marker.mesh.visible = true;

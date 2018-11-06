@@ -84,6 +84,7 @@ class CardMarker {
 
     // Invert 
     this.mesh.rotation.z = Math.PI;
+    //this.mesh.rotation.x = 0.6;
 
     // set data
     this.mesh.name = (this.card.rank + 2) + ' - marker - ' + this.card.title;
