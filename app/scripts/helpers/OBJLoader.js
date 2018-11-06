@@ -41,9 +41,6 @@ OBJLoader.prototype = {
   },
 
   parse: function ( text ) {
-
-    console.time( 'OBJLoader' );
-
     var objects = [];
     var object;
     var foundObjects = false;
@@ -393,8 +390,6 @@ OBJLoader.prototype = {
       container.add( mesh );
 
     }
-
-    console.timeEnd( 'OBJLoader' );
 
     return container;
 

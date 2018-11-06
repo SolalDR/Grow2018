@@ -86,7 +86,6 @@ class Forest extends Event {
       }
 
     }
-    console.log(trees);
     return trees;
   }
 
@@ -94,8 +93,6 @@ class Forest extends Event {
    * Generate geometry based on trees data & instanced geometry
    */
   generateGeometry(){
-    // var geometry = this.generateInstanceGeometry();
-    console.log(this.tree);
     var geometry = this.tree;
 
     var trees = this.generateTrees();
