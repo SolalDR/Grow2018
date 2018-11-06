@@ -1,9 +1,8 @@
 import Event from "./../helpers/Event.js";
 import DRACOLoader from "./../helpers/DRACOLoader.js";
-import JSONLoader from "./../helpers/JSONLoader.js";
-import vertexShader from "./../../glsl/map.vert";
-import fragmentShader from "./../../glsl/map.frag";
+import OBJLoader from "./../helpers/OBJLoader";
 import config from "./../config.js";
+
 /**
  * The city map
  */
@@ -30,6 +29,7 @@ class Map extends Event {
     DRACOLoader.setDecoderPath('/static/draco/');
     DRACOLoader.setDecoderConfig({type: 'js'});
     this.loader = new DRACOLoader();
+    this.textureLoader = new THREE.TextureLoader();
 
     this.tiles = [];
     this.scene = scene;
@@ -40,16 +40,7 @@ class Map extends Event {
 
     this.generateFloor();
 
-    this.on("floor:load", ()=>{
-      console.log("--------Floor load")
-    })
-
-    this.on("map:load", ()=>{
-      console.log("--------Map load")
-    })
-
     this.on("load", ()=>{
-      console.log("--------Load")
       if(config.heightmap.active) this.computeHeightMap();
     })
   }
@@ -89,9 +80,7 @@ class Map extends Event {
 
 
   generateInfosMap(texture){
-    var textureLoader = new THREE.TextureLoader();
-
-    textureLoader.load("/static/images/textures/map.jpg", (texture)=>{
+    this.textureLoader.load("/static/images/textures/map.jpg", (texture)=>{
       var canvas = document.createElement("canvas");
       canvas.width = 4096;
       canvas.height = 4096;
@@ -130,23 +119,71 @@ class Map extends Event {
    * Generate floor plane
    */
   generateFloor(){
-    this.loader.load("/static/meshes/Sol.obj.drc", (geometry)=>{
-        var material = new THREE.MeshPhongMaterial({
-          emissive: new THREE.Color(config.colors.mapFloorEmissive),
-          color: new THREE.Color(config.colors.mapFloor),
-          shininess: 100
-        });
+    var loader = new OBJLoader();
 
-        this.floor = new THREE.Mesh(geometry, material);
-        this.floor.name = "floor";
-        this.scene.add(this.floor);
+    var textures = [];
+    var images = [
+      { name: "1", url: "01.jpg" },
+      { name: "2", url: "02.jpg" },
+      { name: "3", url: "03.jpg" },
+      { name: "4", url: "04.jpg" },
+      { name: "5", url: "05.jpg" },
+      { name: "6", url: "06.jpg" },
+      { name: "7", url: "07.jpg" },
+      { name: "8", url: "08.jpg" },
+      { name: "9", url: "09.jpg" }
+    ]
 
-        this.generateBoundingBox();
+    loader.load("/static/meshes/Sol_AO.obj", (mesh)=>{
+      this.floor = mesh;
+      this.floor.name = "floor";
+      this.scene.add(this.floor);
 
-        this.testLoaded();
-        this.dispatch("floor:load");
-        this.generateInfosMap();
+      images.forEach(image => {
+        this.textureLoader.load(`/static/images/textures/ao_sol_2k/${image.url}`, (texture)=>{
+          image.texture = texture;
+          textures.push(image);
+          var mesh = this.floor.getObjectByName( image.name );
+
+          mesh.material = new THREE.MeshPhongMaterial({
+            emissive: new THREE.Color(config.colors.mapFloorEmissive),
+            color: new THREE.Color(config.colors.mapFloor),
+            // specular: new THREE.Color(config.colors.mapFloorSpecular),
+            shininess: 100,
+            // lightMap: texture,
+            map: texture
+          });
+
+          mesh.name = "floor-"+mesh.name
+          if( textures.length == images.length ){
+            this.generateBoundingBox();
+            this.testLoaded();
+            this.dispatch("floor:load");
+            this.generateInfosMap();
+          }
+        })
+      })
     });
+
+    // this.loader.load("/static/meshes/Sol.obj.drc", (geometry)=>{
+    //     var material = new THREE.MeshPhongMaterial({
+    //       emissive: new THREE.Color(config.colors.mapFloorEmissive),
+    //       color: new THREE.Color(config.colors.mapFloor),
+    //       shininess: 100
+    //     });
+
+    //     this.floor = new THREE.Mesh(geometry, material);
+    //     this.floor.name = "floor";
+    //     this.scene.add(this.floor);
+
+    //     this.generateBoundingBox();
+
+    //     this.testLoaded();
+    //     this.dispatch("floor:load");
+    //     this.generateInfosMap();
+    // });
+
+
   }
 
 

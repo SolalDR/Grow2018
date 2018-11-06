@@ -1,4 +1,7 @@
 export default {
+  postprocessing: {
+    active: false
+  },
   intro: {
     active: true
   },
@@ -11,20 +14,20 @@ export default {
     generative: false
   },
   colors: {
-    background: "#EEEEEE",
+    background: "#EFEFEF",
     lightDirectionnal: "#ffffff",
-    lightPointer: "#8cc7d9",
+    lightPointer: "#FFFFFF",
     mapBuilding: "#ffffff",
     mapBuildingEmissive: "#CCCCCC",
-    mapFloor: "#6b6464",
+    mapFloor: "#FFFFFF",
     mapFloorEmissive: "#CCCCCC"
   },
 
   camera: {
     position: {
-      x: -100,
+      x: -100 - 1200,
       y: 800,
-      z: 100
+      z: 100 - 1200
     },
     phi: -Math.PI/2,
     theta: 0,
@@ -72,9 +75,9 @@ export default {
     heightSegments: 5,
 
     position: {
-      x: -40,
+      x: -40 - 1200,
       y: 800,
-      z: 100
+      z: 100 - 1200
     },
 
     curve: {

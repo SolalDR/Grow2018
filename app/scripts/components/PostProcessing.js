@@ -1,5 +1,6 @@
 import vertex from '../../glsl/postprocessing.vert'
 import fragment from '../../glsl/postprocessing.frag'
+import config from "./../config.js";
 
 class PostProcessing {
   constructor(renderer) {
@@ -34,7 +35,13 @@ class PostProcessing {
 
   render(scene, camera) {
     this.renderer.clear();
+    if( !config.postprocessing.active ){
+      this.renderer.render(scene, camera);
+      return;
+    }
+
     this.renderer.render(scene, camera, this.target);
+
     this.renderer.setRenderTarget(null);
     this.mesh.material.uniforms.time.value = (this.mesh.material.uniforms.time.value + 0.00001)%1;
     this.mesh.material.uniforms.needsUpdate = true;

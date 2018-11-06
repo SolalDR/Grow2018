@@ -5,6 +5,7 @@ import config from "../config.js";
 class CustomControl extends Event {
 
   constructor( camera, {
+    soundManager = null,
     speed = 1,
     ease = 0.2,
     boundaries = null,

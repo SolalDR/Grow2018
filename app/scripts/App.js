@@ -1,5 +1,4 @@
 import OrbitControls from "./helpers/OrbitControls.js";
-import FirstPersonControls from "./helpers/FirstPersonControls.js";
 import CustomControl from "./helpers/CustomControl.js";
 import Dat from "dat-gui";
 import Clock from "./helpers/Clock.js";
@@ -10,19 +9,18 @@ import Card from "./components/Card.js";
 import CardsCloud from "./components/CardsCloud.js";
 import ImageUtil from "./helpers/ImageUtil.js";
 import Map from "./components/Map.js";
-import CloudMaterial from "./components/CloudMaterial.js";
 import AppGui from "./AppGui.js";
 import Bird from "./components/Bird.js";
 import Forest from "./components/Forest.js";
 import UI from "./components/UI.js";
 import Pointer from "./components/Pointer.js";
-import Water from "./components/Water.js";
 import CardMarkersManager from "./components/CardMarkersManager";
 import Monument from "./components/Monument";
 import Collection from "./components/Collection";
 import PostProcessing from "./components/PostProcessing.js";
 import promiseLoadTextures from "./helpers/PromiseLoadTextures";
 import "./helpers/OBJExporter";
+import SoundManager from "./components/SoundManager.js";
 
 /**
  * Main app object
@@ -49,6 +47,7 @@ export default class App {
     this.camera.position.set( config.camera.position.x, config.camera.position.y, config.camera.position.z);
     this.mouse = new THREE.Vector2();
     this.raycaster = new THREE.Raycaster();
+    this.soundManager = new SoundManager();
 
     // Renderer & Scene
     this.container = document.querySelector( '#main' );
@@ -91,6 +90,7 @@ export default class App {
 
       case config.control.CUSTOM:
         this.controls = new CustomControl(this.camera, {
+          soundManager: this.soundManager,
           boundaries: new THREE.Box3(
             new THREE.Vector3(
               config.control.boundaries.minimum.x,
@@ -154,7 +154,7 @@ export default class App {
     })
 
     this.ui.on("intro:begin", ()=>{
-      var target = new THREE.Vector3(0, 200, 0);
+      var target = new THREE.Vector3(this.camera.position.x, 200, this.camera.position.z);
 
       if(this.config.control.type === this.config.control.CUSTOM) {
         this.controls.move({ target: target, duration: 5000, onFinish: () => this.ui.dispatch("intro:end") });
@@ -284,9 +284,6 @@ export default class App {
     // get distance and set duration from distance
     var dist = cameraPos.distanceTo( dirPos );
 
-    // set animation duration from distance from 1 to 5s
-    const camAnimDuration = THREE.Math.clamp(dist * 10, 800, 3000);
-
     // active state focus
     this.controls.focusState = true;
 
@@ -301,14 +298,12 @@ export default class App {
     // animate camera position
     this.controls.move({
       target: dirPos,
-      duration: camAnimDuration,
       onFinish: null
     });
 
     // animate camera lookAt
     this.controls.lookAt({
       target: cardPos,
-      duration: camAnimDuration,
       onFinish: null
     });
   }
@@ -376,9 +371,9 @@ export default class App {
 
     if( !this.clickedOnMarker && (this.mouseHasMove || this.mouseHasClick || (this.controls.movement && this.controls.movement.active)) ){
       this.raycaster.setFromCamera( this.mouse, this.camera );
-      var intersects = this.raycaster.intersectObjects( this.scene.children );
+      var intersects = this.raycaster.intersectObjects( this.map.floor.children );
       intersects.find(intersect => {
-        if( intersect.object.name !== 'floor' ) return false;
+        if( !intersect.object.name.match("floor")) return false;
         if( config.control.type == config.control.CUSTOM && this.mouseHasClick ) {
           this.controls.onMouseClick( intersect );
         }
