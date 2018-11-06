@@ -60,9 +60,9 @@ export default class App {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color( config.colors.background );
     if(config.fog.active) this.scene.fog = new THREE.Fog( this.scene.background, config.fog.near, config.fog.far );
-    this.onWindowResize();
 
-    //this.postProcessing = new PostProcessing(this.renderer, this.scene, this.camera);
+    this.postProcessing = new PostProcessing(this.renderer);
+    this.onWindowResize();
 
     this.container.addEventListener("mousedown", this.onMouseDown.bind(this));
     this.container.addEventListener("mouseup", this.onMouseUp.bind(this));
@@ -388,8 +388,8 @@ export default class App {
     }
 
     this.pointer.render(this.clock.elapsed);
-    this.renderer.render( this.scene, this.camera );
-    //this.postProcessing.render();
+    // this.renderer.render( this.scene, this.camera );
+    this.postProcessing.render(this.scene, this.camera);
     this.mouseHasMove = false;
     this.mouseHasClick = false;
     this.clickedOnMarker = false;
@@ -429,7 +429,7 @@ export default class App {
   onWindowResize() {
   	this.camera.aspect = window.innerWidth / window.innerHeight;
   	this.camera.updateProjectionMatrix();
-  	this.renderer.setSize( window.innerWidth, window.innerHeight );
+  	this.postProcessing.setSize( window.innerWidth, window.innerHeight );
   }
 
   export(){

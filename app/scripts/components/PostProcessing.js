@@ -1,29 +1,50 @@
-import EffectComposer from './postprocess/EffectComposer.js';
-import ShaderPass from './postprocess/ShaderPass.js';
-import RenderPass from './postprocess/RenderPass.js';
-import FilmPass from './postprocess/FilmPass.js';
-import FilmShader from './postprocess/FilmShader.js';
-import CopyShader from 'three/examples/js/shaders/CopyShader.js';
+import vertex from '../../glsl/postprocessing.vert'
+import fragment from '../../glsl/postprocessing.frag'
 
 class PostProcessing {
-  constructor(renderer, scene, camera) {
-    this.composer = new EffectComposer(renderer);
+  constructor(renderer) {
+    this.camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+    this.renderer = renderer;
+    this.renderer.autoClear = false;
+    this.time = 0;
+    this.target = new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight, {
+      //stencilBuffer: false,
+      format: THREE.RGBAFormat,
+      minFilter: THREE.LinearFilter,
+      magFilter: THREE.NearestFilter
+    });
+    this.scene = new THREE.Scene();
+    this.mesh = new THREE.Mesh(
+      new THREE.PlaneBufferGeometry(2, 2),
+      new THREE.ShaderMaterial({
+        uniforms: {
+          time: {type: "f", value: 0},
+          size: {type: "vec2", value: [0, 0]},
+          screen: {type: "t", value: this.target.texture}
+        },
+        vertexShader: vertex,
+        fragmentShader: fragment
+      })
+    );
 
-    this.passes = [
-      new RenderPass(scene, camera),
-      new FilmPass(1, 1, 1, 1)
-    ];
+    this.mesh.frustumCulled = false;
 
-    this.lastPass.renderToScreen = true;
-    this.passes.forEach(pass => this.composer.addPass(pass));
+    this.scene.add(this.mesh);
   }
 
-  get lastPass() {
-    return this.passes[this.passes.length - 1];
+  render(scene, camera) {
+    this.renderer.clear();
+    this.renderer.render(scene, camera, this.target);
+    this.renderer.setRenderTarget(null);
+    this.mesh.material.uniforms.time.value = (this.mesh.material.uniforms.time.value + 0.00001)%1;
+    this.mesh.material.uniforms.needsUpdate = true;
+    this.renderer.render(this.scene, this.camera);
   }
 
-  render() {
-    this.composer.render();
+  setSize(width, height) {
+    this.renderer.setSize(width, height);
+    this.mesh.material.uniforms.size = new THREE.Vector2(width, height)
+    this.mesh.material.uniforms.needsUpdate = true;
   }
 }
 
