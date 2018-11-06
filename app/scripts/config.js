@@ -13,7 +13,7 @@ export default {
   colors: {
     background: "#EEEEEE",
     lightDirectionnal: "#ffffff",
-    lightPointer: "#ffffff",
+    lightPointer: "#8cc7d9",
     mapBuilding: "#ffffff",
     mapBuildingEmissive: "#CCCCCC",
     mapFloor: "#6b6464",
