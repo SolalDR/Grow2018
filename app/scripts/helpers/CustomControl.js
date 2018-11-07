@@ -45,9 +45,10 @@ class CustomControl extends Event {
       origin: { phi: 0, theta: 0, clientX: null, clientY: null }
     }
 
-    var vector = camera.getWorldDirection();
-    var theta = Math.atan2(vector.x,vector.z);
-    var target = this.camera.getWorldDirection();
+    var target = new THREE.Vector3();
+    this.camera.getWorldDirection(target);
+    var theta = Math.atan2(target.x, target.z);
+
     this.theta = theta !== null ? theta : Math.atan2(target.x, target.z);
     this.phi = phi !== null ? phi: this.computedPhi();
     this.target = this.computeTarget();
@@ -231,6 +232,9 @@ class CustomControl extends Event {
     const dragProgress = (event) => {
       card.marker.mesh.rotation.y = cardState.rotation + event.delta*2.;
     };
+    const dragEnd = (event) => {
+      cardState.rotation = card.marker.mesh.rotation.y;
+    }
 
     const focusClick = (event)=>{
       if( event.castActiveMarker ) return;
@@ -241,6 +245,8 @@ class CustomControl extends Event {
         this.phi = cameraState.phi;
         this.theta = cameraState.theta;
         this.off("focus:click", focusClick);
+        this.off("drag:end", dragEnd);
+        this.off("drag:progress", dragProgress);
         this.dispatch("focus:end");
         cardMarkersManager.activeMarker.fadeAway({ duration: 1200 }).once("end", ()=>{
           cardMarkersManager.activeMarker = null;
@@ -251,6 +257,7 @@ class CustomControl extends Event {
     anim.on("end", ()=>{
       this.dispatch("focus:ready");
       this.on("drag:progress", dragProgress);
+      this.on("drag:end", dragEnd);
       this.on("focus:click", focusClick);
     })
   }

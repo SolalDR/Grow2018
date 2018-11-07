@@ -141,10 +141,13 @@ export default class App {
     this.ui.on("intro:begin", ()=>{
       var target = new THREE.Vector3(this.camera.position.x, 200, this.camera.position.z);
       if(this.config.control.type === this.config.control.CUSTOM) {
-        this.controls.move({ target: target, duration: 5000, onFinish: () => this.ui.dispatch("intro:end") });
-        this.controls.rotate({ phi: this.controls.computedPhi(target.y), duration: 5000, onFinish: () => this.controls.enabled = true });
+        this.controls.rotate({ phi: this.controls.computedPhi(target.y), duration: 5000});
+        this.controls.move({ target: target, duration: 5000}).on("end", () => {
+          this.controls.enabled = true;
+          this.ui.dispatch("intro:end");
+          this.cardsCloud.mesh.visible = false;
+        });
       }
-      this.cardsCloud.fall();
     });
 
     AppGui.init(this);
@@ -201,7 +204,7 @@ export default class App {
         this.scene.add(this.pointer.group);
         this.scene.add(this.birds.mesh);
         this.scene.add(this.forest.mesh);
-        this.renderer.animate( this.render.bind(this) );
+        this.renderer.setAnimationLoop( this.render.bind(this) );
 
         // Display skip button
         this.ui.intro.displaySkipButton();

@@ -205,10 +205,6 @@ class CardsCloud {
 
     this.geometry.attributes.offset.needsUpdate = true;
   }
-
-  fall() {
-    this.material.uniforms.falling.value = true;
-  }
 }
 
 

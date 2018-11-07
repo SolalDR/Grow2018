@@ -130,8 +130,8 @@ class Pointer {
       this.updateDisc();
     }
 
-    this.group.position.x += (this.position.x - this.group.position.x)*0.5;
-    this.group.position.z += (this.position.z - this.group.position.z)*0.5;
+    this.group.position.x += (this.position.x - this.group.position.x)*0.4;
+    this.group.position.z += (this.position.z - this.group.position.z)*0.4;
   }
 }
 
