@@ -12,7 +12,7 @@ class Map extends Event {
    * @attribute {Array} tiles
    * @param {THREE.Scene} scene The three.js scene
    */
-  constructor(scene, raycaster){
+  constructor(scene, raycaster, gui){
     super();
     this.eventsList = ["floor:load", "map:load", "load", "heightmap:ready"]
     this.datas = [
@@ -34,6 +34,7 @@ class Map extends Event {
     this.tiles = [];
     this.scene = scene;
     this.raycaster = raycaster;
+    this.gui = gui;
     this.datas.forEach(data => {
       this.loadTileDRC(data);
     });
@@ -42,6 +43,7 @@ class Map extends Event {
 
     this.on("load", ()=>{
       if(config.heightmap.active) this.computeHeightMap();
+      this.generateWater();
     })
   }
 
@@ -76,6 +78,19 @@ class Map extends Event {
       y*this.infosMap.texture.image.height, 1, 1);
 
     return infos.data;
+  }
+
+  generateWater(){
+    var geometry = new THREE.PlaneGeometry(2000, 2000);
+    var material = new THREE.MeshPhongMaterial();
+    var water = new THREE.Mesh(geometry, material);
+    water.rotation.x = -Math.PI/2;
+    water.position.set(500, -99, -1500);
+    water.scale.set(5, 4, 1);
+
+    this.scene.add(water);
+
+    this.gui.addMesh("Water", water);
   }
 
 
@@ -148,9 +163,7 @@ class Map extends Event {
           mesh.material = new THREE.MeshPhongMaterial({
             emissive: new THREE.Color(config.colors.mapFloorEmissive),
             color: new THREE.Color(config.colors.mapFloor),
-            // specular: new THREE.Color(config.colors.mapFloorSpecular),
             shininess: 100,
-            // lightMap: texture,
             map: texture
           });
 
