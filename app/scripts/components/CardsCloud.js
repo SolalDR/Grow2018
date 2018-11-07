@@ -1,10 +1,9 @@
 import config from "./../config.js";
 import vertexShader from "./../../glsl/model.vert";
 import fragmentShader from "./../../glsl/model.frag";
-import raycasterFragmentShader from "./../../glsl/raycaster.frag";
 import BufferGeometryUtils from "./../helpers/BufferGeometryUtils.js";
 import PixelPicking from "./PixelPicking.js";
-import Normal from "./Normal.js"
+import Normal from "../helpers/Normal.js"
 
 /**
  * A mesh containing all the cards with instance buffer geometry

@@ -43,5 +43,4 @@ class Normal {
 }
 
 export default Normal;
-// module.exports = Normal;
 

@@ -1,0 +1,21 @@
+{
+  "city": {
+    "src": ["/static/sounds/ambiance_city.mp3"],
+    "autoplay": true,
+    "loop": true,
+    "volume": 0.1
+  },
+  "sky": {
+    "src": ["/static/sounds/ambiance_sky.mp3"],
+    "autoplay": true,
+    "loop": true,
+    "volume": 0.1
+  },
+  "move-fast": {
+    "src": ["/static/sounds/move.mp3"]
+  },
+  "move": {
+    "src": ["/static/sounds/move_slow.wav"],
+    "volume": 1
+  }
+}

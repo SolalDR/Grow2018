@@ -5,7 +5,6 @@ import config from "../config.js";
 class CustomControl extends Event {
 
   constructor( camera, {
-    soundManager = null,
     boundaries = null,
     minAngle = 25,
     maxAngle = 85,
@@ -17,9 +16,9 @@ class CustomControl extends Event {
 
     super();
     this.eventsList = [
-      "move:start", "move:end",
-      "rotate:start", "rotate:end",
-      "focus:start", "focus:ready", "focus:end", "focus:click", "focus:cast",
+      "move", "move:end",
+      "rotate", "rotate:end",
+      "focus:ready", "focus:end", "focus:click",
       "drag:start", "drag:end", "drag:progress"
     ];
 
@@ -111,7 +110,7 @@ class CustomControl extends Event {
    * @param {THREE.Vector3} target
    * @param {integer} duration
    */
-  lookAt({ target = null, duration = 1500, onFinish = null, timingFunction = "easeInOutQuad" } = {}){
+  lookAt({ target = null, duration = 1500, onFinish = null, timingFunction = "easeInOutCubic" } = {}){
     var distance = this.camera.position.distanceTo(target);
     var from = new THREE.Vector3(0, 0, -1)
       .applyQuaternion(this.camera.quaternion)
@@ -149,7 +148,7 @@ class CustomControl extends Event {
 
     if( onFinish ) { console.warn("CustomContro: Use onFinish attribute in move() is deprecated") }
 
-    this._move = new Animation({ timingFunction: "easeInOutQuart", duration: duration });
+    this._move = new Animation({ timingFunction: "easeInOutCubic", duration: duration });
     this._move.on("end", () => this._move = null);
     this._move.on("end", () => this.dispatch("move:end"));
 
@@ -163,7 +162,7 @@ class CustomControl extends Event {
       );
     });
 
-    this.dispatch("move:start", this._move);
+    this.dispatch("move", this._move);
     return this._move;
   }
 

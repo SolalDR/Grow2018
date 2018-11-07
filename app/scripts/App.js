@@ -1,6 +1,7 @@
-import OrbitControls from "./helpers/OrbitControls.js";
-import CustomControl from "./helpers/CustomControl.js";
 import Dat from "dat-gui";
+import {Howler} from "howler";
+
+import CustomControl from "./helpers/CustomControl.js";
 import Clock from "./helpers/Clock.js";
 import config from "./config.js";
 import monuments from "./../datas/monuments.json";
@@ -19,9 +20,9 @@ import Monument from "./components/Monument";
 import Collection from "./components/Collection";
 import PostProcessing from "./components/PostProcessing.js";
 import promiseLoadTextures from "./helpers/PromiseLoadTextures";
-import "./helpers/OBJExporter";
-import SoundManager from "./components/SoundManager.js";
 
+import "./helpers/OBJExporter";
+import SoundController from "./components/sound/SoundController";
 /**
  * Main app object
  */
@@ -47,7 +48,7 @@ export default class App {
     this.camera.position.set( config.camera.position.x, config.camera.position.y, config.camera.position.z);
     this.mouse = new THREE.Vector2();
     this.raycaster = new THREE.Raycaster();
-    this.soundManager = new SoundManager();
+    this.soundController = new SoundController(this.camera);
 
     // Renderer & Scene
     this.container = document.querySelector( '#main' );
@@ -80,7 +81,6 @@ export default class App {
    */
   initControl(){
     this.controls = new CustomControl(this.camera, {
-      soundManager: this.soundManager,
       boundaries: new THREE.Box3(
         new THREE.Vector3( config.control.boundaries.minimum.x, config.control.boundaries.minimum.y, config.control.boundaries.minimum.z ),
         new THREE.Vector3( config.control.boundaries.maximum.x, config.control.boundaries.maximum.y, config.control.boundaries.maximum.z )
@@ -91,6 +91,12 @@ export default class App {
     });
 
     this.controls.enabled = false;
+
+    this.controls.on("move", (anim)=>{
+      if( anim.duration < 2000 ){
+        this.soundController.play("move");
+      }
+    })
 
     this.controls.on("focus:ready", ()=>{
       this.renderer.domElement.style.cursor = "pointer";
@@ -204,6 +210,7 @@ export default class App {
         if(config.intro.active) {
           this.ui.intro.on("pre-intro:end", () => {
             this.ui.intro.hidden = false;
+            Howler.volume(1);
           });
         } else {
           this.ui.intro.hidden = false;
@@ -228,9 +235,6 @@ export default class App {
     this.pointer.hover = false;
     this.pointer.visible = false;
     this.cardMarkersManager.activeMarker = event.card.marker;
-
-    console.log(event);
-
     this.controls.focus(event.card, this.cardMarkersManager);
     this.clickedOnMarker = true;
     this.collection.addCard(event.card);
@@ -287,6 +291,8 @@ export default class App {
     if( this.mouseHasClick ){
       this.controls.onMouseClick();
     }
+
+    this.soundController.render();
 
     this.pointer.render(this.clock.elapsed);
     this.postProcessing.render(this.scene, this.camera);
