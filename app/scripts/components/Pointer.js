@@ -4,11 +4,12 @@ const MODE_ENDING = 3;
 const MODE_STOPED = 4;
 
 class Pointer {
-  constructor(){
+  constructor(canvas){
     this.ring;
     this.disc;
     this.group;
     this.position;
+    this.canvas = canvas;
     this._hover = {intensity: 0};
     this._click = {intensity: 0};
     this._visible = true;
@@ -62,6 +63,17 @@ class Pointer {
   get visible() {
     return this._visible;
   }
+
+
+  set cursor(cursor) {
+    this._cursor = cursor;
+    this.canvas.style.cursor = cursor;
+  }
+
+  get cursor(){
+    return this.canvas.style.cursor;
+  }
+
 
   updateRing(){
     this.ring.scale.x = this._hover.intensity + 1;

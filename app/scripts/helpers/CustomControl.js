@@ -350,7 +350,6 @@ class CustomControl extends Event {
       this.dispatch("focus:click", {
         castActiveMarker: this.hasCastActiveMarker
       });
-      console.log("Focus click")
     }
   }
 

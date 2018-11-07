@@ -99,6 +99,7 @@ export default class App {
     this.controls.on("focus:end", ()=>{
       this.pointer.visible = true;
       this.renderer.domElement.style.cursor = "none";
+      this.pointer.cursor = "none";
     })
   }
 
@@ -114,7 +115,7 @@ export default class App {
     this.directionalLight.position.y = 1000;
     this.pointerLight = new THREE.PointLight( new THREE.Color(config.colors.lightPointer), 0.2 );
     this.pointerLight.position.y = 100;
-    this.pointer = new Pointer();
+    this.pointer = new Pointer(this.renderer.domElement);
 
     this.map = new Map(this.scene, this.raycaster);
     this.map.on("load", ()=>{
@@ -262,8 +263,10 @@ export default class App {
       // Intersect active card
       if( this.controls.isFocus && this.cardMarkersManager.activeMarker ) {
         var intersects = this.raycaster.intersectObjects( [this.cardMarkersManager.activeMarker.mesh] );
+        this.pointer.cursor = "zoom-out";
         if( intersects[0] && intersects[0].object.name === this.cardMarkersManager.activeMarker.mesh.name ){
           // Notice raycasting
+          this.pointer.cursor = "grab";
           this.controls.onMouseCast( intersects[0], this.mouseHasClick, true );
         }
       } else {
