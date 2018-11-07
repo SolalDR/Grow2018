@@ -37,7 +37,7 @@ export default {
     phi: -Math.PI/2,
     theta: 0,
     fov: 45 ,
-    near: 10,
+    near: 5,
     far: 1500
   },
 

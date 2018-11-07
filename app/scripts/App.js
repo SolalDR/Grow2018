@@ -73,49 +73,33 @@ export default class App {
     window.scene = this.scene;
   }
 
-
   // -----------------------------------------
 
   /**
    * Manage different type of control
    */
   initControl(){
-    switch (config.control.type ){
-      case config.control.ORBIT:
-        this.controls = new OrbitControls( this.camera );
-        this.controls.target.copy(config.cards.position);
-        this.controls.maxZoom = 50;
-        this.controls.minZoom = 50;
-        break;
+    this.controls = new CustomControl(this.camera, {
+      soundManager: this.soundManager,
+      boundaries: new THREE.Box3(
+        new THREE.Vector3( config.control.boundaries.minimum.x, config.control.boundaries.minimum.y, config.control.boundaries.minimum.z ),
+        new THREE.Vector3( config.control.boundaries.maximum.x, config.control.boundaries.maximum.y, config.control.boundaries.maximum.z )
+      ),
+      mouse: this.mouse,
+      phi: config.camera.phi,
+      scene: this.scene
+    });
 
-      case config.control.CUSTOM:
-        this.controls = new CustomControl(this.camera, {
-          soundManager: this.soundManager,
-          boundaries: new THREE.Box3(
-            new THREE.Vector3(
-              config.control.boundaries.minimum.x,
-              config.control.boundaries.minimum.y,
-              config.control.boundaries.minimum.z
-            ),
-            new THREE.Vector3(
-              config.control.boundaries.maximum.x,
-              config.control.boundaries.maximum.y,
-              config.control.boundaries.maximum.z
-            )
-          ),
-          mouse: this.mouse,
-          phi: config.camera.phi,
-          scene: this.scene
-        });
-        this.controls.enabled = false;
-        break;
+    this.controls.enabled = false;
 
-      case config.control.FPS:
-        this.controls = new THREE.FirstPersonControls( this.camera );
-        this.controls.movementSpeed = config.control.speed;
-        this.controls.lookSpeed = 0.1;
-        break;
-    }
+    this.controls.on("focus:ready", ()=>{
+      this.renderer.domElement.style.cursor = "pointer";
+    })
+
+    this.controls.on("focus:end", ()=>{
+      this.pointer.visible = true;
+      this.renderer.domElement.style.cursor = "none";
+    })
   }
 
   /**
@@ -140,8 +124,6 @@ export default class App {
         scale: 4
       });
       this.birds.mesh.position.set(-40, 400, 100);
-
-      // Forest
       this.forest = new Forest({ map: this.map })
       this.forest.on("load", ()=>{
         this.generateCards();
@@ -149,21 +131,14 @@ export default class App {
       })
     });
 
-    this.map.on("heightmap:ready", ()=>{
-      // this.export();
-    })
-
     this.ui.on("intro:begin", ()=>{
       var target = new THREE.Vector3(this.camera.position.x, 200, this.camera.position.z);
-
       if(this.config.control.type === this.config.control.CUSTOM) {
         this.controls.move({ target: target, duration: 5000, onFinish: () => this.ui.dispatch("intro:end") });
         this.controls.rotate({ phi: this.controls.computedPhi(target.y), duration: 5000, onFinish: () => this.controls.enabled = true });
       }
-
       this.cardsCloud.fall();
     });
-
 
     AppGui.init(this);
   }
@@ -201,10 +176,7 @@ export default class App {
 
         this.cardMarkersManager = new CardMarkersManager({
           cards,
-          textures : {
-            recto: recto,
-            verso: verso
-          },
+          textures: { recto: recto, verso: verso },
           scene: this.scene,
           pointer: this.pointer
         });
@@ -214,14 +186,7 @@ export default class App {
         this.collection.on("addCard", () => this.ui.compass.targetCard = this.collection.getRandomTarget());
         this.cardMarkersManager.on("hover", () => this.pointer.hover = true );
         this.cardMarkersManager.on("hover:end", () => this.pointer.hover = false );
-        this.cardMarkersManager.on("click", (event) => {
-          this.focusOnCard(event);
-        });
-
-        // go back when focused on a card
-        this.controls.on('goBack', () => {
-          this.goBackToNavigation();
-        });
+        this.cardMarkersManager.on("click", this.focusOnCard.bind(this));
 
         this.scene.add(this.cardsCloud.mesh);
         this.scene.add(this.directionalLight);
@@ -257,53 +222,17 @@ export default class App {
     })
   }
 
-  // TODO: make a component CardView
   focusOnCard(event) {
     if(this.cardMarkersManager.activeMarker) return;
     this.pointer.hover = false;
+    this.pointer.visible = false;
     this.cardMarkersManager.activeMarker = event.card.marker;
+
+    console.log(event);
+
     this.controls.focus(event.card, this.cardMarkersManager);
     this.clickedOnMarker = true;
     this.collection.addCard(event.card);
-  }
-
-  // TODO: add to comp cardView
-  /**
-   * Set camera and controls back to map navigation
-   */
-  goBackToNavigation() {
-    console.log('go back to navigation state');
-    // move back to last camera pos
-    this.controls.move({
-      target: this.controls.prevCameraPos,
-      timingFunction: "easeInOutQuad",
-      onFinish: () => {
-        this.controls.prevCameraPos = null;
-      }
-    });
-
-    // keep look at on card
-    this.controls.lookAt({
-      target: this.cardMarkersManager.activeMarker.mesh.position,
-      onFinish: () =>  {
-        // remove focus state
-        this.controls.focusState = false;
-        // allow go back event to be init again
-        this.controls.goBackTriggered = false;
-        // update target
-        this.controls.target.copy(this.cardMarkersManager.activeMarker.mesh.position);
-
-
-        // make active marker fade away
-        this.cardMarkersManager.activeMarker.fadeAway({
-          duration: 1000,
-          onFinish: () => {
-            // reset active marker
-            this.cardMarkersManager.activeMarker = null;
-          }
-        });
-      }
-    });
   }
 
 
@@ -319,7 +248,6 @@ export default class App {
 
     if(this.birds) this.birds.render(this.clock.elapsed/1000);
     this.cardsCloud.render(this.clock.elapsed);
-    document.body.style.cursor = this.cardsCloud.pixelPicking.cardSelected ? 'pointer' : null;
 
     if( config.control.type == config.control.CUSTOM ){
       this.controls.update( this.mouseHasMove, this.clock.delta );
@@ -328,19 +256,33 @@ export default class App {
     }
 
     if( !this.clickedOnMarker && (this.mouseHasMove || this.mouseHasClick || (this.controls.movement && this.controls.movement.active)) ){
-      if( this.mouseHasClick ){
-        this.controls.onMouseClick();
-      }
+
       this.raycaster.setFromCamera( this.mouse, this.camera );
-      var intersects = this.raycaster.intersectObjects( this.map.floor.children );
-      intersects.find(intersect => {
-        if( !intersect.object.name.match("floor")) return false;
-        if( config.control.type == config.control.CUSTOM && this.mouseHasClick ) {
-          this.controls.onMouseCast( intersect );
+
+      // Intersect active card
+      if( this.controls.isFocus && this.cardMarkersManager.activeMarker ) {
+        var intersects = this.raycaster.intersectObjects( [this.cardMarkersManager.activeMarker.mesh] );
+        if( intersects[0] && intersects[0].object.name === this.cardMarkersManager.activeMarker.mesh.name ){
+          // Notice raycasting
+          this.controls.onMouseCast( intersects[0], this.mouseHasClick, true );
         }
-        this.pointer.move( intersect.point );
-        return true;
-      });
+      } else {
+        // Intersects floor
+        var intersects = this.raycaster.intersectObjects( this.map.floor.children );
+        intersects.find(intersect => {
+          // If intersect is not floor or active marker, return
+          if( intersect.object.name.match("floor") ){
+            this.pointer.move( intersect.point );
+            this.controls.onMouseCast( intersect, this.mouseHasClick, false );
+          }
+          return true;
+        });
+      }
+    }
+
+    // if mouse has click notice controls
+    if( this.mouseHasClick ){
+      this.controls.onMouseClick();
     }
 
     this.pointer.render(this.clock.elapsed);
@@ -379,7 +321,6 @@ export default class App {
     }
     if( !this.mouseHasMoveSinceMouseDown ) {
       this.mouseHasClick = true;
-      this.controls.onMouseClick(event);
     }
   }
 

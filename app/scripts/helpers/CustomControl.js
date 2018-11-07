@@ -16,7 +16,13 @@ class CustomControl extends Event {
   } = {} ){
 
     super();
-    this.eventsList = ["move:start", "move:end", "rotate:start", "rotate:end", "focus:start", "focus:end", "focus:click"];
+    this.eventsList = [
+      "move:start", "move:end",
+      "rotate:start", "rotate:end",
+      "focus:start", "focus:ready", "focus:end", "focus:click", "focus:cast",
+      "drag:start", "drag:end", "drag:progress"
+    ];
+
     this.camera = camera;
     this.scene = scene;
     this.scrollSpeed = 0;
@@ -32,6 +38,7 @@ class CustomControl extends Event {
     this._move = null;
     this._rotate = null;
     this._look = null;
+    this._focus = null;
 
     this.drag = {
       active: false,
@@ -114,16 +121,22 @@ class CustomControl extends Event {
     var to = target.clone();
     var diff = to.clone().sub(from);
     this._look = new Animation({ timingFunction: timingFunction, duration: duration });
-    this._look.on("end", ()=> this._look = null );
+    this._look.on("end", ()=> {
+      this._look = null;
+      console.groupEnd("progress look")
+    });
 
     if( onFinish ) {
       if( onFinish ) { console.warn("CustomControl: Use onFinish attribute in lookAt() is deprecated") }
       this._look.on("end", onFinish.bind(this));
     }
 
+    console.group("progress look")
     this._look.on("progress", (event) => {
       this.target = from.clone().add(diff.clone().multiplyScalar(event.advancement));
+      console.log(from.clone().add(diff.clone().multiplyScalar(event.advancement)));
     });
+
 
     return this._look;
   }
@@ -207,31 +220,53 @@ class CustomControl extends Event {
       theta: this.theta
     }
 
+    // Store card state
+    var cardState = {
+      rotation: card.marker.mesh.rotation.y
+    }
+
     var cardNormal = new THREE.Vector3();
     card.marker.mesh.getWorldDirection(cardNormal);
     var positionTarget = card.marker.mesh.position.clone().add(cardNormal.multiplyScalar(-45))
 
-    var anim = this.move({ target: positionTarget });
-    this.lookAt({ target: card.marker.mesh.position });
     this._focus = true;
 
-    anim.on("end", ()=>{
-      this.on("focus:click", (intersect)=>{
-        this.move({ target: cameraState.position });
-        var outAnim = this.lookAt({ target: cameraState.target, timingFunction: "linear" });
+    console.log("From target ", cameraState.target)
+    console.log("To target ", card.marker.mesh.position)
 
-        outAnim.on("end", ()=>{
-          this._focus = false;
-          this.phi = cameraState.phi;
-          this.theta = cameraState.theta;
-          cardMarkersManager.activeMarker.fadeAway({ duration: 1200 }).on("end", ()=>{
-            cardMarkersManager.activeMarker = null;
-          });
-        })
+    var anim = this.move({ target: positionTarget });
+    var animLook = this.lookAt({ target: card.marker.mesh.position });
+
+    const dragProgress = (event) => {
+      card.marker.mesh.rotation.y = cardState.rotation + event.delta*2.;
+    };
+
+    const focusClick = (event)=>{
+      if( event.castActiveMarker ) return;
+      this.move({ target: cameraState.position });
+      var outAnim = this.lookAt({ target: cameraState.target, timingFunction: "linear" });
+      outAnim.on("end", ()=>{
+        this._focus = null;
+        this.phi = cameraState.phi;
+        this.theta = cameraState.theta;
+        this.off("focus:click", focusClick);
+        this.dispatch("focus:end");
+        cardMarkersManager.activeMarker.fadeAway({ duration: 1200 }).once("end", ()=>{
+          cardMarkersManager.activeMarker = null;
+        });
       })
+    }
+
+    anim.on("end", ()=>{
+      this.dispatch("focus:ready");
+      this.on("drag:progress", dragProgress);
+      this.on("focus:click", focusClick);
     })
   }
 
+  get isFocus(){
+    return this._focus === null ? false : true;
+  }
 
   update( mouseHasChange, delta ){
 
@@ -248,6 +283,8 @@ class CustomControl extends Event {
       var thetaDelta = (this.drag.origin.clientX - this.mouse.x);
       this.theta = this.drag.origin.theta + thetaDelta;
       this.needUpdateRotation = true;
+      this.dispatch("drag:progress", { delta: thetaDelta });
+
     }
 
     // Scroll control
@@ -295,6 +332,7 @@ class CustomControl extends Event {
     }
 
     this.needUpdateRotation = false;
+    this.hasCastActiveMarker = false;
   }
 
 
@@ -309,15 +347,28 @@ class CustomControl extends Event {
   onMouseClick(){
     if( !this.enabled ) return;
     if( this._focus ){
-      this.dispatch("focus:click");
+      this.dispatch("focus:click", {
+        castActiveMarker: this.hasCastActiveMarker
+      });
+      console.log("Focus click")
     }
   }
 
-  onMouseCast( intersect ){
-    if( !this.enabled || this._focus ) return;
-    var target = intersect.point;
-    target.y = this.camera.position.y;
-    this.move({target: target});
+  onMouseCast( intersect, hasClick, isActiveMarker ){
+    if( !this.enabled ) return;
+
+    // If has cast the active marker, notice & render
+    if( isActiveMarker) {
+      this.hasCastActiveMarker = true;
+      return;
+    }
+
+    // If has clicked on floor
+    if( hasClick ){
+      var target = intersect.point;
+      target.y = this.camera.position.y;
+      this.move({target: target});
+    }
   }
 
   onMouseDown( event ) {
@@ -329,12 +380,14 @@ class CustomControl extends Event {
       clientY: this.mouse.y
     }
     this.drag.active = true;
+    this.dispatch("drag:start");
   }
 
   onMouseUp() {
     this.drag.active = false;
     this.drag.current.clientX = null;
     this.drag.current.clientY = null;
+    this.dispatch("drag:end");
   }
 }
 

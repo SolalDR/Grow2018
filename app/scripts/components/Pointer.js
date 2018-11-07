@@ -20,7 +20,7 @@ class Pointer {
     var geometryRing = new THREE.RingGeometry( 6, 7, 32, 32 );
     var geometryDisc = new THREE.CircleGeometry( 5, 32 );
 
-    var material = new THREE.MeshBasicMaterial( { color: 0x000000, side: THREE.DoubleSide } );
+    var material = new THREE.MeshBasicMaterial( { color: 0x000000, side: THREE.DoubleSide, transparent: true, depthTest: false } );
 
     this.ring = new THREE.Mesh(geometryRing, material);
     this.disc = new THREE.Mesh(geometryDisc, material);
@@ -47,7 +47,6 @@ class Pointer {
   }
 
   set click(value){
-    // if( this._click.status == MODE_ACTIVE )
     if( value === true ){
       this._click.status = MODE_STARTING;
     } else {
@@ -58,7 +57,6 @@ class Pointer {
   set visible(v) {
     this._visible = v;
     this.hover = v ? this._hover : v;
-    this.group.traverse( function ( object ) { object.visible = v; } );
   }
 
   get visible() {
@@ -81,7 +79,7 @@ class Pointer {
 
 
   render(time){
-    if(!this._visible) return;
+    // if(!this._visible) return;
 
     if( this._hover.status === MODE_ACTIVE ){
       this._hover.intensity += (1 - this._hover.intensity) * 0.1
@@ -90,6 +88,25 @@ class Pointer {
       this._hover.intensity += (0 - this._hover.intensity) * 0.1
       this.updateRing();
     }
+
+    // Visibility animation
+    if( this._visible === true && this.ring.material.opacity < 1 ){
+      // this.group.visible = true;
+      this.ring.material.opacity += (1 - this.ring.material.opacity)*0.1;
+      if( Math.abs(this.ring.material.opacity - 1) < 0.01 ) {
+        this.ring.material.opacity = 1;
+      }
+      this.ring.material.needsUpdate = true;
+    } else if( this._visible === false && this.ring.material.opacity > 0 ) {
+      this.ring.material.opacity -= this.ring.material.opacity*0.1;
+      if( Math.abs(this.ring.material.opacity) < 0.01 ) {
+        this.ring.material.opacity = 0;
+        // this.group.visible = false;
+      }
+      this.ring.material.needsUpdate = true;
+    }
+
+    // if( !this._visible ) return;
 
     if( this._click.status == MODE_STARTING ){
       this._click.intensity += (1 - this._click.intensity)*0.2;
