@@ -4,7 +4,7 @@ import Dat from "dat-gui";
 import Clock from "./helpers/Clock.js";
 import config from "./config.js";
 import monuments from "./../datas/monuments.json";
-import datas from "./../datas/data_sb_only.json";
+import datas from "./../datas/datas.json";
 import Card from "./components/Card.js";
 import CardsCloud from "./components/CardsCloud.js";
 import ImageUtil from "./helpers/ImageUtil.js";

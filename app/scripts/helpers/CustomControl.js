@@ -123,7 +123,6 @@ class CustomControl extends Event {
     this._look = new Animation({ timingFunction: timingFunction, duration: duration });
     this._look.on("end", ()=> {
       this._look = null;
-      console.groupEnd("progress look")
     });
 
     if( onFinish ) {
@@ -131,12 +130,9 @@ class CustomControl extends Event {
       this._look.on("end", onFinish.bind(this));
     }
 
-    console.group("progress look")
     this._look.on("progress", (event) => {
       this.target = from.clone().add(diff.clone().multiplyScalar(event.advancement));
-      console.log(from.clone().add(diff.clone().multiplyScalar(event.advancement)));
     });
-
 
     return this._look;
   }
@@ -230,10 +226,6 @@ class CustomControl extends Event {
     var positionTarget = card.marker.mesh.position.clone().add(cardNormal.multiplyScalar(-45))
 
     this._focus = true;
-
-    console.log("From target ", cameraState.target)
-    console.log("To target ", card.marker.mesh.position)
-
     var anim = this.move({ target: positionTarget });
     var animLook = this.lookAt({ target: card.marker.mesh.position });
 
