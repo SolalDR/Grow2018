@@ -35,8 +35,10 @@ export default class Intro extends Event {
 
 
   hide() {
-    this.hidden = !(this.hidding = true);
-    setTimeout(() => {this.hidden = !(this.hidding = false); }, 2000);
+    this.hidding  = true;
+    setTimeout(() => {
+      this.element.classList.replace("intro--hidding", "intro--hidden");
+    }, 2000);
     this.dispatch('hide');
   }
 
@@ -50,7 +52,9 @@ export default class Intro extends Event {
   }
 
   initEvents() {
-    this.elements.start.addEventListener('click', () => this.hide());
+    this.elements.start.addEventListener('click', () => {
+      this.hide()
+    });
   }
 
   static init() {

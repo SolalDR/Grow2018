@@ -196,7 +196,6 @@ class CardMarkersManager extends Event {
       // if selection contains markers
       if(this.markersSelection.length > 0) {
 
-
         // visible false to previous markers
         if(!config.markers.debug) {
           if(this.prevMarkersSelection !== this.markersSelection && this.prevMarkersSelection.length > 0) {
@@ -250,7 +249,6 @@ class CardMarkersManager extends Event {
       }
     }
   }
-
 }
 
 export default CardMarkersManager;
