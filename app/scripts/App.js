@@ -264,7 +264,8 @@ export default class App {
       this.controls.update( this.clock.delta/1000 );
     }
 
-    if( !this.clickedOnMarker && (this.mouseHasMove || this.mouseHasClick || (this.controls.movement && this.controls.movement.active)) ){
+    // If no marker is clicked and mouse has moved or clicked or a controls is moving
+    if( !this.clickedOnMarker  && ( this.mouseHasMove || this.mouseHasClick || this.controls._move )){
 
       this.raycaster.setFromCamera( this.mouse, this.camera );
 
