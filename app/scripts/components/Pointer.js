@@ -91,8 +91,6 @@ class Pointer {
 
 
   render(time){
-    // if(!this._visible) return;
-
     if( this._hover.status === MODE_ACTIVE ){
       this._hover.intensity += (1 - this._hover.intensity) * 0.1
       this.updateRing();
@@ -103,7 +101,6 @@ class Pointer {
 
     // Visibility animation
     if( this._visible === true && this.ring.material.opacity < 1 ){
-      // this.group.visible = true;
       this.ring.material.opacity += (1 - this.ring.material.opacity)*0.1;
       if( Math.abs(this.ring.material.opacity - 1) < 0.01 ) {
         this.ring.material.opacity = 1;
@@ -113,12 +110,9 @@ class Pointer {
       this.ring.material.opacity -= this.ring.material.opacity*0.1;
       if( Math.abs(this.ring.material.opacity) < 0.01 ) {
         this.ring.material.opacity = 0;
-        // this.group.visible = false;
       }
       this.ring.material.needsUpdate = true;
     }
-
-    // if( !this._visible ) return;
 
     if( this._click.status == MODE_STARTING ){
       this._click.intensity += (1 - this._click.intensity)*0.2;

@@ -36,11 +36,12 @@
     "style-loader": "0.17.0"
   },
   "dependencies": {
-    "dat-gui": "latest",
+    "dat.gui": "^0.7.3",
     "gaussian-convolution-kernel": "^1.0.0",
     "gsap": "^1.20.2",
     "howler": "^2.0.15",
     "three": "^0.97.0",
+    "three-dat.gui": "^1.0.2",
     "three-shader-fxaa": "^5.1.1",
     "three-stats": "^1.0.1",
     "webvr-polyfill": "^0.9.38"

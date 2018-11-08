@@ -1,4 +1,5 @@
-import Dat from "dat-gui";
+import Dat from "dat.gui";
+import "three-dat.gui";
 import {Howler} from "howler";
 
 import CustomControl from "./helpers/CustomControl.js";
@@ -123,7 +124,7 @@ export default class App {
     this.pointerLight.position.y = 100;
     this.pointer = new Pointer(this.renderer.domElement);
 
-    this.map = new Map(this.scene, this.raycaster);
+    this.map = new Map(this.scene, this.raycaster, this.gui);
     this.map.on("load", ()=>{
       this.birds = new Bird({
         count: 200,
