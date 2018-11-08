@@ -2,6 +2,7 @@ import OBJLoader from "../helpers/OBJLoader.js";
 import config from "../config.js";
 import refMarkersDatas from "./../../datas/refMarkers.json";
 
+// TODO: still usefull if one obj ?
 class Monument {
   constructor({slug, position, rotation, scale}) {
     this.slug = slug;

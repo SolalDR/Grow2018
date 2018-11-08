@@ -1,34 +1,8 @@
 [
   {
-    "slug": "cathedrale",
-    "position": {"x": -1243.02, "y": 21, "z": 1103.61},
-    "rotation": {"x": 0, "y": -1.8, "z": 0},
-    "scale": 0.03
-  },
-  {
-    "slug": "moulin-de-souzin",
-    "position": {"x": -2354.5549966909184, "y": 0, "z": 2896.6670185810945},
+    "slug": "all-monuments",
+    "position": {"x": 0, "y": 0, "z": 0},
     "rotation": {"x": 0, "y": 0, "z": 0},
-    "scale": 0.26,
-    "issue": "Il y a un plan au milieu de l'objet"
-  },
-  {
-    "slug": "baie-de-st-brieuc",
-    "position": {"x": -970.8865387148107, "y": 35, "z": 954.7951858107891},
-    "rotation": {"x": 0, "y": 0, "z": 0},
-    "scale": 0.72,
-    "issue": "Il y a un plan au sol"
-  },
-  {
-    "slug": "palais-de-justice",
-    "position": {"x": -1076.1770747853093, "y": 21.5, "z": 484.46},
-    "rotation": {"x": 0, "y": -1.68, "z": 0},
-    "scale": 0.02
-  },
-  {
-    "slug": "prefecture",
-    "position": {"x": -901.1322567823685, "y": 0, "z": 468.6824324324316},
-    "rotation": {"x": 0, "y": 0, "z": 0},
-    "scale": 0.12
+    "scale": 1
   }
 ]
