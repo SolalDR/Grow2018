@@ -30,20 +30,15 @@ class Instruction {
     let icon;
     if (name.includes('pointer')) {
       icon = Array.from(this.elements.icons).filter(item => item.classList.contains('instruction__icon--pointer'))[0];
-      console.log('Class: Instruction, Function: icon, Line 33 Array.from(this.elements.icons).filter(item => item.classList.contains(instruction__icon--pointer))(): '
-      , Array.from(this.elements.icons).filter(item => item.classList.contains('instruction__icon--pointer')));
-
       if( name.includes('click') ) {
         icon.dataset.anim = 'click';
       } else if ( name.includes('drag') ) {
         icon.dataset.anim = 'drag';
       }
-
     } else if ( name.includes('postcard') ) {
         icon = Array.from(this.elements.icons).filter(item => item.classList.contains('instruction__icon--card'))[0];
         icon.dataset.anim = 'reveal';
     }
-
     if(icon) {
       this.elements.icons.forEach((item) => item.classList.remove('instruction__icon--active'))
       icon.classList.add('instruction__icon--active');
@@ -54,15 +49,6 @@ class Instruction {
   get icon() {
     return this._icon;
   }
-
-  //
-  // set indicIcon() {
-  //
-  // }
-  //
-  // get indicIcon() {
-  //
-  // }
 
   initElements(element) {
     this.element = element;
@@ -78,7 +64,7 @@ class Instruction {
   autoScroll() {
 
     this.elements.items.forEach((item, key) => {
-      setTimeout(() => {
+      item.timeOut = setTimeout(() => {
         this.activeItem = item;
       }, this.textDuration * key)
     })
@@ -86,7 +72,15 @@ class Instruction {
     // auto hide at the end
     setTimeout(() => {
       this.hidden = true;
+      this.resetAutoScroll();
     }, this.textDuration * this.elements.items.length)
+  }
+
+  /**
+   * Reset auto scroll
+   */
+  resetAutoScroll() {
+    this.elements.items.forEach((item) => clearTimeout(item.timeOut))
   }
 
   static init() {
