@@ -6,6 +6,7 @@ import Counter from "./UI/Counter.js";
 import Dev from "./UI/Dev.js";
 import Navigation from "./UI/Navigation.js";
 import Collection from "./UI/Collection.js";
+import Instruction from "./UI/Instructrion";
 
 /**
  * Manage user interface interaction
@@ -24,12 +25,14 @@ class UI extends Event {
     this.dev = Dev.init(app);
     this.navigation = Navigation.init(app);
     this.collection = Collection.init(app);
+    this.instruction = Instruction.init();
 
     // Trigger in App.js
     this.on("intro:end", ()=>{
       this.compass.hidden = false;
       this.collection.counter.hidden = false;
       this.navigation.burger.hidden = false;
+      this.instruction.hidden = false;
     })
 
     this.navigation.on("update", ()=>{

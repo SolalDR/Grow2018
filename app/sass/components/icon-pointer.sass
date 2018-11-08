@@ -1,0 +1,56 @@
+.icon-pointer
+  $self: &
+  transition: opacity 0.5s ease
+  &__disc, &__ring
+    transform: translate3d(0, 0, 0)
+    transition:
+      property: transform
+      duration: 0.3s
+      timing-function: ease
+  &[data-anim="click"]
+    #{$self}__disc
+      animation: 2s disc-up infinite
+    #{$self}__ring
+      animation: 2s disc-down infinite
+  &[data-anim="drag"]
+    animation: 3s translate-sides infinite
+    #{$self}__disc
+      animation: 3s disc-up infinite
+    #{$self}__ring
+      animation: 3s disc-down infinite
+
+@keyframes translate-sides
+  0%, 20%
+    transform: translate3d(0, 0, 0)
+  35%
+    transform: translate3d(-20%, 0, 0)
+  50%
+    transform: translate3d(20%, 0, 0)
+  60%, 100%
+    transform: translate3d(0, 0, 0)
+
+@keyframes disc-up
+  0%
+    transform: translate3d(0, 0, 0)
+    animation-timing-function: cubic-bezier(.58,-0.18,.01,1.23)
+  35%
+    transform: translate3d(0, -20%, 0)
+  55%
+    transform: translate3d(0, -20%, 0)
+    animation-timing-function: cubic-bezier(.98,0,.45,1.16)
+  70%
+    transform: translate3d(0, 0, 0)
+  100%
+    transform: translate3d(0, 0, 0)
+
+@keyframes disc-down
+  0%
+    transform: translate3d(0, 0, 0)
+    animation-timing-function: cubic-bezier(.58,-0.18,.01,1.23)
+  5%
+    transform: translate3d(0, 5%, 0)
+    animation-timing-function: cubic-bezier(.98,0,.45,1.16)
+  20%
+    transform: translate3d(0, 0, 0)
+  100%
+    transform: translate3d(0, 0, 0)
