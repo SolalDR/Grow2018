@@ -1,5 +1,4 @@
 import Dat from "dat.gui";
-import "three-dat.gui";
 import {Howler} from "howler";
 
 import CustomControl from "./helpers/CustomControl.js";

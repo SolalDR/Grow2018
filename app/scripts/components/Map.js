@@ -89,8 +89,6 @@ class Map extends Event {
     water.scale.set(5, 4, 1);
 
     this.scene.add(water);
-
-    this.gui.addMesh("Water", water);
   }
 
 

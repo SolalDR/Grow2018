@@ -79,7 +79,7 @@ module.exports = function(env) {
                 {
                     test: [/\.mp3$/, /\.dae$/, /\.jpg$/, /\.obj$/, /\.fbx$/, /\.png$/],
                     use: ['file-loader?name=[path][name].[hash].[ext]']
-                },  
+                },
                 {
                     test: [/\.scss$/, /\.sass$/],
                     use: [  { loader: "style-loader"}, // creates style nodes from JS strings
