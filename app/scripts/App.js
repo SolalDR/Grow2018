@@ -218,6 +218,9 @@ export default class App {
         } else {
           this.ui.intro.hidden = false;
         }
+
+        // TODO ; remove
+        this.initCardToPointer();
       }
     );
   }
@@ -352,4 +355,65 @@ export default class App {
       }
     })
   }
+
+  // DEBUG
+  // TODO: remove
+  // DEBUG METHOD
+  initCardToPointer() {
+    this.targetMesh = {
+      name: '',
+      mesh: null
+    }
+    // listener
+    document.addEventListener("keydown", (event) => {
+      if(event.keyCode === 192) {
+        this.targetMesh.mesh = this.scene.getObjectByName(this.targetMesh.name);
+        if(this.targetMesh.mesh) {
+          // update this.targetMesh.mesh pos
+          this.targetMesh.mesh.position.copy(this.pointer.position);
+          // update data
+          var cardData = Array.from(datas).filter((card) => this.targetMesh.name.includes(card.title))[0];
+          cardData.position = {
+            x: this.targetMesh.mesh.position.x,
+            y:0, z:
+            this.targetMesh.mesh.position.z
+          }
+
+        } else {
+          console.log('mesh', this.targetMesh.name, 'not found');
+        }
+      }
+    });
+    // gui
+    var markers = this.gui.addFolder("markers");
+    markers.add(this.targetMesh, "name");
+  }
+
+  exportCards() {
+    //Get the file contents
+    //var txtFile = "markers.json";
+    //var file = new File(txtFile);
+    var str = JSON.stringify(datas);
+    //Save the file contents as a DataURI
+    var dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(str);
+    //document.getElementById('marker-export-link').setAttribute('href', dataUri);
+
+    var iframe = '<iframe src="' + dataUri + '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>'
+    var x = window.open();
+    x.document.open();
+    x.document.write(iframe);
+    x.document.close();
+  }
+
+  updateRotations() {
+    // update data
+    var cardData = Array.from(datas).filter((card) => this.targetMesh.name.includes(card.title))[0];
+    if(!cardData) return;
+    cardData.rotation = {
+      x: 0,
+      y: this.targetMesh.mesh.rotation.y,
+      z: 0
+    }
+  }
+
 }

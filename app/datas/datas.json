@@ -1,678 +1,968 @@
 [
-   {
-      "title":"4862. - SAINT-BRIEUC. - La Pointe \u00e0 l' Aigle et L' Anse \u00e0 la Vierge",
-      "img_recto":"M0196_94-26-321_1.jpg",
-      "img_verso":"M0196_94-26-321_2.jpg",
-      "annee":1924,
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.51418,
-         "longitude":-2.765835
-      },
-      "img_rank":1,
-      "img_working":true
-   },
-   {
-      "title":"5169. - SAINT-BRIEUC-L\u00c9GU\u00c9. - Le Phare \u00e0 mar\u00e9e basse",
-      "img_recto":"M0196_94-26-266_1.jpg",
-      "img_verso":"M0196_94-26-266_2.jpg",
-      "annee":1916,
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.5225322,
-         "longitude":-2.7599218
-      },
-      "img_rank":2,
-      "img_working":true
-   },
-   {
-      "title":"SAINT-BRIEUC - Vieilles maisons Rue Fardel",
-      "img_recto":"M0196_94-26-243_1.jpg",
-      "img_verso":"M0196_94-26-243_2.jpg",
-      "annee":" ",
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.5150487,
-         "longitude":-2.7651218
-      },
-      "img_rank":3,
-      "img_working":true
-   },
-   {
-      "title":"53 SAINT-BRIEUC. - Sous la Tour. - Le chemin du Phare. - LL",
-      "img_recto":"M0196_94-26-260_1.jpg",
-      "img_verso":"M0196_94-26-260_2.jpg",
-      "annee":1921,
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.5288601,
-         "longitude":-2.7230229
-      },
-      "img_rank":4,
-      "img_working":true
-   },
-   {
-      "title":"139 SAINT-BRIEUC. - Saint-Laurent. - Vue g\u00e9n\u00e9rale de la Plage. - LL",
-      "img_recto":"M0196_94-26-323_1.jpg",
-      "img_verso":"M0196_94-26-323_2.jpg",
-      "annee":1921,
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.5267243,
-         "longitude":-2.7170757
-      },
-      "img_rank":5,
-      "img_working":true
-   },
-   {
-      "title":" SAINT-BRIEUC \u2013 Eglise Saint-Michel",
-      "img_recto":"M0196_94-26-184_1.jpg",
-      "img_verso":"M0196_94-26-184_2.jpg",
-      "annee":1908,
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.5163747,
-         "longitude":-2.7564007
-      },
-      "img_rank":6,
-      "img_working":true
-   },
-   {
-      "title":"SAINT-BRIEUC \u2013 Le Phare et l' Entr\u00e9e du Port",
-      "img_recto":"M0196_94-26-265_1.jpg",
-      "img_verso":"M0196_94-26-265_2.jpg",
-      "annee":1910,
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.5238608,
-         "longitude":-2.7478824
-      },
-      "img_rank":7,
-      "img_working":true
-   },
-   {
-      "title":"3764. - ST-BRIEUC. - Promenade du Tour de la Vall\u00e9e",
-      "img_recto":"M0196_94-26-023_1.jpg",
-      "img_verso":"M0196_94-26-023_2.jpg",
-      "annee":1914,
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.513656,
-         "longitude":-2.7563701
-      },
-      "img_rank":8,
-      "img_working":true
-   },
-   {
-      "title":"A. G. - 54. - LE L\u00c9GU\u00c9-St-BRIEUC. - Les Quais du Gou\u00ebt",
-      "img_recto":"M0196_94-26-293_1.jpg",
-      "img_verso":"M0196_94-26-293_2.jpg",
-      "annee":1909,
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.52329899999999,
-         "longitude":-2.7501063
-      },
-      "img_rank":9,
-      "img_working":true
-   },
-   {
-      "title":"18.- SAINT-BRIEUC. - Vue g\u00e9n\u00e9rale",
-      "img_recto":"M0196_94-26-004_1.jpg",
-      "img_verso":"M0196_94-26-004_2.jpg",
-      "annee":" ",
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.5121745,
-         "longitude":-2.7593472
-      },
-      "img_rank":10,
-      "img_working":true
-   },
-   {
-      "title":"St-Brieuc Rue de Gou\u00e9dic",
-      "img_recto":"M0196_94-26-234_1.jpg",
-      "img_verso":"M0196_94-26-234_2.jpg",
-      "annee":" ",
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.5092752,
-         "longitude":-2.7546263
-      },
-      "img_rank":11,
-      "img_working":true
-   },
-   {
-      "title":"7 SAINT-BRIEUC. \u2013 La chr\u00e9drale. - ND",
-      "img_recto":"M0196_94-26-170_1.jpg",
-      "img_verso":"M0196_94-26-170_2.jpg",
-      "annee":" ",
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.5142256,
-         "longitude":-2.7642835
-      },
-      "img_rank":12,
-      "img_working":true
-   },
-   {
-      "title":"85 SAINT-BRIEUC. - La Vall\u00e9e du Gou\u00ebdic vers Cesson. - A. G.",
-      "img_recto":"M0196_94-26-059_1.jpg",
-      "img_verso":"M0196_94-26-059_2.jpg",
-      "annee":1917,
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.5155319,
-         "longitude":-2.7499851
-      },
-      "img_rank":13,
-      "img_working":true
-   },
-   {
-      "title":"94. - SAINT-BRIEUC (C\u00f4tes-du-Nord). - Le Moulin de Souzin.",
-      "img_recto":"M0196_94-26-036_1.jpg",
-      "img_verso":"M0196_94-26-036_2.jpg",
-      "annee":" ",
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.5240995,
-         "longitude":-2.7885589
-      },
-      "img_rank":14,
-      "img_working":true
-   },
-   {
-      "title":"A G. 15. SAINT-BRIEUC \u2013 Ecole des Gar\u00e7ons de la rue Baratoux",
-      "img_recto":"M0196_94-26-146_1.jpg",
-      "img_verso":"M0196_94-26-146_2.jpg",
-      "annee":" ",
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.5157507,
-         "longitude":-2.7620559
-      },
-      "img_rank":15,
-      "img_working":true
-   },
-   {
-      "title":"475. - St-BRIEUC. - Maison ancienne Place du Martray",
-      "img_recto":"M0196_94-26-220_1.jpg",
-      "img_verso":"M0196_94-26-220_2.jpg",
-      "annee":" ",
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.514385,
-         "longitude":-2.7639109
-      },
-      "img_rank":16,
-      "img_working":true
-   },
-   {
-      "title":"647. St-Brieuc. Le pont de Rohanec'h",
-      "img_recto":"M0196_94-26-087_1.jpg",
-      "img_verso":"M0196_94-26-087_2.jpg",
-      "annee":1909,
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.5223921,
-         "longitude":-2.7453236
-      },
-      "img_rank":17,
-      "img_working":false
-   },
-   {
-      "title":"18. - St-BRIEUC. - Le Th\u00e9\u00e2tre",
-      "img_recto":"M0196_94-26-151_1.jpg",
-      "img_verso":"M0196_94-26-151_2.jpg",
-      "annee":1903,
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.51389390000001,
-         "longitude":-2.7613444
-      },
-      "img_rank":18,
-      "img_working":true
-   },
-   {
-      "title":"1829. - SAINT-BRIEUC. - F\u00eate des Fleurs, 1905 Le Char de l' Arm\u00e9e",
-      "img_recto":"M0196_94-26-211_1.jpg",
-      "img_verso":"M0196_94-26-211_2.jpg",
-      "annee":1913,
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.514209,
-         "longitude":-2.7625691
-      },
-      "img_rank":19,
-      "img_working":true
-   },
-   {
-      "title":"6556. - La Baie de St-BRIEUC, vue d' HILLION",
-      "img_recto":"M0196_94-26-020_1.jpg",
-      "img_verso":"M0196_94-26-020_2.jpg",
-      "annee":" ",
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.51171369999999,
-         "longitude":-2.7622826
-      },
-      "img_rank":20,
-      "img_working":true
-   },
-   {
-      "title":"64 SAINT-BRIEUC. - Le Palais de Justice.",
-      "img_recto":"M0196_94-26-142_1.jpg",
-      "img_verso":"M0196_94-26-142_2.jpg",
-      "annee":" ",
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.5126562,
-         "longitude":-2.758385
-      },
-      "img_rank":21,
-      "img_working":true
-   },
-   {
-      "title":"641. St-Brieuc. Place de la Pr\u00e9fecture",
-      "img_recto":"M0196_94-26-136_1.jpg",
-      "img_verso":"M0196_94-26-136_2.jpg",
-      "annee":1911,
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.5142678,
-         "longitude":-2.765694
-      },
-      "img_rank":22,
-      "img_working":true
-   },
-   {
-      "title":"21 St-BRIEUC. - MAISON DU XVe SECLE. DITE HOTEL DES DUCS DE BRETAGNE. CONSTRUITE EN 1572 PAR YVON COLLON LL",
-      "img_recto":"M0196_94-26-241_1.jpg",
-      "img_verso":"M0196_94-26-241_2.jpg",
-      "annee":" ",
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.5149503,
-         "longitude":-2.7649146
-      },
-      "img_rank":23,
-      "img_working":true
-   },
-   {
-      "title":"28 St-BRIEUC \u2013 Vieilles Maisons. Anciennes habitation des ducs de bretagne",
-      "img_recto":"M0196_94-26-238_1.jpg",
-      "img_verso":"M0196_94-26-238_2.jpg",
-      "annee":" ",
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.5216073,
-         "longitude":-2.7265835
-      },
-      "img_rank":24,
-      "img_working":true
-   },
-   {
-      "title":"8. - St-BRIEUC. - La Grande All\u00e9e des Promenades",
-      "img_recto":"M0196_94-26-027_1.jpg",
-      "img_verso":"M0196_94-26-027_2.jpg",
-      "annee":1905,
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.5132342,
-         "longitude":-2.7585509
-      },
-      "img_rank":25,
-      "img_working":true
-   },
-   {
-      "title":"4540. - SAINT-BRIEUC. - Caserne Charner",
-      "img_recto":"M0196_94-26-160_1.jpg",
-      "img_verso":"M0196_94-26-160_2.jpg",
-      "annee":" ",
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.5081599,
-         "longitude":-2.7661894
-      },
-      "img_rank":26,
-      "img_working":true
-   },
-   {
-      "title":"75. SAINT-BRIEUC \u2013 Rue du L\u00e9gu\u00e9",
-      "img_recto":"M0196_94-26-300_1.jpg",
-      "img_verso":"M0196_94-26-300_2.jpg",
-      "annee":1911,
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.5220876,
-         "longitude":-2.7634542
-      },
-      "img_rank":27,
-      "img_working":true
-   },
-   {
-      "title":"15 SAINT-BRIEUC. - La Pr\u00e9fecture. - LL",
-      "img_recto":"M0196_94-26-131_1.jpg",
-      "img_verso":"M0196_94-26-131_2.jpg",
-      "annee":1913,
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.51108929999999,
-         "longitude":-2.7557048
-      },
-      "img_rank":28,
-      "img_working":true
-   },
-   {
-      "title":"SAINT-BRIEUC .- Vue g\u00e9n\u00e9rale prise de Notre-Dame-de-l'Esp\u00e9rance",
-      "img_recto":"M0196_94-26-001_1.jpg",
-      "img_verso":"M0196_94-26-001_2.jpg",
-      "annee":" ",
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.51236429999999,
-         "longitude":-2.7667843
-      },
-      "img_rank":29,
-      "img_working":true
-   },
-   {
-      "title":"4181. SAINT-BRIEUC Rue St-Jacques dite Rue au Beurre. Les maisons r\u00e9cemment d\u00e9molies",
-      "img_recto":"M0196_94-26-223_1.jpg",
-      "img_verso":"M0196_94-26-223_2.jpg",
-      "annee":1913,
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.5147473,
-         "longitude":-2.7636926
-      },
-      "img_rank":30,
-      "img_working":true
-   },
-   {
-      "title":"30 SAINT-BRIEUC - La Rue fardel",
-      "img_recto":"M0196_94-26-244_1.jpg",
-      "img_verso":"M0196_94-26-244_2.jpg",
-      "annee":" ",
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.5105088,
-         "longitude":-2.7574185
-      },
-      "img_rank":31,
-      "img_working":true
-   },
-   {
-      "title":"2033. - SAINT-BRIEUC. -  La Rampe de Rohannec'h\u00a0.  Au fond, le Viaduc de Souzin et le L\u00e9gu\u00e9                                                 ",
-      "img_recto":"M0196_94-26-054_1.jpg",
-      "img_verso":"M0196_94-26-054_2.jpg",
-      "annee":" ",
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.5224072,
-         "longitude":-2.7442301
-      },
-      "img_rank":32,
-      "img_working":true
-   },
-   {
-      "title":"57. Saint-Brieuc \u2013 Place Houvenagle A. G.",
-      "img_recto":"M0196_94-26-226_1.jpg",
-      "img_verso":"M0196_94-26-226_2.jpg",
-      "annee":1908,
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.5151262,
-         "longitude":-2.7624326
-      },
-      "img_rank":33,
-      "img_working":true
-   },
-   {
-      "title":"4716. ST-BRIEUC \u2013 Rue des Trois-Fr\u00e8res Merlin",
-      "img_recto":"M0196_94-26-227_1.jpg",
-      "img_verso":"M0196_94-26-227_2.jpg",
-      "annee":" ",
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.5142843,
-         "longitude":-2.762877
-      },
-      "img_rank":34,
-      "img_working":true
-   },
-   {
-      "title":"1212. - St-BRIEUC\u00a0. - Place Duguesclin",
-      "img_recto":"M0196_94-26-232_1.jpg",
-      "img_verso":"M0196_94-26-232_2.jpg",
-      "annee":" ",
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.51128569999999,
-         "longitude":-2.7585648
-      },
-      "img_rank":35,
-      "img_working":true
-   },
-   {
-      "title":"18. St-BRIEUC \u2013 Place de la Pr\u00e9fecture et Statue de Poulain Corbion",
-      "img_recto":"M0196_94-26-133_1.jpg",
-      "img_verso":"M0196_94-26-133_2.jpg",
-      "annee":" ",
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.51290849999999,
-         "longitude":-2.7641247
-      },
-      "img_rank":36,
-      "img_working":true
-   },
-   {
-      "title":"1243 \u2013 Saint-Brieuc \u2013 Rue Saint-Guilaume",
-      "img_recto":"M0196_94-26-222_1.jpg",
-      "img_verso":"M0196_94-26-222_2.jpg",
-      "annee":1916,
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.5127687,
-         "longitude":-2.7592259
-      },
-      "img_rank":37,
-      "img_working":true
-   },
-   {
-      "title":"13 \u2013 St-BRIEUC. - Rue Fardel",
-      "img_recto":"M0196_94-26-235_1.jpg",
-      "img_verso":"M0196_94-26-235_2.jpg",
-      "annee":" ",
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.51491799999999,
-         "longitude":-2.764865
-      },
-      "img_rank":38,
-      "img_working":true
-   },
-   {
-      "title":"109 SAINT-BRIEUC. - Le Palais de Justice.",
-      "img_recto":"M0196_94-26-139_1.jpg",
-      "img_verso":"M0196_94-26-139_2.jpg",
-      "annee":1917,
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.5149543,
-         "longitude":-2.7615608
-      },
-      "img_rank":39,
-      "img_working":true
-   },
-   {
-      "title":"A. G. 3. SAINT-BRIEUC - Place Duguesclin",
-      "img_recto":"M0196_94-26-231_1.jpg",
-      "img_verso":"M0196_94-26-231_2.jpg",
-      "annee":" ",
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.5119054,
-         "longitude":-2.7588877
-      },
-      "img_rank":40,
-      "img_working":true
-   },
-   {
-      "title":"3070. - St-BRIEUC. - La Pointe \u00e0 l' Aigle \u2013 Phare du L\u00e9gu\u00e9. H\u00f4tel Terminus",
-      "img_recto":"M0196_94-26-288_1.jpg",
-      "img_verso":"M0196_94-26-288_2.jpg",
-      "annee":1913,
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.51647939999999,
-         "longitude":-2.7637169
-      },
-      "img_rank":41,
-      "img_working":true
-   },
-   {
-      "title":"1253 -  Le L\u00c9GU\u00c9 - SAINT-BRIEUC - Le Pont de Gou\u00ebt",
-      "img_recto":"M0196_94-26-301_1.jpg",
-      "img_verso":"M0196_94-26-301_2.jpg",
-      "annee":1903,
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.521911,
-         "longitude":-2.7651819
-      },
-      "img_rank":42,
-      "img_working":true
-   },
-   {
-      "title":"SAINT-BRIEUC \u2013 Cath\u00e9drale et H\u00f4tel de Ville",
-      "img_recto":"M0196_94-26-167_1.jpg",
-      "img_verso":"M0196_94-26-167_2.jpg",
-      "annee":1934,
-      "periode":"2e quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.5138007,
-         "longitude":-2.7641156
-      },
-      "img_rank":43,
-      "img_working":true
-   },
-   {
-      "title":"37. Saint-Brieuc \u2013 Rue Fardel A. G.",
-      "img_recto":"M0196_94-26-247_1.jpg",
-      "img_verso":"M0196_94-26-247_2.jpg",
-      "annee":1907,
-      "periode":"1er quart 20e si\u00e8cle",
-      "coords":{
-         "latitude":48.5169832,
-         "longitude":-2.7654196
-      },
-      "img_rank":44,
-      "img_working":true
-   },
-   {
-      "title":"4208. - SAINT-BRIEUC. - Viaduc de Souzin mi-cte de Bon-Repos",
-      "year":1913,
-      "periode":"1er quart 20e sicle",
-      "img_recto":"M0196_94-26-070_1.jpg",
-      "img_verso":"M0196_94-26-070_2.jpg",
-       "coords":{
-         "latitude":48.523957, 
-         "longitude":-2.761835
-      },
-      "img_rank":45,
-      "img_working":true
-   },
-   {
-      "title":"78 Saint-Brieuc. - Viaduc de Souzin",
-      "year":1907,
-      "periode":"1er quart 20e sicle",
-      "img_recto":"M0196_94-26-072_1.jpg",
-      "img_verso":"M0196_94-26-072_2.jpg",
-       "coords":{
-         "latitude":48.523957, 
-         "longitude":-2.761835
-      },
-      "img_rank":46,
-      "img_working":true
-   },
-   {
-      "title":"1801. -  St-BRIEUC. - Palais de Justice.",
-      "year":1906,
-      "periode":"1er quart 20e sicle",
-      "img_recto":"M0196_94-26-144_1.jpg",
-      "img_verso":"M0196_94-26-144_2.jpg",
-      "coords":{
-         "latitude":48.51288,
-         "longitude":-2.75599
-      },
-      "img_rank":47,
-      "img_working":true
-   },
-   {
-      "title":"118 SAINT-BRIEUC - Caserne Charner",
-      "year":"",
-      "periode":"1er quart 20e sicle",
-      "img_recto":"M0196_94-26-159_1.jpg",
-      "img_verso":"M0196_94-26-159_2.jpg",
-      "coords":{
-         "latitude":48.50772,
-         "longitude":-2.76248
-      },
-      "img_rank":48,
-      "img_working":true
-   },
-   {
-      "title":"1201. - St-BRIEUC. - Place de la Cathdrale",
-      "year":1904,
-      "periode":"1er quart 20e sicle",
-      "img_recto":"M0196_94-26-165_1.jpg",
-      "img_verso":"M0196_94-26-165_2.jpg",
-      "coords":{
-         "latitude":48.51392, 
-         "longitude":-2.76489
-      },
-      "img_rank":49,
-      "img_working":true
-   },
-   {
-      "title":"SAINT-BRIEUC  Rue Lamennais Eglise Saint-Michel",
-      "year":"",
-      "periode":"1er quart 20e sicle",
-      "img_recto":"M0196_94-26-185_1.jpg",
-      "img_verso":"M0196_94-26-185_2.jpg",
-      "coords":{
-         "latitude":48.51536, 
-         "longitude":-2.75695
-      },
-      "img_rank":50,
-      "img_working":true
-   },
-   {
-      "title":"376. - La Cinquantaine Paysans des environs de St-Brieuc",
-      "year":"",
-      "periode":"1er quart 20e sicle",
-      "img_recto":"M0196_94-26-200_1.jpg",
-      "img_verso":"M0196_94-26-200_2.jpg",
-      "coords":{
-         "latitude": 48.5118,
-         "longitude": -2.7079
-      },
-      "img_rank":51,
-      "img_working":true
-   },
-   {
-      "title":"34. - LE LGU-St-BRIEUC. - La Grve St-Laurent",
-      "year":1909,
-      "periode":"1er quart 20e sicle",
-      "img_recto":"M0196_94-26-303_1.jpg",
-      "img_verso":"M0196_94-26-303_2.jpg",
-      "coords":{
-         "latitude":48.526069, 
-         "longitude":-2.736972
-      },
-      "img_rank":52,
-      "img_working":true
-   }
+  {
+    "title": "4862. - SAINT-BRIEUC. - La Pointe à l' Aigle et L' Anse à la Vierge",
+    "img_recto": "M0196_94-26-321_1.jpg",
+    "img_verso": "M0196_94-26-321_2.jpg",
+    "annee": 1924,
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.51418,
+      "longitude": -2.765835
+    },
+    "position": {
+      "x": -3847.6,
+      "y": 0,
+      "z": -1626.4
+    },
+    "rotation": {
+      "x": 0,
+      "y": 2.44,
+      "z": 0
+    },
+    "img_rank": 1,
+    "img_working": true
+  },
+  {
+    "title": "5169. - SAINT-BRIEUC-LÉGUÉ. - Le Phare à marée basse",
+    "img_recto": "M0196_94-26-266_1.jpg",
+    "img_verso": "M0196_94-26-266_2.jpg",
+    "annee": 1916,
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.5225322,
+      "longitude": -2.7599218
+    },
+    "position": {
+      "x": -2710,
+      "y": 60,
+      "z": -1700
+    },
+    "rotation": {
+      "x": 0,
+      "y": -1.9,
+      "z": 0
+    },
+    "img_rank": 2,
+    "img_working": true
+  },
+  {
+    "title": "SAINT-BRIEUC - Vieilles maisons Rue Fardel",
+    "img_recto": "M0196_94-26-243_1.jpg",
+    "img_verso": "M0196_94-26-243_2.jpg",
+    "annee": " ",
+    "periode": "1er quart 20e siècle",
+    "position": {
+      "x": 1343,
+      "y": 60,
+      "z": -1164
+    },
+    "coords": {
+      "latitude": 48.5150487,
+      "longitude": -2.7651218
+    },
+    "img_rank": 3,
+    "img_working": true
+  },
+  {
+    "title": "53 SAINT-BRIEUC. - Sous la Tour. - Le chemin du Phare. - LL",
+    "img_recto": "M0196_94-26-260_1.jpg",
+    "img_verso": "M0196_94-26-260_2.jpg",
+    "annee": 1921,
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.5288601,
+      "longitude": -2.7230229
+    },
+    "img_rank": 4,
+    "img_working": true,
+    "position": {
+      "x": -2691.1221429688953,
+      "y": 0,
+      "z": -1423.4844726272754
+    },
+    "rotation": {
+      "x": 0,
+      "y": -2.54,
+      "z": 0
+    }
+  },
+  {
+    "title": "139 SAINT-BRIEUC. - Saint-Laurent. - Vue générale de la Plage. - LL",
+    "img_recto": "M0196_94-26-323_1.jpg",
+    "img_verso": "M0196_94-26-323_2.jpg",
+    "annee": 1921,
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.5267243,
+      "longitude": -2.7170757
+    },
+    "img_rank": 5,
+    "img_working": true,
+    "position": {
+      "x": -1680.6137811326996,
+      "y": 0,
+      "z": -2636.6673128883913
+    },
+    "rotation": {
+      "x": 0,
+      "y": 1.94,
+      "z": 0
+    }
+  },
+  {
+    "title": " SAINT-BRIEUC – Eglise Saint-Michel",
+    "img_recto": "M0196_94-26-184_1.jpg",
+    "img_verso": "M0196_94-26-184_2.jpg",
+    "annee": 1908,
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.5163747,
+      "longitude": -2.7564007
+    },
+    "img_rank": 6,
+    "img_working": true,
+    "position": {
+      "x": -1587.4613418034958,
+      "y": 0,
+      "z": 376.2070188317415
+    },
+    "rotation": {
+      "x": 0,
+      "y": 0.5,
+      "z": 0
+    }
+  },
+  {
+    "title": "SAINT-BRIEUC – Le Phare et l' Entrée du Port",
+    "img_recto": "M0196_94-26-265_1.jpg",
+    "img_verso": "M0196_94-26-265_2.jpg",
+    "annee": 1910,
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.5238608,
+      "longitude": -2.7478824
+    },
+    "img_rank": 7,
+    "img_working": true,
+    "position": {
+      "x": -3511.508523892974,
+      "y": 0,
+      "z": -1875.6294973094446
+    },
+    "rotation": {
+      "x": 0,
+      "y": 1.26,
+      "z": 0
+    }
+  },
+  {
+    "title": "3764. - ST-BRIEUC. - Promenade du Tour de la Vallée",
+    "img_recto": "M0196_94-26-023_1.jpg",
+    "img_verso": "M0196_94-26-023_2.jpg",
+    "annee": 1914,
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.513656,
+      "longitude": -2.7563701
+    },
+    "img_rank": 8,
+    "img_working": true,
+    "position": {
+      "x": -2627.1001913235123,
+      "y": 0,
+      "z": 1287.9861179537922
+    }
+  },
+  {
+    "title": "A. G. - 54. - LE LÉGUÉ-St-BRIEUC. - Les Quais du Gouët",
+    "img_recto": "M0196_94-26-293_1.jpg",
+    "img_verso": "M0196_94-26-293_2.jpg",
+    "annee": 1909,
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.52329899999999,
+      "longitude": -2.7501063
+    },
+    "img_rank": 9,
+    "img_working": true,
+    "position": {
+      "x": -604.399621161343,
+      "y": 0,
+      "z": 1065.8812666244999
+    },
+    "rotation": {
+      "x": 0,
+      "y": 0.98,
+      "z": 0
+    }
+  },
+  {
+    "title": "18.- SAINT-BRIEUC. - Vue générale",
+    "img_recto": "M0196_94-26-004_1.jpg",
+    "img_verso": "M0196_94-26-004_2.jpg",
+    "annee": " ",
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.5121745,
+      "longitude": -2.7593472
+    },
+    "img_rank": 10,
+    "img_working": true,
+    "position": {
+      "x": -739.8417591806274,
+      "y": 0,
+      "z": 483.97016344262204
+    },
+    "rotation": {
+      "x": 0,
+      "y": 1.04,
+      "z": 0
+    }
+  },
+  {
+    "title": "St-Brieuc Rue de Gouédic",
+    "img_recto": "M0196_94-26-234_1.jpg",
+    "img_verso": "M0196_94-26-234_2.jpg",
+    "annee": " ",
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.5092752,
+      "longitude": -2.7546263
+    },
+    "img_rank": 11,
+    "img_working": true,
+    "position": {
+      "x": -330.67500139330764,
+      "y": 0,
+      "z": 260.546090557575
+    },
+    "rotation": {
+      "x": 0,
+      "y": -3.04,
+      "z": 0
+    }
+  },
+  {
+    "title": "7 SAINT-BRIEUC. – La chrédrale. - ND",
+    "img_recto": "M0196_94-26-170_1.jpg",
+    "img_verso": "M0196_94-26-170_2.jpg",
+    "annee": " ",
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.5142256,
+      "longitude": -2.7642835
+    },
+    "img_rank": 12,
+    "img_working": true,
+    "position": {
+      "x": -1386.013090122986,
+      "y": 0,
+      "z": 1194.8335366545089
+    },
+    "rotation": {
+      "x": 0,
+      "y": -3.82,
+      "z": 0
+    }
+  },
+  {
+    "title": "85 SAINT-BRIEUC. - La Vallée du Gouëdic vers Cesson. - A. G.",
+    "img_recto": "M0196_94-26-059_1.jpg",
+    "img_verso": "M0196_94-26-059_2.jpg",
+    "annee": 1917,
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.5155319,
+      "longitude": -2.7499851
+    },
+    "img_rank": 13,
+    "img_working": true,
+    "position": {
+      "x": -2426.2087576032523,
+      "y": 0,
+      "z": 395.9765145870423
+    },
+    "rotation": {
+      "x": 0,
+      "y": 0.44,
+      "z": 0
+    }
+  },
+  {
+    "title": "94. - SAINT-BRIEUC (Côtes-du-Nord). - Le Moulin de Souzin.",
+    "img_recto": "M0196_94-26-036_1.jpg",
+    "img_verso": "M0196_94-26-036_2.jpg",
+    "annee": " ",
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.5240995,
+      "longitude": -2.7885589
+    },
+    "img_rank": 14,
+    "img_working": true,
+    "position": {
+      "x": -2163.6978399088075,
+      "y": 0,
+      "z": 826.2823436613709
+    },
+    "rotation": {
+      "x": 0,
+      "y": -1.56,
+      "z": 0
+    }
+  },
+  {
+    "title": "A G. 15. SAINT-BRIEUC – Ecole des Garçons de la rue Baratoux",
+    "img_recto": "M0196_94-26-146_1.jpg",
+    "img_verso": "M0196_94-26-146_2.jpg",
+    "annee": " ",
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.5157507,
+      "longitude": -2.7620559
+    },
+    "img_rank": 15,
+    "img_working": true,
+    "position": {
+      "x": -1440.6575471878957,
+      "y": 0,
+      "z": 1031.8163592111687
+    },
+    "rotation": {
+      "x": 0,
+      "y": -3.1,
+      "z": 0
+    }
+  },
+  {
+    "title": "475. - St-BRIEUC. - Maison ancienne Place du Martray",
+    "img_recto": "M0196_94-26-220_1.jpg",
+    "img_verso": "M0196_94-26-220_2.jpg",
+    "annee": " ",
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.514385,
+      "longitude": -2.7639109
+    },
+    "img_rank": 16,
+    "img_working": true,
+    "position": {
+      "x": -1318.7607654893575,
+      "y": 0,
+      "z": 822.3012612953816
+    },
+    "rotation": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  },
+  {
+    "title": "647. St-Brieuc. Le pont de Rohanec'h",
+    "img_recto": "M0196_94-26-087_1.jpg",
+    "img_verso": "M0196_94-26-087_2.jpg",
+    "annee": 1909,
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.5223921,
+      "longitude": -2.7453236
+    },
+    "img_rank": 17,
+    "img_working": false
+  },
+  {
+    "title": "18. - St-BRIEUC. - Le Théâtre",
+    "img_recto": "M0196_94-26-151_1.jpg",
+    "img_verso": "M0196_94-26-151_2.jpg",
+    "annee": 1903,
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.51389390000001,
+      "longitude": -2.7613444
+    },
+    "img_rank": 18,
+    "img_working": true,
+    "position": {
+      "x": -1150.1913390601928,
+      "y": 0,
+      "z": 830.8023175922584
+    },
+    "rotation": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  },
+  {
+    "title": "1829. - SAINT-BRIEUC. - Fête des Fleurs, 1905 Le Char de l' Armée",
+    "img_recto": "M0196_94-26-211_1.jpg",
+    "img_verso": "M0196_94-26-211_2.jpg",
+    "annee": 1913,
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.514209,
+      "longitude": -2.7625691
+    },
+    "img_rank": 19,
+    "img_working": true,
+    "position": {
+      "x": -1751.5235365873184,
+      "y": 0,
+      "z": 272.5242612935831
+    },
+    "rotation": {
+      "x": 0,
+      "y": 0.98,
+      "z": 0
+    }
+  },
+  {
+    "title": "6556. - La Baie de St-BRIEUC, vue d' HILLION",
+    "img_recto": "M0196_94-26-020_1.jpg",
+    "img_verso": "M0196_94-26-020_2.jpg",
+    "annee": " ",
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.51171369999999,
+      "longitude": -2.7622826
+    },
+    "img_rank": 20,
+    "img_working": true,
+    "position": {
+      "x": -2184.2526210291444,
+      "y": 0,
+      "z": -2428.561999093409
+    },
+    "rotation": {
+      "x": 0,
+      "y": -1.68,
+      "z": 0
+    }
+  },
+  {
+    "title": "64 SAINT-BRIEUC. - Le Palais de Justice.",
+    "img_recto": "M0196_94-26-142_1.jpg",
+    "img_verso": "M0196_94-26-142_2.jpg",
+    "annee": " ",
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.5126562,
+      "longitude": -2.758385
+    },
+    "img_rank": 21,
+    "img_working": true,
+    "position": {
+      "x": -942.2366006274171,
+      "y": 0,
+      "z": 247.18802784550505
+    },
+    "rotation": {
+      "x": 0,
+      "y": -0.16,
+      "z": 0
+    }
+  },
+  {
+    "title": "641. St-Brieuc. Place de la Préfecture",
+    "img_recto": "M0196_94-26-136_1.jpg",
+    "img_verso": "M0196_94-26-136_2.jpg",
+    "annee": 1911,
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.5142678,
+      "longitude": -2.765694
+    },
+    "img_rank": 22,
+    "img_working": true,
+    "position": {
+      "x": -1426.1927813805048,
+      "y": 0,
+      "z": 1192.284655034265
+    },
+    "rotation": {
+      "x": 0,
+      "y": 2.2,
+      "z": 0
+    }
+  },
+  {
+    "title": "21 St-BRIEUC. - MAISON DU XVe SECLE. DITE HOTEL DES DUCS DE BRETAGNE. CONSTRUITE EN 1572 PAR YVON COLLON LL",
+    "img_recto": "M0196_94-26-241_1.jpg",
+    "img_verso": "M0196_94-26-241_2.jpg",
+    "annee": " ",
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.5149503,
+      "longitude": -2.7649146
+    },
+    "img_rank": 23,
+    "img_working": true,
+    "position": {
+      "x": -1523.0697152177047,
+      "y": 0,
+      "z": 1770.1903763610699
+    },
+    "rotation": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  },
+  {
+    "title": "28 St-BRIEUC – Vieilles Maisons. Anciennes habitation des ducs de bretagne",
+    "img_recto": "M0196_94-26-238_1.jpg",
+    "img_verso": "M0196_94-26-238_2.jpg",
+    "annee": " ",
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.5216073,
+      "longitude": -2.7265835
+    },
+    "img_rank": 24,
+    "img_working": true,
+    "position": {
+      "x": -1551.8787608790403,
+      "y": 0,
+      "z": 1865.3999315506628
+    },
+    "rotation": {
+      "x": 0,
+      "y": 2.76,
+      "z": 0
+    }
+  },
+  {
+    "title": "8. - St-BRIEUC. - La Grande Allée des Promenades",
+    "img_recto": "M0196_94-26-027_1.jpg",
+    "img_verso": "M0196_94-26-027_2.jpg",
+    "annee": 1905,
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.5132342,
+      "longitude": -2.7585509
+    },
+    "img_rank": 25,
+    "img_working": true,
+    "position": {
+      "x": -607.3122137554308,
+      "y": 0,
+      "z": 472.63412461219747
+    },
+    "rotation": {
+      "x": 0,
+      "y": 0.26,
+      "z": 0
+    }
+  },
+  {
+    "title": "4540. - SAINT-BRIEUC. - Caserne Charner",
+    "img_recto": "M0196_94-26-160_1.jpg",
+    "img_verso": "M0196_94-26-160_2.jpg",
+    "annee": " ",
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.5081599,
+      "longitude": -2.7661894
+    },
+    "img_rank": 26,
+    "img_working": true,
+    "position": {
+      "x": -506.5091762928747,
+      "y": 0,
+      "z": 1018.1480279414737
+    },
+    "rotation": {
+      "x": 0,
+      "y": -2.2,
+      "z": 0
+    }
+  },
+  {
+    "title": "75. SAINT-BRIEUC – Rue du Légué",
+    "img_recto": "M0196_94-26-300_1.jpg",
+    "img_verso": "M0196_94-26-300_2.jpg",
+    "annee": 1911,
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.5220876,
+      "longitude": -2.7634542
+    },
+    "img_rank": 27,
+    "img_working": true,
+    "position": {
+      "x": -1890.3694181763597,
+      "y": 0,
+      "z": 1057.7244624837988
+    },
+    "rotation": {
+      "x": 0,
+      "y": 1.1,
+      "z": 0
+    }
+  },
+  {
+    "title": "15 SAINT-BRIEUC. - La Préfecture. - LL",
+    "img_recto": "M0196_94-26-131_1.jpg",
+    "img_verso": "M0196_94-26-131_2.jpg",
+    "annee": 1913,
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.51108929999999,
+      "longitude": -2.7557048
+    },
+    "img_rank": 28,
+    "img_working": true,
+    "position": {
+      "x": -1214.6785712871317,
+      "y": 0,
+      "z": 1117.6659014649674
+    },
+    "rotation": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
+  },
+  {
+    "title": "SAINT-BRIEUC .- Vue générale prise de Notre-Dame-de-l'Espérance",
+    "img_recto": "M0196_94-26-001_1.jpg",
+    "img_verso": "M0196_94-26-001_2.jpg",
+    "annee": " ",
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.51236429999999,
+      "longitude": -2.7667843
+    },
+    "img_rank": 29,
+    "img_working": true,
+    "position": {
+      "x": -1044.5130365173588,
+      "y": 0,
+      "z": 1289.8000858443113
+    },
+    "rotation": {
+      "x": 0,
+      "y": -2.54,
+      "z": 0
+    }
+  },
+  {
+    "title": "4181. SAINT-BRIEUC Rue St-Jacques dite Rue au Beurre. Les maisons récemment démolies",
+    "img_recto": "M0196_94-26-223_1.jpg",
+    "img_verso": "M0196_94-26-223_2.jpg",
+    "annee": 1913,
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.5147473,
+      "longitude": -2.7636926
+    },
+    "img_rank": 30,
+    "img_working": true,
+    "position": {
+      "x": -1425.9345478075556,
+      "y": 0,
+      "z": 1085.9443302224417
+    },
+    "rotation": {
+      "x": 0,
+      "y": -0.92,
+      "z": 0
+    }
+  },
+  {
+    "title": "30 SAINT-BRIEUC - La Rue fardel",
+    "img_recto": "M0196_94-26-244_1.jpg",
+    "img_verso": "M0196_94-26-244_2.jpg",
+    "annee": " ",
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.5105088,
+      "longitude": -2.7574185
+    },
+    "img_rank": 31,
+    "img_working": true,
+    "position": {
+      "x": -1416.0256439797308,
+      "y": 0,
+      "z": 729.9074476683713
+    },
+    "rotation": {
+      "x": 0,
+      "y": 0.38,
+      "z": 0
+    }
+  },
+  {
+    "title": "2033. - SAINT-BRIEUC. -  La Rampe de Rohannec'h .  Au fond, le Viaduc de Souzin et le Légué                                                 ",
+    "img_recto": "M0196_94-26-054_1.jpg",
+    "img_verso": "M0196_94-26-054_2.jpg",
+    "annee": " ",
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.5224072,
+      "longitude": -2.7442301
+    },
+    "img_rank": 32,
+    "img_working": true
+  },
+  {
+    "title": "57. Saint-Brieuc – Place Houvenagle A. G.",
+    "img_recto": "M0196_94-26-226_1.jpg",
+    "img_verso": "M0196_94-26-226_2.jpg",
+    "annee": 1908,
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.5151262,
+      "longitude": -2.7624326
+    },
+    "img_rank": 33,
+    "img_working": true
+  },
+  {
+    "title": "4716. ST-BRIEUC – Rue des Trois-Frères Merlin",
+    "img_recto": "M0196_94-26-227_1.jpg",
+    "img_verso": "M0196_94-26-227_2.jpg",
+    "annee": " ",
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.5142843,
+      "longitude": -2.762877
+    },
+    "img_rank": 34,
+    "img_working": true
+  },
+  {
+    "title": "1212. - St-BRIEUC . - Place Duguesclin",
+    "img_recto": "M0196_94-26-232_1.jpg",
+    "img_verso": "M0196_94-26-232_2.jpg",
+    "annee": " ",
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.51128569999999,
+      "longitude": -2.7585648
+    },
+    "img_rank": 35,
+    "img_working": true
+  },
+  {
+    "title": "18. St-BRIEUC – Place de la Préfecture et Statue de Poulain Corbion",
+    "img_recto": "M0196_94-26-133_1.jpg",
+    "img_verso": "M0196_94-26-133_2.jpg",
+    "annee": " ",
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.51290849999999,
+      "longitude": -2.7641247
+    },
+    "img_rank": 36,
+    "img_working": true
+  },
+  {
+    "title": "1243 – Saint-Brieuc – Rue Saint-Guilaume",
+    "img_recto": "M0196_94-26-222_1.jpg",
+    "img_verso": "M0196_94-26-222_2.jpg",
+    "annee": 1916,
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.5127687,
+      "longitude": -2.7592259
+    },
+    "img_rank": 37,
+    "img_working": true
+  },
+  {
+    "title": "13 – St-BRIEUC. - Rue Fardel",
+    "img_recto": "M0196_94-26-235_1.jpg",
+    "img_verso": "M0196_94-26-235_2.jpg",
+    "annee": " ",
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.51491799999999,
+      "longitude": -2.764865
+    },
+    "img_rank": 38,
+    "img_working": true
+  },
+  {
+    "title": "109 SAINT-BRIEUC. - Le Palais de Justice.",
+    "img_recto": "M0196_94-26-139_1.jpg",
+    "img_verso": "M0196_94-26-139_2.jpg",
+    "annee": 1917,
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.5149543,
+      "longitude": -2.7615608
+    },
+    "img_rank": 39,
+    "img_working": true
+  },
+  {
+    "title": "A. G. 3. SAINT-BRIEUC - Place Duguesclin",
+    "img_recto": "M0196_94-26-231_1.jpg",
+    "img_verso": "M0196_94-26-231_2.jpg",
+    "annee": " ",
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.5119054,
+      "longitude": -2.7588877
+    },
+    "img_rank": 40,
+    "img_working": true
+  },
+  {
+    "title": "3070. - St-BRIEUC. - La Pointe à l' Aigle – Phare du Légué. Hôtel Terminus",
+    "img_recto": "M0196_94-26-288_1.jpg",
+    "img_verso": "M0196_94-26-288_2.jpg",
+    "annee": 1913,
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.51647939999999,
+      "longitude": -2.7637169
+    },
+    "img_rank": 41,
+    "img_working": true
+  },
+  {
+    "title": "1253 -  Le LÉGUÉ - SAINT-BRIEUC - Le Pont de Gouët",
+    "img_recto": "M0196_94-26-301_1.jpg",
+    "img_verso": "M0196_94-26-301_2.jpg",
+    "annee": 1903,
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.521911,
+      "longitude": -2.7651819
+    },
+    "img_rank": 42,
+    "img_working": true
+  },
+  {
+    "title": "SAINT-BRIEUC – Cathédrale et Hôtel de Ville",
+    "img_recto": "M0196_94-26-167_1.jpg",
+    "img_verso": "M0196_94-26-167_2.jpg",
+    "annee": 1934,
+    "periode": "2e quart 20e siècle",
+    "coords": {
+      "latitude": 48.5138007,
+      "longitude": -2.7641156
+    },
+    "img_rank": 43,
+    "img_working": true
+  },
+  {
+    "title": "37. Saint-Brieuc – Rue Fardel A. G.",
+    "img_recto": "M0196_94-26-247_1.jpg",
+    "img_verso": "M0196_94-26-247_2.jpg",
+    "annee": 1907,
+    "periode": "1er quart 20e siècle",
+    "coords": {
+      "latitude": 48.5169832,
+      "longitude": -2.7654196
+    },
+    "img_rank": 44,
+    "img_working": true
+  },
+  {
+    "title": "4208. - SAINT-BRIEUC. - Viaduc de Souzin mi-cte de Bon-Repos",
+    "year": 1913,
+    "periode": "1er quart 20e sicle",
+    "img_recto": "M0196_94-26-070_1.jpg",
+    "img_verso": "M0196_94-26-070_2.jpg",
+    "coords": {
+      "latitude": 48.523957,
+      "longitude": -2.761835
+    },
+    "img_rank": 45,
+    "img_working": true
+  },
+  {
+    "title": "78 Saint-Brieuc. - Viaduc de Souzin",
+    "year": 1907,
+    "periode": "1er quart 20e sicle",
+    "img_recto": "M0196_94-26-072_1.jpg",
+    "img_verso": "M0196_94-26-072_2.jpg",
+    "coords": {
+      "latitude": 48.523957,
+      "longitude": -2.761835
+    },
+    "img_rank": 46,
+    "img_working": true
+  },
+  {
+    "title": "1801. -  St-BRIEUC. - Palais de Justice.",
+    "year": 1906,
+    "periode": "1er quart 20e sicle",
+    "img_recto": "M0196_94-26-144_1.jpg",
+    "img_verso": "M0196_94-26-144_2.jpg",
+    "coords": {
+      "latitude": 48.51288,
+      "longitude": -2.75599
+    },
+    "img_rank": 47,
+    "img_working": true
+  },
+  {
+    "title": "118 SAINT-BRIEUC - Caserne Charner",
+    "year": "",
+    "periode": "1er quart 20e sicle",
+    "img_recto": "M0196_94-26-159_1.jpg",
+    "img_verso": "M0196_94-26-159_2.jpg",
+    "coords": {
+      "latitude": 48.50772,
+      "longitude": -2.76248
+    },
+    "img_rank": 48,
+    "img_working": true
+  },
+  {
+    "title": "1201. - St-BRIEUC. - Place de la Cathdrale",
+    "year": 1904,
+    "periode": "1er quart 20e sicle",
+    "img_recto": "M0196_94-26-165_1.jpg",
+    "img_verso": "M0196_94-26-165_2.jpg",
+    "coords": {
+      "latitude": 48.51392,
+      "longitude": -2.76489
+    },
+    "img_rank": 49,
+    "img_working": true
+  },
+  {
+    "title": "SAINT-BRIEUC  Rue Lamennais Eglise Saint-Michel",
+    "year": "",
+    "periode": "1er quart 20e sicle",
+    "img_recto": "M0196_94-26-185_1.jpg",
+    "img_verso": "M0196_94-26-185_2.jpg",
+    "coords": {
+      "latitude": 48.51536,
+      "longitude": -2.75695
+    },
+    "img_rank": 50,
+    "img_working": true
+  },
+  {
+    "title": "376. - La Cinquantaine Paysans des environs de St-Brieuc",
+    "year": "",
+    "periode": "1er quart 20e sicle",
+    "img_recto": "M0196_94-26-200_1.jpg",
+    "img_verso": "M0196_94-26-200_2.jpg",
+    "coords": {
+      "latitude": 48.5118,
+      "longitude": -2.7079
+    },
+    "img_rank": 51,
+    "img_working": true
+  },
+  {
+    "title": "34. - LE LGU-St-BRIEUC. - La Grve St-Laurent",
+    "year": 1909,
+    "periode": "1er quart 20e sicle",
+    "img_recto": "M0196_94-26-303_1.jpg",
+    "img_verso": "M0196_94-26-303_2.jpg",
+    "coords": {
+      "latitude": 48.526069,
+      "longitude": -2.736972
+    },
+    "img_rank": 52,
+    "img_working": true
+  }
 ]

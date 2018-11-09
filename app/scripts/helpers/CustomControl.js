@@ -386,6 +386,15 @@ class CustomControl extends Event {
     this.drag.current.clientY = null;
     this.dispatch("drag:end");
   }
+
+  // DEBUG METHOD
+  moveToMesh(name) {
+    var mesh = this.scene.getObjectByName(name);
+    var target = mesh.position.clone();
+    target.y = this.camera.position.y;
+    this.move({target: target});
+  }
+
 }
 
 

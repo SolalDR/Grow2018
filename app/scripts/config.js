@@ -113,7 +113,7 @@ export default {
   },
 
   markers: {
-    debug: false,
+    debug: true,
     elevation: 60,
     refs: {
       topLeft: {

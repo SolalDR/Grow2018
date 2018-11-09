@@ -32,9 +32,7 @@ class CardMarker {
    */
 	init(textures) {
 	  this.generateMesh(textures);
-	  if(this.card.position) {
-	    this.setPosition();
-    } else {
+	  if(!this.card.position) {
       this.setPositionCoords();
     }
   }
@@ -77,11 +75,10 @@ class CardMarker {
     //this.mesh.doubleSided = true;
 
     // set position
-    this.mesh.position.y = config.markers.elevation;
+    this.setPosition();
 
-    // Invert
-    this.mesh.rotation.z = Math.PI;
-    //this.mesh.rotation.x = 0.6;
+    // set rotation
+    this.setRotation();
 
     // set data
     this.mesh.name = (this.card.rank + 2) + ' - marker - ' + this.card.title;
@@ -97,14 +94,26 @@ class CardMarker {
 
   setRotation() {
     if(this.card.rotation) {
-      this.mesh.rotation.set(this.card.rotation);
+      this.mesh.rotation.set(
+        this.card.rotation.x,
+        this.card.rotation.y,
+        this.card.rotation.z
+      );
+    }
+    // Restore Orientation
+    if(this.card.isVertical) {
+      this.mesh.rotation.z = Math.PI/2;
+    } else {
+      this.mesh.rotation.z = Math.PI;
     }
   }
 
   setPosition() {
     if(this.card.position) {
-      this.mesh.position.set(this.card.position);
+      this.mesh.position.copy(this.card.position);
     }
+    this.mesh.position.y = config.markers.elevation;
+    if(this.card.position) console.log('Class: CardMarker, Function: setPosition, Line 118 this.mesh.position(): ', this.mesh.position);
   }
 
   fadeAway({ duration = null, onFinish = null } = {}){
@@ -156,7 +165,7 @@ class CardMarker {
     );
 
     if(config.markers.debug) {
-      this.setDebugCardPos();
+      //this.setDebugCardPos();
     }
   }
 
