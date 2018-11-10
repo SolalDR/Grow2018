@@ -38,13 +38,13 @@ export default {
     theta: 0,
     fov: 45 ,
     near: 5,
-    far: 1500
+    far: 2500
   },
 
   fog: {
     density: 0.0025,
     near: 800,
-    far: 1200,
+    far: 2200,
     active: true
   },
 
@@ -114,7 +114,7 @@ export default {
 
   markers: {
     debug: true,
-    elevation: 60,
+    elevation: 50,
     refs: {
       topLeft: {
         x: -715 - 1300,

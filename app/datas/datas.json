@@ -693,7 +693,7 @@
     }
   },
   {
-    "title": "2033. - SAINT-BRIEUC. -  La Rampe de Rohannec'h .  Au fond, le Viaduc de Souzin et le Légué                                                 ",
+    "title": "2033. - SAINT-BRIEUC. -  La Rampe de Rohannec .  Au fond, le Viaduc de Souzin et le Légué",
     "img_recto": "M0196_94-26-054_1.jpg",
     "img_verso": "M0196_94-26-054_2.jpg",
     "annee": " ",
@@ -703,7 +703,17 @@
       "longitude": -2.7442301
     },
     "img_rank": 32,
-    "img_working": true
+    "img_working": true,
+    "position": {
+      "x": -2094.3595769010212,
+      "y": 0,
+      "z": 263.13259413581375
+    },
+    "rotation": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
   },
   {
     "title": "57. Saint-Brieuc – Place Houvenagle A. G.",
@@ -716,7 +726,17 @@
       "longitude": -2.7624326
     },
     "img_rank": 33,
-    "img_working": true
+    "img_working": true,
+    "position": {
+      "x": -1356.1137670102903,
+      "y": 0,
+      "z": 1014.3603058843778
+    },
+    "rotation": {
+      "x": 0,
+      "y": -3.08,
+      "z": 0
+    }
   },
   {
     "title": "4716. ST-BRIEUC – Rue des Trois-Frères Merlin",
@@ -729,7 +749,17 @@
       "longitude": -2.762877
     },
     "img_rank": 34,
-    "img_working": true
+    "img_working": true,
+    "position": {
+      "x": -998.1205650216061,
+      "y": 0,
+      "z": 1133.0786804044021
+    },
+    "rotation": {
+      "x": 0,
+      "y": -2.76,
+      "z": 0
+    }
   },
   {
     "title": "1212. - St-BRIEUC . - Place Duguesclin",
@@ -742,7 +772,17 @@
       "longitude": -2.7585648
     },
     "img_rank": 35,
-    "img_working": true
+    "img_working": true,
+    "position": {
+      "x": -499.9379750623636,
+      "y": 0,
+      "z": 772.5927034480343
+    },
+    "rotation": {
+      "x": 0,
+      "y": -2.48,
+      "z": 0
+    }
   },
   {
     "title": "18. St-BRIEUC – Place de la Préfecture et Statue de Poulain Corbion",
@@ -755,7 +795,17 @@
       "longitude": -2.7641247
     },
     "img_rank": 36,
-    "img_working": true
+    "img_working": true,
+    "position": {
+      "x": -1104.6951668056213,
+      "y": 0,
+      "z": 1093.4606655270968
+    },
+    "rotation": {
+      "x": 0,
+      "y": -0.9,
+      "z": 0
+    }
   },
   {
     "title": "1243 – Saint-Brieuc – Rue Saint-Guilaume",
@@ -768,7 +818,17 @@
       "longitude": -2.7592259
     },
     "img_rank": 37,
-    "img_working": true
+    "img_working": true,
+    "position": {
+      "x": -908.5267442193656,
+      "y": 0,
+      "z": 616.4918886101942
+    },
+    "rotation": {
+      "x": 0,
+      "y": -0.74,
+      "z": 0
+    }
   },
   {
     "title": "13 – St-BRIEUC. - Rue Fardel",
@@ -781,7 +841,17 @@
       "longitude": -2.764865
     },
     "img_rank": 38,
-    "img_working": true
+    "img_working": true,
+    "position": {
+      "x": -1345.8693861260642,
+      "y": 0,
+      "z": 1369.661930852547
+    },
+    "rotation": {
+      "x": 0,
+      "y": -3.02,
+      "z": 0
+    }
   },
   {
     "title": "109 SAINT-BRIEUC. - Le Palais de Justice.",
@@ -794,7 +864,17 @@
       "longitude": -2.7615608
     },
     "img_rank": 39,
-    "img_working": true
+    "img_working": true,
+    "position": {
+      "x": -1016.0215675071537,
+      "y": 0,
+      "z": 283.41065712713737
+    },
+    "rotation": {
+      "x": 0,
+      "y": 0.26,
+      "z": 0
+    }
   },
   {
     "title": "A. G. 3. SAINT-BRIEUC - Place Duguesclin",
@@ -807,7 +887,17 @@
       "longitude": -2.7588877
     },
     "img_rank": 40,
-    "img_working": true
+    "img_working": true,
+    "position": {
+      "x": -549.5812845542793,
+      "y": 0,
+      "z": 492.2386715539567
+    },
+    "rotation": {
+      "x": 0,
+      "y": 0.18,
+      "z": 0
+    }
   },
   {
     "title": "3070. - St-BRIEUC. - La Pointe à l' Aigle – Phare du Légué. Hôtel Terminus",
@@ -820,7 +910,17 @@
       "longitude": -2.7637169
     },
     "img_rank": 41,
-    "img_working": true
+    "img_working": true,
+    "position": {
+      "x": -2716.4639641341214,
+      "y": 0,
+      "z": -1646.7545338786808
+    },
+    "rotation": {
+      "x": 0,
+      "y": -2.08,
+      "z": 0
+    }
   },
   {
     "title": "1253 -  Le LÉGUÉ - SAINT-BRIEUC - Le Pont de Gouët",
@@ -833,7 +933,12 @@
       "longitude": -2.7651819
     },
     "img_rank": 42,
-    "img_working": true
+    "img_working": true,
+    "rotation": {
+      "x": 0,
+      "y": -2.08,
+      "z": 0
+    }
   },
   {
     "title": "SAINT-BRIEUC – Cathédrale et Hôtel de Ville",
@@ -846,7 +951,17 @@
       "longitude": -2.7641156
     },
     "img_rank": 43,
-    "img_working": true
+    "img_working": true,
+    "position": {
+      "x": -1361.5714184739081,
+      "y": 0,
+      "z": 1265.4254251237178
+    },
+    "rotation": {
+      "x": 0,
+      "y": 2.66,
+      "z": 0
+    }
   },
   {
     "title": "37. Saint-Brieuc – Rue Fardel A. G.",
@@ -859,7 +974,17 @@
       "longitude": -2.7654196
     },
     "img_rank": 44,
-    "img_working": true
+    "img_working": true,
+    "position": {
+      "x": -1361.03648407893,
+      "y": 0,
+      "z": 1090.7588909842646
+    },
+    "rotation": {
+      "x": 0,
+      "y": 0.08,
+      "z": 0
+    }
   },
   {
     "title": "4208. - SAINT-BRIEUC. - Viaduc de Souzin mi-cte de Bon-Repos",
@@ -872,7 +997,17 @@
       "longitude": -2.761835
     },
     "img_rank": 45,
-    "img_working": true
+    "img_working": true,
+    "position": {
+      "x": -2111.6797166556735,
+      "y": 0,
+      "z": 1013.330313135453
+    },
+    "rotation": {
+      "x": 0,
+      "y": -1.74,
+      "z": 0
+    }
   },
   {
     "title": "78 Saint-Brieuc. - Viaduc de Souzin",
@@ -885,7 +1020,17 @@
       "longitude": -2.761835
     },
     "img_rank": 46,
-    "img_working": true
+    "img_working": true,
+    "rotation": {
+      "x": 0,
+      "y": -3.14,
+      "z": 0
+    },
+    "position": {
+      "x": -2404.806144034775,
+      "y": 0,
+      "z": 1501.3823491197259
+    }
   },
   {
     "title": "1801. -  St-BRIEUC. - Palais de Justice.",
@@ -898,7 +1043,17 @@
       "longitude": -2.75599
     },
     "img_rank": 47,
-    "img_working": true
+    "img_working": true,
+    "position": {
+      "x": -927.6860008747647,
+      "y": 0,
+      "z": 164.38368872670722
+    },
+    "rotation": {
+      "x": 0,
+      "y": -0.12,
+      "z": 0
+    }
   },
   {
     "title": "118 SAINT-BRIEUC - Caserne Charner",
@@ -911,7 +1066,17 @@
       "longitude": -2.76248
     },
     "img_rank": 48,
-    "img_working": true
+    "img_working": true,
+    "position": {
+      "x": -457.6440833311378,
+      "y": 0,
+      "z": 975.7981375720556
+    },
+    "rotation": {
+      "x": 0,
+      "y": -1.7,
+      "z": 0
+    }
   },
   {
     "title": "1201. - St-BRIEUC. - Place de la Cathdrale",
@@ -924,7 +1089,17 @@
       "longitude": -2.76489
     },
     "img_rank": 49,
-    "img_working": true
+    "img_working": true,
+    "position": {
+      "x": -1120.3238544340516,
+      "y": 0,
+      "z": 1169.42363504387
+    },
+    "rotation": {
+      "x": 0,
+      "y": -2.08,
+      "z": 0
+    }
   },
   {
     "title": "SAINT-BRIEUC  Rue Lamennais Eglise Saint-Michel",
@@ -937,7 +1112,17 @@
       "longitude": -2.75695
     },
     "img_rank": 50,
-    "img_working": true
+    "img_working": true,
+    "position": {
+      "x": -1676.7307797482179,
+      "y": 0,
+      "z": 491.403703857936
+    },
+    "rotation": {
+      "x": 0,
+      "y": 1.72,
+      "z": 0
+    }
   },
   {
     "title": "376. - La Cinquantaine Paysans des environs de St-Brieuc",
@@ -950,7 +1135,17 @@
       "longitude": -2.7079
     },
     "img_rank": 51,
-    "img_working": true
+    "img_working": true,
+    "position": {
+      "x": -464.66879360045675,
+      "y": 0,
+      "z": -2587.288883462915
+    },
+    "rotation": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    }
   },
   {
     "title": "34. - LE LGU-St-BRIEUC. - La Grve St-Laurent",
@@ -963,6 +1158,16 @@
       "longitude": -2.736972
     },
     "img_rank": 52,
-    "img_working": true
+    "img_working": true,
+    "position": {
+      "x": -2428.119377430203,
+      "y": 0,
+      "z": -913.6839567816717
+    },
+    "rotation": {
+      "x": 0,
+      "y": -2.82,
+      "z": 0
+    }
   }
 ]
