@@ -387,6 +387,7 @@ class CustomControl extends Event {
     this.dispatch("drag:end");
   }
 
+  // TODO: temp
   // DEBUG METHOD
   moveToMesh(name) {
     var mesh = this.scene.getObjectByName(name);
