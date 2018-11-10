@@ -31,18 +31,17 @@ class CardMarker {
    * @param textures - recto verso textures
    */
 	init(textures) {
-	  this.generateMesh(textures);
+	  this.textures = textures;
+	  this.generateMesh();
 	  if(!this.card.position) {
       this.setPositionCoords();
     }
   }
 
-  // TODO : refacto split for material, geometry and mesh
   /**
-   * Generate marker
-   * @param textures {Object}, sprite textures recto, verso for card
+   * Create marker geometru
    */
-  generateMesh(textures) {
+  createGeometry() {
 
     // Generate instance geometry
     var rectoGeometry = new THREE.PlaneBufferGeometry( 40, 40/config.cards.ratio, 1, 1);
@@ -51,27 +50,42 @@ class CardMarker {
     versoGeometry.computeVertexNormals();
 
     // Create a geomatry with both sides merged
-    var geometry =  BufferGeometryUtils.merge([rectoGeometry, versoGeometry]);
+    this.geometry =  BufferGeometryUtils.merge([rectoGeometry, versoGeometry]);
+  }
+
+  /**
+   * Create marker material
+   */
+  createMaterial() {
 
     // Setup uniforms
     this.uniforms = {
-      img_recto: {type: "t", value: textures.recto },
-      img_verso: {type: "t", value: textures.verso },
+      img_recto: {type: "t", value: this.textures.recto },
+      img_verso: {type: "t", value: this.textures.verso },
       coords: { type: 'v2', value: this.card.coords },
       opacity: { type: 'f', value: this.startOpacity},
     };
 
     // Shader Material
-    var material = new THREE.ShaderMaterial({
+    this.material = new THREE.ShaderMaterial({
       vertexShader: vertexShader,
       fragmentShader: fragmentShader,
       uniforms: this.uniforms,
       transparent: true,
       alphaTest: true
     });
+  }
+
+  /**
+   * Generate marker
+   */
+  generateMesh() {
+
+    this.createGeometry();
+    this.createMaterial();
 
     // Mesh
-    this.mesh = new THREE.Mesh(geometry, material);
+    this.mesh = new THREE.Mesh(this.geometry, this.material);
     //this.mesh.doubleSided = true;
 
     // set position
