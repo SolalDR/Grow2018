@@ -7,7 +7,7 @@ export default {
     color: "#ffffff"
   },
   intro: {
-    active: false
+    active: true
   },
   heightmap: {
     active: false,

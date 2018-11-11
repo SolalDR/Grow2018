@@ -1,5 +1,4 @@
 import Dat from "dat.gui";
-import {Howler} from "howler";
 
 import CustomControl from "./helpers/CustomControl.js";
 import Clock from "./helpers/Clock.js";
@@ -48,7 +47,7 @@ export default class App {
     this.camera.position.set( config.camera.position.x, config.camera.position.y, config.camera.position.z);
     this.mouse = new THREE.Vector2();
     this.raycaster = new THREE.Raycaster();
-    this.soundController = new SoundController(this.camera);
+    this.soundController = new SoundController(this.camera, document.querySelector('.sound'));
 
     // Renderer & Scene
     this.container = document.querySelector( '#main' );
@@ -213,7 +212,7 @@ export default class App {
         if(config.intro.active) {
           this.ui.intro.on("pre-intro:end", () => {
             this.ui.intro.hidden = false;
-            Howler.volume(1);
+            this.soundController.unmute()
           });
         } else {
           this.ui.intro.hidden = false;

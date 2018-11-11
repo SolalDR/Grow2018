@@ -3,7 +3,10 @@ import SoundSpatializer from "./SoundSpatializer";
 import datas from "./../../../datas/sounds.json";
 
 export default class SoundController {
-  constructor(camera){
+  constructor(camera, toggler){
+    this.toggler = toggler;
+
+    this.mute();
 
     this.spatializer = new SoundSpatializer({
       controller: this,
@@ -13,7 +16,6 @@ export default class SoundController {
 
     this.sounds = {};
     for(let i in datas ) this.sounds[i] = new Howl(datas[i])
-    Howler.volume(0);
 
     this.spatializer.addDistanceConstraint({
       name: "sky",
@@ -28,6 +30,8 @@ export default class SoundController {
       values: [1050, 0],
       volume: 0.1
     });
+
+    this.toggler.addEventListener('click', () => this.toggle());
   }
 
   getSound(name){
@@ -37,6 +41,24 @@ export default class SoundController {
 
   play(name){
     this.sounds[name].play();
+  }
+
+  mute() {
+    Howler.volume(0);
+    this.toggler.classList.remove('sound--unmuted');
+    this.toggler.classList.add('sound--muted');
+    this.muted = true;
+  }
+
+  unmute() {
+    Howler.volume(1);
+    this.toggler.classList.remove('sound--muted');
+    this.toggler.classList.add('sound--unmuted');
+    this.muted = false;
+  }
+
+  toggle() {
+    this[this.muted ? 'unmute' : 'mute']();
   }
 
   render(){
