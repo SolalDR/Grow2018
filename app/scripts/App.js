@@ -139,7 +139,7 @@ export default class App {
     });
 
     this.ui.on("intro:begin", ()=>{
-      var target = new THREE.Vector3(this.camera.position.x, 200, this.camera.position.z);
+      var target = new THREE.Vector3(this.camera.position.x, 300, this.camera.position.z);
       if(this.config.control.type === this.config.control.CUSTOM) {
         this.controls.rotate({ phi: this.controls.computedPhi(target.y), duration: 5000});
         this.controls.move({ target: target, duration: 5000}).on("end", () => {

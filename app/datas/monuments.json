@@ -1,6 +1,84 @@
 [
   {
-    "slug": "all-monuments",
+    "name": "Caserne de Pompiers",
+    "slug": "caserne",
+    "position": {"x": 0, "y": 0, "z": 0},
+    "rotation": {"x": 0, "y": 0, "z": 0},
+    "scale": 1
+  },
+  {
+    "name": "Cathédral",
+    "slug": "cathedral",
+    "position": {"x": 0, "y": 0, "z": 0},
+    "rotation": {"x": 0, "y": 0, "z": 0},
+    "scale": 1
+  },
+  {
+    "name": "Ecole des garçons",
+    "slug": "ecole",
+    "position": {"x": 0, "y": 0, "z": 0},
+    "rotation": {"x": 0, "y": 0, "z": 0},
+    "scale": 1
+  },
+  {
+    "name": "Église Saint-Michel",
+    "slug": "eglise",
+    "position": {"x": 0, "y": 0, "z": 0},
+    "rotation": {"x": 0, "y": 0, "z": 0},
+    "scale": 1
+  },
+  {
+    "name": "Hôtel de Ville",
+    "slug": "hotel_de_ville",
+    "position": {"x": 0, "y": 0, "z": 0},
+    "rotation": {"x": 0, "y": 0, "z": 0},
+    "scale": 1
+  },
+  {
+    "name": "Moulin de Souzin",
+    "slug": "moulin",
+    "position": {"x": 0, "y": 0, "z": 0},
+    "rotation": {"x": 0, "y": 0, "z": 0},
+    "scale": 1
+  },
+  {
+    "name": "Palais de Justice",
+    "slug": "palais",
+    "position": {"x": 0, "y": 0, "z": 0},
+    "rotation": {"x": 0, "y": 0, "z": 0},
+    "scale": 1
+  },
+  {
+    "name": "Phare",
+    "slug": "phare",
+    "position": {"x": 0, "y": 0, "z": 0},
+    "rotation": {"x": 0, "y": 0, "z": 0},
+    "scale": 1
+  },
+  {
+    "name": "Préfecture",
+    "slug": "prefecture",
+    "position": {"x": 0, "y": 0, "z": 0},
+    "rotation": {"x": 0, "y": 0, "z": 0},
+    "scale": 1
+  },
+  {
+    "name": "La rue des trois frères",
+    "slug": "rue_3_freres",
+    "position": {"x": 0, "y": 0, "z": 0},
+    "rotation": {"x": 0, "y": 0, "z": 0},
+    "scale": 1
+  },
+  {
+    "name": "Théâtre",
+    "slug": "theatre",
+    "position": {"x": 0, "y": 0, "z": 0},
+    "rotation": {"x": 0, "y": 0, "z": 0},
+    "scale": 1
+  },
+  {
+    "name": "Viaduc",
+    "slug": "viaduc",
     "position": {"x": 0, "y": 0, "z": 0},
     "rotation": {"x": 0, "y": 0, "z": 0},
     "scale": 1

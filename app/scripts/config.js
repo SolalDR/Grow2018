@@ -58,7 +58,7 @@ export default {
     boundaries: {
       minimum: {
         x: -1000,
-        y: 400,
+        y: 300,
         z: -1000
       },
       maximum: {

@@ -1,6 +1,8 @@
 import OBJLoader from "../helpers/OBJLoader.js";
 import config from "../config.js";
 import refMarkersDatas from "./../../datas/refMarkers.json";
+import DRACOLoader from "./../helpers/DRACOLoader.js";
+
 
 // TODO: still usefull if one obj ?
 class Monument {
@@ -51,10 +53,42 @@ class Monument {
     this.object.name = this.slug;
   }
 
-  load() {
+  load(){
+    return this.loadDRACOLoader();
+  }
+
+  loadTexture(resolve, reject){
+    this.constructor.textureLoader.load( `/static/city/textures/buildings/${this.slug}.jpg`, (texture) => {
+
+      this.object.material.map = texture;
+      this.object.material.needsUpdate = true;
+
+      resolve(this);
+    }, resolve, reject )
+  }
+
+  loadDRACOLoader(){
     return new Promise((resolve, reject) => {
-      this.constructor.loader.load(`/static/meshes/monuments/${this.slug}.obj`, object => {
+      this.constructor.loader.load(
+        `/static/city/drc/buildings/${this.slug}.obj.drc`,
+        ( geometry ) => {
+          this.object = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({
+            emissive: new THREE.Color(config.colors.mapBuildingEmissive),
+            color: new THREE.Color(config.colors.mapBuilding)
+          }))
+          this.object.name = this.slug;
+
+          this.loadTexture(resolve, reject);
+        }
+      , null, reject);
+    })
+  }
+
+  loadOBJLoader() {
+    return new Promise((resolve, reject) => {
+      this.constructor.loader.load(`/static/city/obj/buildings/${this.slug}.obj`, object => {
         this.object = object;
+        this.object.name = this.slug;
         resolve(this);
       }, null, reject);
     });
@@ -108,6 +142,10 @@ class Monument {
   }
 }
 
-Monument.loader = new OBJLoader();
+DRACOLoader.setDecoderPath('/static/draco/');
+DRACOLoader.setDecoderConfig({type: 'js'});
+Monument.loader = new DRACOLoader();
+Monument.textureLoader = new THREE.TextureLoader();
+
 
 export default Monument;

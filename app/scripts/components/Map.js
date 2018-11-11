@@ -16,14 +16,14 @@ class Map extends Event {
     super();
     this.eventsList = ["floor:load", "map:load", "load", "heightmap:ready"]
     this.datas = [
-      {name: "", obj_url: "01.obj.drc", map_url: "ao_4k/01-4k.jpg" },
-      {name: "", obj_url: "02.obj.drc", map_url: "ao_4k/02-4k.jpg" },
-      {name: "", obj_url: "03.obj.drc", map_url: "ao_4k/03-4k.jpg" },
-      {name: "", obj_url: "04.obj.drc", map_url: "ao_4k/04-4k.jpg" },
-      {name: "", obj_url: "05.obj.drc", map_url: "ao_4k/05-4k.jpg" },
-      {name: "", obj_url: "06.obj.drc", map_url: "ao_4k/06-4k.jpg" },
-      {name: "", obj_url: "07.obj.drc", map_url: "ao_4k/07-4k.jpg" },
-      {name: "", obj_url: "08.obj.drc", map_url: "ao_4k/08-4k.jpg" }
+      {name: "1", obj_url: "01.obj.drc", map_url: "ao_4k/01-4k.jpg" },
+      {name: "2", obj_url: "02.obj.drc", map_url: "ao_4k/02-4k.jpg" },
+      {name: "3", obj_url: "03.obj.drc", map_url: "ao_4k/03-4k.jpg" },
+      {name: "4", obj_url: "04.obj.drc", map_url: "ao_4k/04-4k.jpg" },
+      {name: "5", obj_url: "05.obj.drc", map_url: "ao_4k/05-4k.jpg" },
+      {name: "6", obj_url: "06.obj.drc", map_url: "ao_4k/06-4k.jpg" },
+      {name: "7", obj_url: "07.obj.drc", map_url: "ao_4k/07-4k.jpg" },
+      {name: "8", obj_url: "08.obj.drc", map_url: "ao_4k/08-4k.jpg" }
     ];
 
     DRACOLoader.setDecoderPath('/static/draco/');
@@ -87,7 +87,7 @@ class Map extends Event {
     water.rotation.x = -Math.PI/2;
     water.position.set(500, -99, -1500);
     water.scale.set(5, 4, 1);
-
+    this.water = water;
     this.scene.add(water);
   }
 
@@ -135,7 +135,7 @@ class Map extends Event {
     var loader = new OBJLoader();
 
     var textures = [];
-    var images = [
+    var floorDatas = [
       { name: "1", url: "01.jpg" },
       { name: "2", url: "02.jpg" },
       { name: "3", url: "03.jpg" },
@@ -147,26 +147,25 @@ class Map extends Event {
       { name: "9", url: "09.jpg" }
     ]
 
-    loader.load("/static/meshes/Sol_AO.obj", (mesh)=>{
-      this.floor = mesh;
-      this.floor.name = "floor";
-      this.scene.add(this.floor);
+    this.floor = new THREE.Group();
+    this.floor.name = "floor";
+    this.scene.add(this.floor);
 
-      images.forEach(image => {
-        this.textureLoader.load(`/static/images/textures/ao_sol_2k/${image.url}`, (texture)=>{
-          image.texture = texture;
-          textures.push(image);
-          var mesh = this.floor.getObjectByName( image.name );
+    floorDatas.forEach(tileData => {
+      this.loader.load(`/static/city/drc/floor/${tileData.name}.obj.drc`, (geometry)=>{
+        this.textureLoader.load(`/static/city/textures/floor/${tileData.name}_ao.jpg`, (texture)=>{
 
-          mesh.material = new THREE.MeshPhongMaterial({
+          var mesh = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({
             emissive: new THREE.Color(config.colors.mapFloorEmissive),
             color: new THREE.Color(config.colors.mapFloor),
             shininess: 100,
             map: texture
-          });
+          }));
 
-          mesh.name = "floor-"+mesh.name
-          if( textures.length == images.length ){
+          mesh.name = "floor-" + tileData.name
+          this.floor.add(mesh);
+          textures.push(texture);
+          if( textures.length == floorDatas.length ){
             this.generateBoundingBox();
             this.testLoaded();
             this.dispatch("floor:load");
@@ -174,27 +173,7 @@ class Map extends Event {
           }
         })
       })
-    });
-
-    // this.loader.load("/static/meshes/Sol.obj.drc", (geometry)=>{
-    //     var material = new THREE.MeshPhongMaterial({
-    //       emissive: new THREE.Color(config.colors.mapFloorEmissive),
-    //       color: new THREE.Color(config.colors.mapFloor),
-    //       shininess: 100
-    //     });
-
-    //     this.floor = new THREE.Mesh(geometry, material);
-    //     this.floor.name = "floor";
-    //     this.scene.add(this.floor);
-
-    //     this.generateBoundingBox();
-
-    //     this.testLoaded();
-    //     this.dispatch("floor:load");
-    //     this.generateInfosMap();
-    // });
-
-
+    })
   }
 
 
@@ -242,23 +221,16 @@ class Map extends Event {
 
 
   loadTileDRC(tile, onLoad) {;
-    var textureLoader = new THREE.TextureLoader();
     this.loader.load(
-      "/static/meshes/map_drc/" + tile.obj_url,
+      "/static/city/drc/city/" + tile.name + ".obj.drc",
       ( geometry ) => {
         var material = new THREE.MeshPhongMaterial({
           emissive: new THREE.Color(config.colors.mapBuildingEmissive),
           color: new THREE.Color(config.colors.mapBuilding)
         });
 
-        // textureLoader.load("/static/images/textures/"+tile.map_url, (texture)=>{
-        //   material.map = texture;
-        // });
-
-        // var geometry = object.children[0].geometry;
         var mesh = new THREE.Mesh(geometry, material);
         mesh.frustrumCulled = true;
-        // mesh.position.y += 20;
         mesh.geometry.verticesNeedUpdate = true;
         mesh.name = tile.name;
 
