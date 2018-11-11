@@ -119,15 +119,22 @@
       <div class="instruction__item" data-instruction-icon="pointer-drag">
         <p class="instruction__text">Drag to rotate</p>
       </div>
+      <div class="instruction__item" data-instruction-icon="mouse-scroll">
+        <p class="instruction__text">Scroll to control zoom</p>
+      </div>
       <div class="instruction__item" data-instruction-icon="postcard-reveal">
         <p class="instruction__text">Find the scattered postal cards</p>
       </div>
       <div class="instruction__icons">
-          <svg id="svg-pointer" width="83" height="33.2" viewBox="-95.8 239.5 83 33.2" class="instruction__icon instruction__icon--pointer instruction__icon--active icon-pointer" data-anim="click">
+          <svg width="83" height="33.2" viewBox="-95.8 239.5 83 33.2" id="svg-pointer" class="instruction__icon instruction__icon--pointer instruction__icon--active icon-pointer" data-icon="pointer" data-anim="click">
             <path d="M-45.1 259.7c-5.2 1.9-13.3 1.9-18.4 0-5.3-1.9-5.6-5.1-.4-7 5.3-2.1 14-2.1 19.3 0 5.1 1.9 4.9 5.1-.5 7z" class="icon-pointer__disc"/>
-            <path d="M-66.3 251.4c6.8-2.5 17.4-2.5 24.2 0 6.9 2.5 7.3 6.5.5 9.3-6.9 2.7-18.4 2.7-25.2 0s-6.4-6.8.5-9.3z" fill="none" stroke="#000" stroke-width="1.475" stroke-miterlimit="10" class="icon-pointer__ring"/>
+            <path d="M-66.3 251.4c6.8-2.5 17.4-2.5 24.2 0 6.9 2.5 7.3 6.5.5 9.3-6.9 2.7-18.4 2.7-25.2 0s-6.4-6.8.5-9.3z" fill="none" stroke="#000" stroke-width="1.475" stroke-miterlimit="10"  class="icon-pointer__ring"/>
           </svg>
-          <img src="/static/images/icons/icon-postalcard.svg" class="instruction__icon instruction__icon--card icon-postalcard" alt="">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="43.3" class="instruction__icon instruction__icon--mouse icon-mouse" data-icon="mouse"  data-anim="scroll">
+            <path d="M15.4 43.3h-.7c-3.9 0-7.6-1.5-10.3-4.3C1.5 36.2 0 32.6 0 28.7v-14c0-4 1.5-7.7 4.3-10.4C7 1.5 10.7 0 14.6 0h.7c3.9 0 7.6 1.5 10.3 4.3C28.5 7 30 10.7 30 14.6v14c0 3.9-1.5 7.6-4.3 10.3-2.7 2.9-6.4 4.4-10.3 4.4zm-.8-41.5c-3.4 0-6.7 1.3-9.1 3.8-2.4 2.4-3.7 5.6-3.7 9v14c0 3.4 1.3 6.7 3.8 9.1 2.4 2.4 5.7 3.8 9.1 3.8h.7c3.4 0 6.7-1.3 9.1-3.8 2.4-2.4 3.8-5.7 3.8-9.1v-14c0-3.4-1.3-6.7-3.8-9.1-2.4-2.4-5.7-3.8-9.1-3.8h-.8z" class="icon-mouse__outline"/>
+            <path d="M15 10.2c-.6 0-1.1.5-1.1 1.1v4.6c0 .6.5 1.1 1.1 1.1.6 0 1.1-.5 1.1-1.1v-4.6c0-.6-.5-1.1-1.1-1.1z" class="icon-mouse__wheel"/>
+          </svg>
+          <img src="/static/images/icons/icon-postalcard.svg" class="instruction__icon instruction__icon--card icon-postcard" data-icon="postcard" alt="">
       </div>
     </div>
 

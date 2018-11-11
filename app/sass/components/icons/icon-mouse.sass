@@ -1,0 +1,13 @@
+.icon-mouse
+  $self: &
+  right: 50px
+  bottom: -7px
+  &[data-anim="scroll"]
+    #{$self}__wheel
+      animation: 0.7s scroll ease-in-out infinite alternate
+
+@keyframes scroll
+  0%
+    transform: translate3d(0, -5%, 0)
+  100%
+    transform: translate3d(0, 15%, 0)

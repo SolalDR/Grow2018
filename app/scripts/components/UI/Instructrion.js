@@ -28,17 +28,9 @@ class Instruction {
 
   set icon(name) {
     let icon;
-    if (name.includes('pointer')) {
-      icon = Array.from(this.elements.icons).filter(item => item.classList.contains('instruction__icon--pointer'))[0];
-      if( name.includes('click') ) {
-        icon.dataset.anim = 'click';
-      } else if ( name.includes('drag') ) {
-        icon.dataset.anim = 'drag';
-      }
-    } else if ( name.includes('postcard') ) {
-        icon = Array.from(this.elements.icons).filter(item => item.classList.contains('instruction__icon--card'))[0];
-        icon.dataset.anim = 'reveal';
-    }
+    icon = Array.from(this.elements.icons).filter(item => name.includes(item.dataset.icon))[0];
+    icon.dataset.anim = name.split('-')[1];
+
     if(icon) {
       this.elements.icons.forEach((item) => item.classList.remove('instruction__icon--active'))
       icon.classList.add('instruction__icon--active');
