@@ -7,6 +7,7 @@ import Dev from "./UI/Dev.js";
 import Navigation from "./UI/Navigation.js";
 import Collection from "./UI/Collection.js";
 import Instruction from "./UI/Instructrion";
+import Card from "./UI/Card";
 
 /**
  * Manage user interface interaction
@@ -24,7 +25,8 @@ class UI extends Event {
     this.compass = Compass.init(app);
     this.dev = Dev.init(app);
     this.navigation = Navigation.init(app);
-    this.collection = Collection.init(app);
+    this.card = Card.init();
+    this.collection = Collection.init(this.card);
     this.instruction = Instruction.init();
 
     // Trigger in App.js

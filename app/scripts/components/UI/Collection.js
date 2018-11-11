@@ -3,10 +3,11 @@ import Counter from "./Counter";
 
 export default class Collection extends Event {
 
-  constructor(element) {
+  constructor(element, focusCard) {
     super();
     this.counter = Counter.init();
     this.cards = [];
+    this.focusCard = focusCard;
     this.initElements(element);
     this.initEvents();
   }
@@ -35,6 +36,11 @@ export default class Collection extends Event {
 
     element.appendChild(imgElement);
 
+    // attach click event
+    element.addEventListener("click", () => {
+      this.focusCard.updateCard(card);
+    })
+
     this.elements.list.appendChild(element);
     this.elements.cards.push(element);
   }
@@ -61,7 +67,7 @@ export default class Collection extends Event {
     })
   }
 
-  static init() {
-    return new this(document.querySelector(".collection"));
+  static init(focuCard) {
+    return new this(document.querySelector(".collection"), focuCard);
   }
 }
