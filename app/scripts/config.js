@@ -30,9 +30,9 @@ export default {
 
   camera: {
     position: {
-      x: -100 - 1200,
+      x: -673 - 1200,
       y: 800,
-      z: 100 - 1200
+      z: 3157 - 1200
     },
     phi: -Math.PI/2,
     theta: 0,
@@ -58,7 +58,7 @@ export default {
     boundaries: {
       minimum: {
         x: -1000,
-        y: 100,
+        y: 400,
         z: -1000
       },
       maximum: {
@@ -80,9 +80,9 @@ export default {
     heightSegments: 5,
 
     position: {
-      x: -40 - 1200,
+      x: -633 - 1200,
       y: 800,
-      z: 100 - 1200
+      z: 3157 - 1200
     },
 
     curve: {
