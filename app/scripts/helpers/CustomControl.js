@@ -222,8 +222,9 @@ class CustomControl extends Event {
     }
 
     var cardNormal = new THREE.Vector3();
+    var cameraDist = card.isPortrait ? config.markers.cameraFocusDist.portrait : config.markers.cameraFocusDist.landscape;
     card.marker.mesh.getWorldDirection(cardNormal);
-    var positionTarget = card.marker.mesh.position.clone().add(cardNormal.multiplyScalar(-45))
+    var positionTarget = card.marker.mesh.position.clone().add(cardNormal.multiplyScalar(-cameraDist))
 
     this._focus = true;
     var anim = this.move({ target: positionTarget });

@@ -9,6 +9,9 @@
       "latitude": 48.51418,
       "longitude": -2.765835
     },
+    "img_rank": 1,
+    "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -3847.6,
       "y": 0,
@@ -18,9 +21,7 @@
       "x": 0,
       "y": 2.44,
       "z": 0
-    },
-    "img_rank": 1,
-    "img_working": true
+    }
   },
   {
     "title": "5169. - SAINT-BRIEUC-LÉGUÉ. - Le Phare à marée basse",
@@ -32,6 +33,9 @@
       "latitude": 48.5225322,
       "longitude": -2.7599218
     },
+    "img_rank": 2,
+    "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -2710,
       "y": 60,
@@ -41,9 +45,7 @@
       "x": 0,
       "y": -1.9,
       "z": 0
-    },
-    "img_rank": 2,
-    "img_working": true
+    }
   },
   {
     "title": "SAINT-BRIEUC - Vieilles maisons Rue Fardel",
@@ -51,17 +53,18 @@
     "img_verso": "M0196_94-26-243_2.jpg",
     "annee": " ",
     "periode": "1er quart 20e siècle",
-    "position": {
-      "x": 1343,
-      "y": 60,
-      "z": -1164
-    },
     "coords": {
       "latitude": 48.5150487,
       "longitude": -2.7651218
     },
     "img_rank": 3,
-    "img_working": true
+    "img_working": true,
+    "img_portrait": true,
+    "position": {
+      "x": 1343,
+      "y": 60,
+      "z": -1164
+    }
   },
   {
     "title": "53 SAINT-BRIEUC. - Sous la Tour. - Le chemin du Phare. - LL",
@@ -75,6 +78,7 @@
     },
     "img_rank": 4,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -2691.1221429688953,
       "y": 0,
@@ -98,6 +102,7 @@
     },
     "img_rank": 5,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -1680.6137811326996,
       "y": 0,
@@ -121,6 +126,7 @@
     },
     "img_rank": 6,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -1587.4613418034958,
       "y": 0,
@@ -144,6 +150,7 @@
     },
     "img_rank": 7,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -3511.508523892974,
       "y": 0,
@@ -167,6 +174,7 @@
     },
     "img_rank": 8,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -2627.1001913235123,
       "y": 0,
@@ -185,6 +193,7 @@
     },
     "img_rank": 9,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -604.399621161343,
       "y": 0,
@@ -208,6 +217,7 @@
     },
     "img_rank": 10,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -739.8417591806274,
       "y": 0,
@@ -231,6 +241,7 @@
     },
     "img_rank": 11,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -330.67500139330764,
       "y": 0,
@@ -254,6 +265,7 @@
     },
     "img_rank": 12,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -1386.013090122986,
       "y": 0,
@@ -277,6 +289,7 @@
     },
     "img_rank": 13,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -2426.2087576032523,
       "y": 0,
@@ -300,6 +313,7 @@
     },
     "img_rank": 14,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -2163.6978399088075,
       "y": 0,
@@ -323,6 +337,7 @@
     },
     "img_rank": 15,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -1440.6575471878957,
       "y": 0,
@@ -346,6 +361,7 @@
     },
     "img_rank": 16,
     "img_working": true,
+    "img_portrait": true,
     "position": {
       "x": -1318.7607654893575,
       "y": 0,
@@ -368,7 +384,8 @@
       "longitude": -2.7453236
     },
     "img_rank": 17,
-    "img_working": false
+    "img_working": false,
+    "img_portrait": false
   },
   {
     "title": "18. - St-BRIEUC. - Le Théâtre",
@@ -382,6 +399,7 @@
     },
     "img_rank": 18,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -1150.1913390601928,
       "y": 0,
@@ -405,6 +423,7 @@
     },
     "img_rank": 19,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -1751.5235365873184,
       "y": 0,
@@ -428,6 +447,7 @@
     },
     "img_rank": 20,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -2184.2526210291444,
       "y": 0,
@@ -451,6 +471,7 @@
     },
     "img_rank": 21,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -942.2366006274171,
       "y": 0,
@@ -474,6 +495,7 @@
     },
     "img_rank": 22,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -1426.1927813805048,
       "y": 0,
@@ -497,6 +519,7 @@
     },
     "img_rank": 23,
     "img_working": true,
+    "img_portrait": true,
     "position": {
       "x": -1523.0697152177047,
       "y": 0,
@@ -520,6 +543,7 @@
     },
     "img_rank": 24,
     "img_working": true,
+    "img_portrait": true,
     "position": {
       "x": -1551.8787608790403,
       "y": 0,
@@ -543,6 +567,7 @@
     },
     "img_rank": 25,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -607.3122137554308,
       "y": 0,
@@ -566,6 +591,7 @@
     },
     "img_rank": 26,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -506.5091762928747,
       "y": 0,
@@ -589,6 +615,7 @@
     },
     "img_rank": 27,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -1890.3694181763597,
       "y": 0,
@@ -612,6 +639,7 @@
     },
     "img_rank": 28,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -1214.6785712871317,
       "y": 0,
@@ -635,6 +663,7 @@
     },
     "img_rank": 29,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -1044.5130365173588,
       "y": 0,
@@ -658,6 +687,7 @@
     },
     "img_rank": 30,
     "img_working": true,
+    "img_portrait": true,
     "position": {
       "x": -1425.9345478075556,
       "y": 0,
@@ -681,6 +711,7 @@
     },
     "img_rank": 31,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -1416.0256439797308,
       "y": 0,
@@ -704,6 +735,7 @@
     },
     "img_rank": 32,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -2094.3595769010212,
       "y": 0,
@@ -727,6 +759,7 @@
     },
     "img_rank": 33,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -1356.1137670102903,
       "y": 0,
@@ -750,6 +783,7 @@
     },
     "img_rank": 34,
     "img_working": true,
+    "img_portrait": true,
     "position": {
       "x": -998.1205650216061,
       "y": 0,
@@ -773,6 +807,7 @@
     },
     "img_rank": 35,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -499.9379750623636,
       "y": 0,
@@ -796,6 +831,7 @@
     },
     "img_rank": 36,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -1104.6951668056213,
       "y": 0,
@@ -819,6 +855,7 @@
     },
     "img_rank": 37,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -908.5267442193656,
       "y": 0,
@@ -842,6 +879,7 @@
     },
     "img_rank": 38,
     "img_working": true,
+    "img_portrait": true,
     "position": {
       "x": -1345.8693861260642,
       "y": 0,
@@ -865,6 +903,7 @@
     },
     "img_rank": 39,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -1016.0215675071537,
       "y": 0,
@@ -888,6 +927,7 @@
     },
     "img_rank": 40,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -549.5812845542793,
       "y": 0,
@@ -911,6 +951,7 @@
     },
     "img_rank": 41,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -2716.4639641341214,
       "y": 0,
@@ -934,6 +975,7 @@
     },
     "img_rank": 42,
     "img_working": true,
+    "img_portrait": false,
     "rotation": {
       "x": 0,
       "y": -2.08,
@@ -952,6 +994,7 @@
     },
     "img_rank": 43,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -1361.5714184739081,
       "y": 0,
@@ -975,6 +1018,7 @@
     },
     "img_rank": 44,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -1361.03648407893,
       "y": 0,
@@ -998,6 +1042,7 @@
     },
     "img_rank": 45,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -2111.6797166556735,
       "y": 0,
@@ -1021,6 +1066,7 @@
     },
     "img_rank": 46,
     "img_working": true,
+    "img_portrait": false,
     "rotation": {
       "x": 0,
       "y": -3.14,
@@ -1044,6 +1090,7 @@
     },
     "img_rank": 47,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -927.6860008747647,
       "y": 0,
@@ -1067,6 +1114,7 @@
     },
     "img_rank": 48,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -457.6440833311378,
       "y": 0,
@@ -1090,6 +1138,7 @@
     },
     "img_rank": 49,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -1120.3238544340516,
       "y": 0,
@@ -1113,6 +1162,7 @@
     },
     "img_rank": 50,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -1676.7307797482179,
       "y": 0,
@@ -1136,6 +1186,7 @@
     },
     "img_rank": 51,
     "img_working": true,
+    "img_portrait": true,
     "position": {
       "x": -464.66879360045675,
       "y": 0,
@@ -1159,6 +1210,7 @@
     },
     "img_rank": 52,
     "img_working": true,
+    "img_portrait": false,
     "position": {
       "x": -2428.119377430203,
       "y": 0,

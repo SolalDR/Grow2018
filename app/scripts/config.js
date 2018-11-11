@@ -127,6 +127,10 @@ export default {
     },
     grid: {
       size: 20
+    },
+    cameraFocusDist: {
+      landscape: 45,
+      portrait: 55
     }
   }
 }

@@ -115,8 +115,10 @@ class CardMarker {
       );
     }
     // Restore Orientation
-    if(this.card.isVertical) {
-      this.mesh.rotation.z = Math.PI/2;
+    if(this.card.isPortrait) {
+      console.log('Class: CardMarker, Function: setRotation, Line 119 this.card.isPortrait(): '
+      , this.card.isPortrait);
+      this.mesh.rotation.z = -Math.PI/2;
     } else {
       this.mesh.rotation.z = Math.PI;
     }

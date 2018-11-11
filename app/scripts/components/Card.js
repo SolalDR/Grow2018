@@ -38,6 +38,7 @@ class Card {
     this.position = datas.position;
     this.rotation = datas.rotation;
 		this.isWorking = datas.img_working;
+		this.isPortrait = datas.img_portrait;
     this.onLoad = args.onLoad ? args.onLoad : false;
     this.collected = false;
 		this.coords = this.computeCoords();
