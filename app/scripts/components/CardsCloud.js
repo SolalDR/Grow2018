@@ -17,7 +17,7 @@ class CardsCloud {
    * @param {Dat.GUI} gui
    */
 	constructor(args) {
-		this.cards = [...args.cards, ...args.cards, ...args.cards];
+		this.cards = args.cards;
 		this.gui = args.gui;
 		this.camera = args.camera;
     this.distribution = new Normal({amplitude: config.cards.curve.distribution, minimum: 0, maximum: 1});
