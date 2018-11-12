@@ -16,10 +16,12 @@ struct ConvolutionMatrix {
   float _0x4;float _1x4;float _2x4;float _3x4;float _4x4;
 };
 
-uniform sampler2D depth;
 uniform vec2 step;
 uniform sampler2D passed;
 uniform ConvolutionMatrix matrix;
+uniform vec2 resolution;
+uniform vec2 center;
+uniform float radius;
 
 varying vec2 vUv;
 
@@ -71,14 +73,16 @@ vec4 convolve(PixelMatrix p, ConvolutionMatrix m) {
 }
 
 void main() {
-  gl_FragColor = texture2D(depth, vUv.xy);
-  // vec4 color = texture2D(passed, vUv.xy);
+  // gl_FragColor = texture2D(depth, vUv.xy);
+  vec4 color = texture2D(passed, vUv.xy);
   // float intensity = texture2D(depth, vUv.xy).r;
+  // float intensity = abs(gl_FragCoord.y/resolution.y - .5)*2.;
+  float intensity = sqrt(pow(gl_FragCoord.x - center.x, 2.) + pow(gl_FragCoord.y - center.y, 2.))/radius;
 
-  // if(intensity != 0.) {
-  //   gl_FragColor = (1. - intensity)*color + intensity*convolve(pixels(passed, vUv.x, vUv.y, step), matrix);
-  // }
-  // else {
-  //   gl_FragColor = color;
-  // }
+  if(intensity != 0.) {
+    gl_FragColor = (1. - intensity)*color + intensity*convolve(pixels(passed, vUv.x, vUv.y, step), matrix);
+  }
+  else {
+    gl_FragColor = color;
+  }
 }

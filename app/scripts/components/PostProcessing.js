@@ -60,35 +60,42 @@ class PostProcessing {
     this.source = this.targets[2];
     this.initTime = Date.now();
     this.time = 0;
+    this.intensity = 1;
 
     var gauss = this.convolution(gaussianConvolutionMatrix(5, 10));
 
     this.pass(this.read);
     // this.pass(fxaa, this.overwrite).vertex = fxaaVertex;
     this.pass(fxaa).vertex = fxaaVertex;
-    // this.pass(focus, {matrix: {value: gauss}});
-    // this.pass(focus, {matrix: {value: gauss}});
-    // this.pass(focus, {matrix: {value: gauss}});
-    // this.pass(focus, {matrix: {value: gauss}});
-    // this.pass(focus, {matrix: {value: gauss}}, this.draw);
+    this.pass(high, {threshold: {value: 0.95}}, this.divide);
+    for(var i = 0; i < 2; i++) {
+      this.pass(convolution, {matrix: {value: gauss}});
+    }
+    this.pass(convolution, {matrix: {value: gauss}}, this.multiply);
+    this.pass(blend);
+    this.focus = this.pass(focus, {
+      matrix: {value: gauss},
+      center: {value: new THREE.Vector2()},
+      radius: {value: 0}
+    }, this.draw);
     // this.pass(fxaa).vertex = fxaaVertex;
     // this.pass(fxaa).vertex = fxaaVertex;
     // this.pass(fxaa).vertex = fxaaVertex;
     // this.pass(fxaa).vertex = fxaaVertex;
     // this.pass(fxaa, this.overwrite).vertex = fxaaVertex;
-    this.pass(high, {threshold: {value: 0.95}}, this.divide);
+    // this.pass(high, {threshold: {value: 0.95}}, this.divide);
     // this.pass(erosion, {intensity: {value: 20}}, this.divide);
     // this.pass(dilatation, {intensity: {value: 5}}, this.divide);
     // this.pass(dilatation, {intensity: {value: 5}});
     // this.pass(dilatation, {intensity: {value: 5}});
     // this.pass(dilatation, {intensity: {value: 3}});
-    for(var i = 0; i < 7; i++) {
-      this.pass(convolution, {matrix: {value: gauss}});
-    }
+    // for(var i = 0; i < 4; i++) {
+    //   this.pass(convolution, {matrix: {value: gauss}});
+    // }
 
-    this.pass(convolution, {matrix: {value: gauss}}, this.multiply);
-    this.pass(convolution, {matrix: {value: gauss}});
-    this.pass(blend, this.draw);
+    // this.pass(convolution, {matrix: {value: gauss}}, this.multiply);
+    // this.pass(convolution, {matrix: {value: gauss}});
+    // this.pass(blend, this.draw);
     // this.pass(identity, this.draw);
     //this.pass(high, {threshold: {value: 1.}}, this.draw);
     // this.pass(plain, {color: {value: [0, 0, 0, 1]}}, this.overwrite);
@@ -174,6 +181,9 @@ class PostProcessing {
 
     postProcessing.add(config.postprocessing, 'active');
 
+    postProcessing.add(this, 'intensity', 0.5, 2)
+      .onChange(intensity => { this.focus.uniforms.radius.value = this.centerDistance*1.5/intensity; });
+
     // postProcessing.add(config.postprocessing, 'opacity', 0, 1)
     //   .onChange(this.onRefreshUniforms.bind(this));
 
@@ -193,6 +203,7 @@ class PostProcessing {
     //var {width, height}  = this.renderer.getSize();
     //this.targets.forEach(target => { target.setSize(0, 0);target.setSize(width, height); });
     this.time = (Date.now() - this.initTime)*0.000001;
+    this.focus.uniforms.radius.value = Math.sqrt(Math.pow(this.focus.uniforms.center.value.x, 2) + Math.pow(this.focus.uniforms.center.value.y, 2))*1.5*this.intensity;
     this.passes.forEach((pass, index) => {
       pass.uniforms.time.value = this.time;
       pass.uniforms.source.value = this.source.texture;
@@ -209,6 +220,10 @@ class PostProcessing {
     this.targets.forEach(target => target.setSize(width, height));
     var resolution = new THREE.Vector2(width, height);
     var step = new THREE.Vector2(1/width, 1/height);
+    this.focus.uniforms.center.value = resolution.clone().divideScalar(2);
+    this.centerDistance = Math.sqrt(Math.pow(this.focus.uniforms.center.value.x, 2) + Math.pow(this.focus.uniforms.center.value.y, 2));
+    this.focus.uniforms.radius.value = this.centerDistance*1.5/this.intensity;
+    this.focus.uniforms.needsUpdate = true;
     this.passes.forEach(pass => {
       pass.uniforms.resolution.value = resolution;
       pass.uniforms.step.value = step;
