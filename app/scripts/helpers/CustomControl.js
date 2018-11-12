@@ -120,6 +120,8 @@ class CustomControl extends Event {
 
     var to = target.clone();
     var diff = to.clone().sub(from);
+
+    if( this.scrollSpeed != 0 ) this.scrollSpeed = 0;
     this._look = new Animation({ timingFunction: timingFunction, duration: duration });
     this._look.on("end", ()=> {
       this._look = null;
@@ -149,6 +151,7 @@ class CustomControl extends Event {
 
     if( onFinish ) { console.warn("CustomContro: Use onFinish attribute in move() is deprecated") }
 
+    if( this.scrollSpeed != 0 ) this.scrollSpeed = 0;
     this._move = new Animation({ timingFunction: "easeInOutCubic", duration: duration });
     this._move.on("end", () => this._move = null);
     this._move.on("end", () => this.dispatch("move:end"));
@@ -164,6 +167,7 @@ class CustomControl extends Event {
     });
 
     this.dispatch("move", this._move);
+
     return this._move;
   }
 
@@ -179,6 +183,7 @@ class CustomControl extends Event {
 
     if( onFinish ) { console.warn("CustomContro: Use onFinish attribute in rotate() is deprecated") }
 
+    if( this.scrollSpeed != 0 ) this.scrollSpeed = 0;
     this._rotate = new Animation({ timingFunction: "easeInOutQuart", duration: duration });
     this._rotate.on("end", ()=> {
       this.dispatch("rotate:end");
@@ -190,9 +195,9 @@ class CustomControl extends Event {
     this._rotate.on("progress", (event) => {
       this.phi = phi_old + (phi - phi_old)*event.advancement;
       this.theta = theta_old + (theta - theta_old)*event.advancement;
-    })
+    });
 
-    this.dispatch("rotate:start", this._move);
+    this.dispatch("rotate:start", this._rotate);
     return this._rotate;
   }
 
@@ -249,6 +254,7 @@ class CustomControl extends Event {
         this.off("drag:end", dragEnd);
         this.off("drag:progress", dragProgress);
         this.dispatch("focus:end");
+        console.log(this.phi, this.theta, cardState.rotation, cameraState.target, cameraState.position, cameraState.phi, cameraState.theta);
         cardMarkersManager.activeMarker.fadeAway({ duration: 1200 }).once("end", ()=>{
           cardMarkersManager.activeMarker = null;
         });
