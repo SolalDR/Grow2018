@@ -52,7 +52,7 @@ export default class App {
     // Renderer & Scene
     this.container = document.querySelector( '#main' );
     document.body.appendChild( this.container );
-    this.renderer = new THREE.WebGLRenderer( { antialias: false } );
+    this.renderer = new THREE.WebGLRenderer( { antialias: true } );
     this.renderer.setPixelRatio( window.devicePixelRatio );
     this.renderer.setSize( window.innerWidth, window.innerHeight );
     this.container.appendChild( this.renderer.domElement );

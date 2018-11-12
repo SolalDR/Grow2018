@@ -63,7 +63,7 @@ class CardMarker {
       img_recto: {type: "t", value: this.textures.recto },
       img_verso: {type: "t", value: this.textures.verso },
       coords: { type: 'v2', value: this.card.coords },
-      opacity: { type: 'f', value: this.startOpacity},
+      opacity: { type: 'f', value: this.startOpacity}
     };
 
     // Shader Material
@@ -71,9 +71,13 @@ class CardMarker {
       vertexShader: vertexShader,
       fragmentShader: fragmentShader,
       uniforms: this.uniforms,
-      transparent: true,
-      alphaTest: true
+      transparent: true
+      // defines: {
+      //   USE_ALPHAMAP: true,
+      //   ALPHATEST: 0.5
+      // }
     });
+
   }
 
   /**

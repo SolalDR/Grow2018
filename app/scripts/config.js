@@ -92,10 +92,10 @@ export default {
     },
 
     translation: {
-      spread: 0.5,
-      intensity: 15,
-      speed: 1,
-      bounding: 20
+      spread: 10,
+      intensity: 20,
+      speed: 2,
+      bounding: 30
     },
 
     rotation: {
