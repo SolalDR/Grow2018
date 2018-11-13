@@ -30,7 +30,7 @@ export default class Collection extends Event {
 
     var imgElement = document.createElement("img");
     imgElement.classList.add("collection__img");
-    imgElement.src = "/static/images/img_recto.jpg";
+    imgElement.src = "/static/images/img_recto-n.jpg";
     imgElement.style.top = -card.coords.y*height+"px";
     imgElement.style.left = -card.coords.x*width+"px";
 

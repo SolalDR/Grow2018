@@ -51,7 +51,7 @@ export default class Card extends Event {
     // create image
     var imgElement = document.createElement("img");
     imgElement.classList.add("card__img");
-    imgElement.src = "/static/images/img_recto.jpg";
+    imgElement.src = "/static/images/img_recto-n.jpg";
     imgElement.style.top = -this.cardItem.coords.y*height+"px";
     imgElement.style.left = -this.cardItem.coords.x*width+"px";
 
