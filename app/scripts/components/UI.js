@@ -18,6 +18,7 @@ class UI extends Event {
     this.eventsList = ["load", "intro:begin", "intro:end"];
     this.initComponents(app);
     this.initEvents();
+    this.fullScreenClickHandler();
   }
 
   initComponents(app) {
@@ -50,6 +51,22 @@ class UI extends Event {
 
   initEvents() {
     this.intro.on('hide', () => this.dispatch('intro:begin'));
+  }
+
+  fullScreenClickHandler() {
+    var docEl = document.documentElement;
+    var btn = document.querySelector('.fullscreen-btn');
+    btn.addEventListener('click', () => {
+      if (docEl.requestFullscreen) {
+        docEl.requestFullscreen();
+      } else if (docEl.msRequestFullscreen) {
+        docEl.msRequestFullscreen();
+      } else if (docEl.mozRequestFullScreen) {
+        docEl.mozRequestFullScreen();
+      } else if (docEl.webkitRequestFullscreen) {
+        docEl.webkitRequestFullscreen();
+      }
+    });
   }
 }
 

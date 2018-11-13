@@ -8,7 +8,7 @@ varying vec2 vUv;
 varying vec3 vNormal;
 void main() {
   vec4 transparentColor = vec4(1.,0.,0., 1.);
-  float treshold = 0.43;
+  float treshold = 0.4;
   vec4 color;
   if( vNormal.z < 0. ) {
   	color = texture2D(img_recto, vec2(

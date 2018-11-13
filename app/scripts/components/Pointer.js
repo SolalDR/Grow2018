@@ -34,7 +34,7 @@ class Pointer {
     this.group.scale.x = 5;
     this.group.scale.z = 5;
     this.group.scale.y = 5;
-    this.group.position.y = 50;
+    this.group.position.y = 35;
     this.position = new THREE.Vector3();
   }
 

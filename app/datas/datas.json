@@ -976,6 +976,11 @@
     "img_rank": 42,
     "img_working": true,
     "img_portrait": false,
+    "position": {
+      "x":-2059,
+      "y": 0,
+      "z": 1296
+    },
     "rotation": {
       "x": 0,
       "y": -2.08,
@@ -1044,9 +1049,9 @@
     "img_working": true,
     "img_portrait": false,
     "position": {
-      "x": -2111.6797166556735,
+      "x": -2075.6797166556735,
       "y": 0,
-      "z": 1013.330313135453
+      "z": 1017.330313135453
     },
     "rotation": {
       "x": 0,
