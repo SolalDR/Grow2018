@@ -44,15 +44,16 @@ $itemAnimDelay: $itemAnimDuration / 1.38
 
 .pre-intro__item-bg
   transform: scale(1, 1) translate3D(-100%, 0, 0)
-  animation: $itemAnimDuration bg-intro linear
-  &.one
-    animation: $itemAnimDuration bg-intro linear 0.5s, 0.5s fade-in
-  &.two
-    animation-delay: $itemAnimDelay
-  &.three
-    animation-delay: #{$itemAnimDelay * 2}
-  &.four
-    animation-delay: #{$itemAnimDelay * 3}
+  .pre-intro--ready &
+    animation: $itemAnimDuration bg-intro linear
+    &.one
+      animation: $itemAnimDuration bg-intro linear 0.5s, 0.5s fade-in
+    &.two
+      animation-delay: $itemAnimDelay
+    &.three
+      animation-delay: #{$itemAnimDelay * 2}
+    &.four
+      animation-delay: #{$itemAnimDelay * 3}
 
 .text--line tspan
   baseline-shift: 0.5em
@@ -98,10 +99,7 @@ $itemAnimDelay: $itemAnimDuration / 1.38
   backface-visibility: hidden
   transform: translate3D(-50%, 0, 0)
   display: inline-block
-  color: #f1f1f1
-  background: -webkit-linear-gradient(#eee, #949494)
-  -webkit-background-clip: text
-  -webkit-text-fill-color: transparent
+  color: #efefef
   cursor: pointer
   pointer-events: none
   opacity: 0

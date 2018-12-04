@@ -7,6 +7,7 @@ export default class Intro extends Event {
     this.eventsList = ['hide', 'pre-intro:end'];
     this.initElements(element);
     this.initEvents();
+    this.preIntroInitAnim();
     this.preIntroEndEvent();
     this.onSkipButtonClick();
 
@@ -59,6 +60,10 @@ export default class Intro extends Event {
 
   static init() {
     return new this(document.querySelector('.intro'));
+  }
+
+  preIntroInitAnim() {
+    this.elements.preIntro.classList.add('pre-intro--ready');
   }
 
   preIntroHidden() {

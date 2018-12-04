@@ -6,73 +6,51 @@
   <body style="opacity: 0">
     <div id="main">
       <div class="pre-intro screen">
-        <svg class="pre-intro__content">
-
-          <!-- Clippath  with text 1 -->
+        <svg class="pre-intro__content" width="800" height="400" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+          <!-- texts -->
           <clippath id="cp-text-1">
             <text text-anchor="middle" x="50%" y="35%" class="text--line">
               <tspan x="50%" dy="1.2em">This is a link between two centuries that have seen</tspan>
               <tspan x="50%" dy="1.2em">the methods of communication transform, mutate.</tspan>
             </text>
           </clippath>
-
-          <!-- Clippath  with text 2 -->
           <clippath id="cp-text-2">
             <text text-anchor="middle" x="50%" y="35%" class="text--line">
               <tspan x="50%" dy="1.2em">You are in Saint-Brieuc,</tspan>
               <tspan x="50%" dy="1.2em">in Brittany, France.</tspan>
             </text>
           </clippath>
-
-          <!-- Clippath  with text 3 -->
           <clippath id="cp-text-3">
             <text text-anchor="middle" x="50%" y="35%" class="text--line">
               <tspan x="50%" dy="1.2em">The past resurge and brings back postcards,</tspan>
               <tspan x="50%" dy="1.2em">that are dispersed throughout the city.</tspan>
             </text>
           </clippath>
-
-          <!-- Clippath  with text 4 -->
           <clippath id="cp-text-4">
             <text text-anchor="middle" x="50%" y="35%" class="text--line">
               <tspan x="50%" dy="1.2em">Collect them and confront the present</tspan>
               <tspan x="50%" dy="1.2em">with these testimonies from another reality.</tspan>
             </text>
           </clippath>
-
-          <!-- Background symbols -->
+          <!-- Radial  -->
           <defs>
             <radialGradient id="bg-grad" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-              <stop offset="0%" style="stop-color:rgb(255,255,255);
-              stop-opacity:0.9" />
+              <stop offset="0%" style="stop-color:rgb(255,255,255);stop-opacity:0.9" />
               <stop offset="100%" style="stop-color:rgb(0,0,0);stop-opacity:0" />
             </radialGradient>
           </defs>
-          <symbol id="bg-sym-1">
-            <ellipse class="pre-intro__item-bg one" cx="50%" cy="50%" rx="75%" ry="75%" fill="url(#bg-grad)" />
-          </symbol>
-          <symbol id="bg-sym-2">
-            <ellipse class="pre-intro__item-bg two" cx="50%" cy="50%" rx="75%" ry="75%" fill="url(#bg-grad)" />
-          </symbol>
-          <symbol id="bg-sym-3">
-            <ellipse class="pre-intro__item-bg three" cx="50%" cy="50%" rx="75%" ry="75%" fill="url(#bg-grad)" />
-          </symbol>
-          <symbol id="bg-sym-4">
-            <ellipse class="pre-intro__item-bg four" cx="50%" cy="50%" rx="75%" ry="75%" fill="url(#bg-grad)" />
-          </symbol>
-
-          <!-- Texts use -->
+          <!-- Texts use with background ellipse -->
           <g clip-path="url(#cp-text-1)" class="pre-intro__item-text one">
-            <use xlink:href="#bg-sym-1"></use>
+            <ellipse class="pre-intro__item-bg one" cx="50%" cy="50%" rx="75%" ry="75%" fill="url(#bg-grad)" />
           </g>
           <g clip-path="url(#cp-text-2)" class="pre-intro__item-text two">
-            <use xlink:href="#bg-sym-2"></use>
+            <ellipse class="pre-intro__item-bg two" cx="50%" cy="50%" rx="75%" ry="75%" fill="url(#bg-grad)" />
           </g>
           <g clip-path="url(#cp-text-3)" class="pre-intro__item-text three">
-            <use xlink:href="#bg-sym-3"></use>
+            <ellipse class="pre-intro__item-bg three" cx="50%" cy="50%" rx="75%" ry="75%" fill="url(#bg-grad)" />
           </g>
           <g clip-path="url(#cp-text-4)" class="pre-intro__item-text four">
-            <use xlink:href="#bg-sym-4"></use>
+            <ellipse class="pre-intro__item-bg four" cx="50%" cy="50%" rx="75%" ry="75%" fill="url(#bg-grad)" />
           </g>
         </svg>
         <button id="skip-btn" class="pre-intro__skip-btn">skip</button>
