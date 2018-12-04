@@ -297,7 +297,7 @@ export default class App {
 
     this.soundController.render();
 
-    this.pointer.render(this.clock.elapsed);
+    this.pointer.render(this.clock.elapsed, this.camera);
     this.postProcessing.render(this.scene, this.camera);
     this.mouseHasMove = false;
     this.mouseHasClick = false;
