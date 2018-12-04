@@ -80,8 +80,6 @@ export default class Card extends Event {
     // on transition end remove current img
     ['webkitTransitionEnd', 'otransitionend', 'oTransitionEnd', 'msTransitionEnd', 'transitionend'].forEach( (evt) => {
         this.elements.img.addEventListener(evt, () => {
-          console.log('Class: Card, Function: , Line 85 (): '
-            , 'transition end', this.elements.img);
           if(this.elements.img) {
             this.elements.img.parentNode.removeChild(this.elements.img);
             this.elements.img = null;
