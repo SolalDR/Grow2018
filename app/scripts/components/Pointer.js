@@ -2,6 +2,7 @@ const MODE_ACTIVE = 1;
 const MODE_STARTING = 2;
 const MODE_ENDING = 3;
 const MODE_STOPED = 4;
+const SCALE = 2;
 
 class Pointer {
   constructor(canvas){
@@ -31,9 +32,9 @@ class Pointer {
     this.group.add(this.disc);
 
     this.group.rotation.x = -Math.PI/2;
-    this.group.scale.x = 5;
-    this.group.scale.z = 5;
-    this.group.scale.y = 5;
+    this.group.scale.x = SCALE;
+    this.group.scale.z = SCALE;
+    this.group.scale.y = SCALE;
     this.group.position.y = 35;
     this.position = new THREE.Vector3();
   }
@@ -90,7 +91,12 @@ class Pointer {
   }
 
 
-  render(time){
+  render(time, camera){
+    const scale = SCALE + camera.position.distanceTo(this.group.position) * 0.002
+    this.group.scale.x = scale
+    this.group.scale.y = scale
+    this.group.scale.y = scale
+
     if( this._hover.status === MODE_ACTIVE ){
       this._hover.intensity += (1 - this._hover.intensity) * 0.1
       this.updateRing();

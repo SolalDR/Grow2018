@@ -53,8 +53,7 @@ class CustomControl extends Event {
     this.phi = phi !== null ? phi: this.computedPhi();
     this.target = this.computeTarget();
 
-    window.addEventListener("mousewheel", this.onMouseWheel.bind(this));
-    window.addEventListener("DOMMouseScroll", this.onMouseWheel.bind(this));
+    window.addEventListener("wheel", this.onMouseWheel.bind(this));
     window.addEventListener("mousedown", this.onMouseDown.bind(this));
     window.addEventListener("mouseup", this.onMouseUp.bind(this));
   }

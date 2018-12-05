@@ -66,18 +66,18 @@ class PostProcessing {
 
     this.pass(this.read);
     // this.pass(fxaa, this.overwrite).vertex = fxaaVertex;
-    this.pass(fxaa).vertex = fxaaVertex;
-    this.pass(high, {threshold: {value: 0.95}}, this.divide);
-    for(var i = 0; i < 2; i++) {
-      this.pass(convolution, {matrix: {value: gauss}});
-    }
-    this.pass(convolution, {matrix: {value: gauss}}, this.multiply);
-    this.pass(blend);
-    this.focus = this.pass(focus, {
-      matrix: {value: gauss},
-      center: {value: new THREE.Vector2()},
-      radius: {value: 0}
-    }, this.draw);
+    this.pass(fxaa, this.draw).vertex = fxaaVertex;
+    // this.pass(high, {threshold: {value: 0.95}}, this.divide);
+    // for(var i = 0; i < 2; i++) {
+    //   this.pass(convolution, {matrix: {value: gauss}});
+    // }
+    // this.pass(convolution, {matrix: {value: gauss}}, this.multiply);
+    // this.pass(blend);
+    // this.focus = this.pass(focus, {
+    //   matrix: {value: gauss},
+    //   center: {value: new THREE.Vector2()},
+    //   radius: {value: 0}
+    // }, this.draw);
     // this.pass(fxaa).vertex = fxaaVertex;
     // this.pass(fxaa).vertex = fxaaVertex;
     // this.pass(fxaa).vertex = fxaaVertex;
@@ -203,7 +203,7 @@ class PostProcessing {
     //var {width, height}  = this.renderer.getSize();
     //this.targets.forEach(target => { target.setSize(0, 0);target.setSize(width, height); });
     this.time = (Date.now() - this.initTime)*0.000001;
-    this.focus.uniforms.radius.value = Math.sqrt(Math.pow(this.focus.uniforms.center.value.x, 2) + Math.pow(this.focus.uniforms.center.value.y, 2))*1.5*this.intensity;
+    //this.focus.uniforms.radius.value = Math.sqrt(Math.pow(this.focus.uniforms.center.value.x, 2) + Math.pow(this.focus.uniforms.center.value.y, 2))*1.5*this.intensity;
     this.passes.forEach((pass, index) => {
       pass.uniforms.time.value = this.time;
       pass.uniforms.source.value = this.source.texture;
@@ -220,10 +220,10 @@ class PostProcessing {
     this.targets.forEach(target => target.setSize(width, height));
     var resolution = new THREE.Vector2(width, height);
     var step = new THREE.Vector2(1/width, 1/height);
-    this.focus.uniforms.center.value = resolution.clone().divideScalar(2);
-    this.centerDistance = Math.sqrt(Math.pow(this.focus.uniforms.center.value.x, 2) + Math.pow(this.focus.uniforms.center.value.y, 2));
-    this.focus.uniforms.radius.value = this.centerDistance*1.5/this.intensity;
-    this.focus.uniforms.needsUpdate = true;
+    // this.focus.uniforms.center.value = resolution.clone().divideScalar(2);
+    //this.centerDistance = Math.sqrt(Math.pow(this.focus.uniforms.center.value.x, 2) + Math.pow(this.focus.uniforms.center.value.y, 2));
+    // this.focus.uniforms.radius.value = this.centerDistance*1.5/this.intensity;
+    // this.focus.uniforms.needsUpdate = true;
     this.passes.forEach(pass => {
       pass.uniforms.resolution.value = resolution;
       pass.uniforms.step.value = step;
