@@ -7,8 +7,6 @@ uniform float opacity;
 varying vec2 vUv;
 varying vec3 vNormal;
 void main() {
-  vec4 transparentColor = vec4(1.,0.,0., 1.);
-  float treshold = 0.4;
   vec4 color;
   if( vNormal.z < 0. ) {
   	color = texture2D(img_recto, vec2(
@@ -25,11 +23,7 @@ void main() {
  }
  color.a = opacity;
 
- vec3 transparent_diff = color.xyz - transparentColor.xyz;
- float transparent_diff_squared = dot(transparent_diff,transparent_diff);
-
- vec2 centeredUv = vUv - vec2(0.5);
- if(transparent_diff_squared < treshold && (abs(centeredUv.x) > 0.4 || abs(centeredUv.y) > 0.4) ) {
+ if(color.r > 0.9 && color.g < 0.1 && color.b < 0.1) {
   discard;
  }
 
